@@ -1,5 +1,9 @@
 *** WBW Product Table ***
 
+2025-11-03 - version 2.2.2
+* Fix - Improved compatibility with newer versions of JQuery.
+* WC tested up to: 10.2.
+
 2025-08-21 - version 2.2.1
 * Dev - Coding standards improved.
 * WC tested up to: 10.1.

@@ -201,6 +201,10 @@ Look at detailed instruction [Step by step: how to create add an order form](htt
 
 == Changelog ==
 
+= 2.2.2 - 03/11/2025 =
+* Fix - Improved compatibility with newer versions of JQuery.
+* WC tested up to: 10.2.
+
 = 2.2.1 - 21/08/2025 =
 * Dev - Coding standards improved.
 * WC tested up to: 10.1.
