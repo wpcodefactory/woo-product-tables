@@ -1,5 +1,8 @@
 *** WBW Product Table ***
 
+2026-01-03 - version 2.2.5
+* Dev - Coding standards improved.
+
 2026-01-03 - version 2.2.4
 * Dev - Coding standards improved.
 
