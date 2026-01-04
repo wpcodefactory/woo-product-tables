@@ -1,4 +1,14 @@
 <?php
+/**
+ * Product Table by WBW - URI
+ *
+ * @version 2.2.6
+ *
+ * @author  woobewoo
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class UriWtbp {
 	/**
 	 * Tell link form method to replace symbols for special html caracters only for ONE output
@@ -8,12 +18,18 @@ class UriWtbp {
 		$file = str_replace(DS, '/', $file);
 		return substr($file, strpos($file, WTBP_PLUG_NAME));
 	}
+
+	/**
+	 * _.
+	 *
+	 * @version 2.2.6
+	 */
 	public static function _( $params ) {
 		global $wp_rewrite;
 		$link = '';
 		if (is_string($params) 
 			&& ( strpos($params, 'http') === 0 
-			|| strpos($params, WTBP_PLUG_NAME) !== false )	// If relative links in WP is used (by other plugin for example)
+			|| strpos($params, WTBP_PLUG_NAME) !== false || (defined( 'WTBP_PLUG_NAME_PRO' ) && strpos($params, WTBP_PLUG_NAME_PRO) !== false) )	// If relative links in WP is used (by other plugin for example)
 		) {
 			if (self::isHttps()) {
 				$params = self::makeHttps($params);
