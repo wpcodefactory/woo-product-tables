@@ -32,9 +32,16 @@ class UriWtbp {
 	public static function _( $params ) {
 		global $wp_rewrite;
 		$link = '';
-		if (is_string($params)
-			&& ( strpos($params, 'http') === 0
-			|| strpos($params, WTBP_PLUG_NAME) !== false || (defined( 'WTBP_PLUG_NAME_PRO' ) && strpos($params, WTBP_PLUG_NAME_PRO) !== false) )	// If relative links in WP is used (by other plugin for example)
+		if (
+			is_string($params) &&
+			(
+				strpos($params, 'http') === 0 ||
+				strpos($params, WTBP_PLUG_NAME) !== false ||
+				(
+					defined('WTBP_PLUG_NAME_PRO') &&
+					strpos($params, WTBP_PLUG_NAME_PRO) !== false
+				)
+			) // If relative links in WP is used (by other plugin for example)
 		) {
 			if (self::isHttps()) {
 				$params = self::makeHttps($params);
