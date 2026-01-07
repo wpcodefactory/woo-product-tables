@@ -9,41 +9,77 @@ defined( 'ABSPATH' ) || exit;
 
 abstract class ControllerWtbp {
 
+	/**
+	 * _models.
+	 */
 	protected $_models = array();
 
+	/**
+	 * _views.
+	 */
 	protected $_views = array();
 
+	/**
+	 * _task.
+	 */
 	protected $_task = '';
 
+	/**
+	 * _defaultView.
+	 */
 	protected $_defaultView = '';
 
+	/**
+	 * _code.
+	 */
 	protected $_code = '';
 
+	/**
+	 * Constructor.
+	 */
 	public function __construct( $code ) {
 		$this->setCode($code);
 		$this->_defaultView = $this->getCode();
 	}
 
+	/**
+	 * init.
+	 */
 	public function init() {
 		/*load model and other preload data goes here*/
 	}
 
+	/**
+	 * _onBeforeInit.
+	 */
 	protected function _onBeforeInit() {
 
 	}
 
+	/**
+	 * _onAfterInit.
+	 */
 	protected function _onAfterInit() {
 
 	}
 
+	/**
+	 * setCode.
+	 */
 	public function setCode( $code ) {
 		$this->_code = $code;
 	}
 
+	/**
+	 * getCode.
+	 */
 	public function getCode() {
 		return $this->_code;
 	}
 
+	/**
+	 * exec.
+	 */
 	public function exec( $task = '' ) {
 		if (method_exists($this, $task)) {
 			$this->_task = $task; // For multicontrollers module version - who know, maybe that's will be?))
@@ -52,6 +88,9 @@ abstract class ControllerWtbp {
 		return null;
 	}
 
+	/**
+	 * getView.
+	 */
 	public function getView( $name = '' ) {
 		if (empty($name)) {
 			$name = $this->getCode();
@@ -62,6 +101,9 @@ abstract class ControllerWtbp {
 		return $this->_views[$name];
 	}
 
+	/**
+	 * getModel.
+	 */
 	public function getModel( $name = '' ) {
 		if (!$name) {
 			$name = $this->_code;
@@ -72,6 +114,9 @@ abstract class ControllerWtbp {
 		return $this->_models[$name];
 	}
 
+	/**
+	 * _createModel.
+	 */
 	protected function _createModel( $name = '' ) {
 		if (empty($name)) {
 			$name = $this->getCode();
@@ -90,6 +135,9 @@ abstract class ControllerWtbp {
 		return null;
 	}
 
+	/**
+	 * _createView.
+	 */
 	protected function _createView( $name = '' ) {
 		if (empty($name)) {
 			$name = $this->getCode();
@@ -109,16 +157,22 @@ abstract class ControllerWtbp {
 		return null;
 	}
 
+	/**
+	 * display.
+	 */
 	public function display( $viewName = '' ) {
 		$view = $this->getView($viewName);
 		if (null === $view) {
-			$view = $this->getView();   //Get default view
+			$view = $this->getView(); // Get default view
 		}
 		if ($view) {
 			$view->display();
 		}
 	}
 
+	/**
+	 * __call.
+	 */
 	public function __call( $name, $arguments ) {
 		$model = $this->getModel();
 		if (method_exists($model, $name)) {
@@ -160,20 +214,29 @@ abstract class ControllerWtbp {
 		return array();
 	}
 
+	/**
+	 * getModule.
+	 */
 	public function getModule() {
 		return FrameWtbp::_()->getModule( $this->getCode() );
 	}
 
+	/**
+	 * _prepareTextLikeSearch.
+	 */
 	protected function _prepareTextLikeSearch( $val ) {
 		return ''; // Should be re-defined for each type
 	}
 
+	/**
+	 * _prepareModelBeforeListSelect.
+	 */
 	protected function _prepareModelBeforeListSelect( $model ) {
 		return $model;
 	}
 
 	/**
-	 * Common method for list table data
+	 * Common method for list table data.
 	 */
 	public function getListForTbl() {
 		check_ajax_referer( 'wtbp-save-nonce', 'wtbpNonce' );
@@ -254,6 +317,9 @@ abstract class ControllerWtbp {
 
 	}
 
+	/**
+	 * removeGroup.
+	 */
 	public function removeGroup() {
 		check_ajax_referer( 'wtbp-save-nonce', 'wtbpNonce' );
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -269,6 +335,9 @@ abstract class ControllerWtbp {
 		$res->ajaxExec();
 	}
 
+	/**
+	 * clear.
+	 */
 	public function clear() {
 		$res = new ResponseWtbp();
 		if ($this->getModel()->clear()) {
@@ -279,18 +348,30 @@ abstract class ControllerWtbp {
 		$res->ajaxExec();
 	}
 
+	/**
+	 * _prepareListForTbl.
+	 */
 	protected function _prepareListForTbl( $data ) {
 		return $data;
 	}
 
+	/**
+	 * _prepareSearchField.
+	 */
 	protected function _prepareSearchField( $searchField ) {
 		return $searchField;
 	}
 
+	/**
+	 * _prepareSearchString.
+	 */
 	protected function _prepareSearchString( $searchString ) {
 		return $searchString;
 	}
 
+	/**
+	 * _prepareSortOrder.
+	 */
 	protected function _prepareSortOrder( $sortOrder ) {
 		return $sortOrder;
 	}
