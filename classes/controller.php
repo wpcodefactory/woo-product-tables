@@ -46,7 +46,7 @@ abstract class ControllerWtbp {
 
 	public function exec( $task = '' ) {
 		if (method_exists($this, $task)) {
-			$this->_task = $task;   //For multicontrollers module version - who know, maybe that's will be?))
+			$this->_task = $task; // For multicontrollers module version - who know, maybe that's will be?))
 			return $this->$task();
 		}
 		return null;
@@ -129,7 +129,7 @@ abstract class ControllerWtbp {
 	}
 
 	/**
-	 * Retrive permissions for controller methods if exist.
+	 * Retrieve permissions for controller methods if exist.
 	 * If need - should be redefined in each controller where it required.
 	 *
 	 * @return array with permissions
@@ -151,7 +151,7 @@ abstract class ControllerWtbp {
 	}
 
 	/**
-	 * Methods that require nonce to be generated
+	 * Methods that require nonce to be generated.
 	 * If need - should be redefined in each controller where it required.
 	 *
 	 * @return array
@@ -165,7 +165,7 @@ abstract class ControllerWtbp {
 	}
 
 	protected function _prepareTextLikeSearch( $val ) {
-		return '';	 // Should be re-defined for each type
+		return ''; // Should be re-defined for each type
 	}
 
 	protected function _prepareModelBeforeListSelect( $model ) {
