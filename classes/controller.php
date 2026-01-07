@@ -1,29 +1,49 @@
 <?php
+/**
+ * Product Table by WBW - ControllerWtbp Class
+ *
+ * @author  woobewoo
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 abstract class ControllerWtbp {
+
 	protected $_models = array();
+
 	protected $_views = array();
+
 	protected $_task = '';
+
 	protected $_defaultView = '';
+
 	protected $_code = '';
+
 	public function __construct( $code ) {
 		$this->setCode($code);
 		$this->_defaultView = $this->getCode();
 	}
+
 	public function init() {
 		/*load model and other preload data goes here*/
 	}
+
 	protected function _onBeforeInit() {
 
 	}
+
 	protected function _onAfterInit() {
 
 	}
+
 	public function setCode( $code ) {
 		$this->_code = $code;
 	}
+
 	public function getCode() {
 		return $this->_code;
 	}
+
 	public function exec( $task = '' ) {
 		if (method_exists($this, $task)) {
 			$this->_task = $task;   //For multicontrollers module version - who know, maybe that's will be?))
@@ -31,6 +51,7 @@ abstract class ControllerWtbp {
 		}
 		return null;
 	}
+
 	public function getView( $name = '' ) {
 		if (empty($name)) {
 			$name = $this->getCode();
@@ -40,6 +61,7 @@ abstract class ControllerWtbp {
 		}
 		return $this->_views[$name];
 	}
+
 	public function getModel( $name = '' ) {
 		if (!$name) {
 			$name = $this->_code;
@@ -49,6 +71,7 @@ abstract class ControllerWtbp {
 		}
 		return $this->_models[$name];
 	}
+
 	protected function _createModel( $name = '' ) {
 		if (empty($name)) {
 			$name = $this->getCode();
@@ -58,7 +81,7 @@ abstract class ControllerWtbp {
 		if (importWtbp($parentModule->getModDir() . 'models' . DS . $name . '.php')) {
 			$className = toeGetClassNameWtbp($name . 'Model');
 		}
-		
+
 		if ($className) {
 			$model = new $className();
 			$model->setCode( $this->getCode() );
@@ -66,17 +89,18 @@ abstract class ControllerWtbp {
 		}
 		return null;
 	}
+
 	protected function _createView( $name = '' ) {
 		if (empty($name)) {
 			$name = $this->getCode();
 		}
 		$parentModule = FrameWtbp::_()->getModule( $this->getCode() );
 		$className = '';
-		
+
 		if (importWtbp($parentModule->getModDir() . 'views' . DS . $name . '.php')) {
 			$className = toeGetClassNameWtbp($name . 'View');
 		}
-		
+
 		if ($className) {
 			$view = new $className();
 			$view->setCode( $this->getCode() );
@@ -84,6 +108,7 @@ abstract class ControllerWtbp {
 		}
 		return null;
 	}
+
 	public function display( $viewName = '' ) {
 		$view = $this->getView($viewName);
 		if (null === $view) {
@@ -93,6 +118,7 @@ abstract class ControllerWtbp {
 			$view->display();
 		}
 	}
+
 	public function __call( $name, $arguments ) {
 		$model = $this->getModel();
 		if (method_exists($model, $name)) {
@@ -101,6 +127,7 @@ abstract class ControllerWtbp {
 			return false;
 		}
 	}
+
 	/**
 	 * Retrive permissions for controller methods if exist.
 	 * If need - should be redefined in each controller where it required.
@@ -122,6 +149,7 @@ abstract class ControllerWtbp {
 	public function getPermissions() {
 		return array();
 	}
+
 	/**
 	 * Methods that require nonce to be generated
 	 * If need - should be redefined in each controller where it required.
@@ -131,15 +159,19 @@ abstract class ControllerWtbp {
 	public function getNoncedMethods() {
 		return array();
 	}
+
 	public function getModule() {
 		return FrameWtbp::_()->getModule( $this->getCode() );
 	}
+
 	protected function _prepareTextLikeSearch( $val ) {
 		return '';	 // Should be re-defined for each type
 	}
+
 	protected function _prepareModelBeforeListSelect( $model ) {
 		return $model;
 	}
+
 	/**
 	 * Common method for list table data
 	 */
@@ -148,7 +180,7 @@ abstract class ControllerWtbp {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die();
 		}
-		
+
 		$res = new ResponseWtbp();
 		$res->ignoreShellData();
 		$model = $this->getModel();
@@ -204,7 +236,7 @@ abstract class ControllerWtbp {
 		if ($limitStart < 0) {
 			$limitStart = 0;
 		}
-		
+
 		$data = $model
 			->setLimit($limitStart . ', ' . $rowsLimit)
 			->setOrderBy( $this->_prepareSortOrder($orderBy) )
@@ -221,12 +253,13 @@ abstract class ControllerWtbp {
 		$res->ajaxExec();
 
 	}
+
 	public function removeGroup() {
 		check_ajax_referer( 'wtbp-save-nonce', 'wtbpNonce' );
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die();
 		}
-		
+
 		$res = new ResponseWtbp();
 		if ($this->getModel()->removeGroup(ReqWtbp::getVar('listIds', 'post'))) {
 			$res->addMessage(esc_html__('Done', 'woo-product-tables'));
@@ -235,6 +268,7 @@ abstract class ControllerWtbp {
 		}
 		$res->ajaxExec();
 	}
+
 	public function clear() {
 		$res = new ResponseWtbp();
 		if ($this->getModel()->clear()) {
@@ -244,16 +278,21 @@ abstract class ControllerWtbp {
 		}
 		$res->ajaxExec();
 	}
+
 	protected function _prepareListForTbl( $data ) {
 		return $data;
 	}
+
 	protected function _prepareSearchField( $searchField ) {
 		return $searchField;
 	}
+
 	protected function _prepareSearchString( $searchString ) {
 		return $searchString;
 	}
+
 	protected function _prepareSortOrder( $sortOrder ) {
 		return $sortOrder;
 	}
+
 }

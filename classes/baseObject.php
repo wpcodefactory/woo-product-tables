@@ -1,7 +1,18 @@
 <?php
+/**
+ * Product Table by WBW - BaseObjectWtbp Class
+ *
+ * @author  woobewoo
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 abstract class BaseObjectWtbp {
+
 	protected $_internalErrors = array();
+
 	protected $_haveErrors = false;
+
 	public function pushError( $error, $key = '' ) {
 		if (is_array($error)) {
 			$this->_internalErrors = array_merge ($this->_internalErrors, $error);
@@ -12,10 +23,13 @@ abstract class BaseObjectWtbp {
 		}
 		$this->_haveErrors = true;
 	}
+
 	public function getErrors() {
 		return $this->_internalErrors;
 	}
+
 	public function haveErrors() {
 		return $this->_haveErrors;
 	}
+
 }

@@ -1,16 +1,32 @@
 <?php
+/**
+ * Product Table by WBW - CsvgeneratorWtbp Class
+ *
+ * @author  woobewoo
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class CsvgeneratorWtbp {
+
 	protected $_filename = '';
+
 	protected $_delimiter = ';';
+
 	protected $_enclosure = "\n";
+
 	protected $_data = array();
+
 	protected $_escape = '\\';
+
 	public function __construct( $filename ) {
 		$this->_filename = $filename;
 	}
+
 	public function addCell( $x, $y, $value ) {
 		$this->_data[ $x ][ $y ] = '"' . $value . '"';    //If will not do "" then wymbol for example , will broke file
 	}
+
 	public function generate() {
 		$strData = '';
 		if (!empty($this->_data)) {
@@ -22,14 +38,17 @@ class CsvgeneratorWtbp {
 		}
 		FilegeneratorWtbp::_($this->_filename, $strData, 'csv')->generate();
 	}
+
 	public function getDelimiter() {
 		return $this->_delimiter;
 	}
+
 	public function getEnclosure() {
 		return $this->_enclosure;
 	}
+
 	public function getEscape() {
 		return $this->_escape;
 	}
-}
 
+}
