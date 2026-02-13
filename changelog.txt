@@ -1,5 +1,8 @@
 *** Product Table for WooCommerce by WBW ***
 
+2026-02-13 - version 2.2.9
+* Readme.txt - Changelog - Truncated (full changelog moved to the `changelog.txt` file).
+
 2026-02-11 - version 2.2.8
 * Readme.txt - Rename plugin from "Product Table by WBW" to "Product Table for WooCommerce by WBW".
 
