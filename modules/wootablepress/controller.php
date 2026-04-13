@@ -26,6 +26,19 @@ class WootablepressControllerWtbp extends ControllerWtbp {
 		return $data;
 	}
 
+	/**
+	 * version - 2.2.9
+	 * SECURITY FIX: getPermissions() method new added
+	 * @shahadat
+	 */
+	public function getPermissions() {
+		return array(
+			WTBP_USERLEVELS => array(
+				WTBP_ADMIN => array( 'delete' ),
+			),
+		);
+	}
+
 	public function getSearchProducts() {
 		$params = ReqWtbp::get( 'post' );
 		$html   = $this->getView()->getSearchProducts( $params );

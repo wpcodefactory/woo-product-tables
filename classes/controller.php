@@ -337,8 +337,15 @@ abstract class ControllerWtbp {
 
 	/**
 	 * clear.
+	 * version - 2.2.9
+	 * Add capability check and nonce verification:
+	 * @shahadat
 	 */
 	public function clear() {
+		check_ajax_referer( 'wtbp-save-nonce', 'wtbpNonce' );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die();
+		}
 		$res = new ResponseWtbp();
 		if ($this->getModel()->clear()) {
 			$res->addMessage(esc_html__('Done', 'woo-product-tables'));
