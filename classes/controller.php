@@ -337,9 +337,7 @@ abstract class ControllerWtbp {
 
 	/**
 	 * clear.
-	 * version - 2.2.9
-	 * Add capability check and nonce verification:
-	 * @shahadat
+	 * @version 2.2.9
 	 */
 	public function clear() {
 		check_ajax_referer( 'wtbp-save-nonce', 'wtbpNonce' );

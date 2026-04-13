@@ -27,9 +27,9 @@ class WootablepressControllerWtbp extends ControllerWtbp {
 	}
 
 	/**
-	 * version - 2.2.9
-	 * SECURITY FIX: getPermissions() method new added
-	 * @shahadat
+	 * getPermissions.
+	 *
+	 * @version 2.2.9
 	 */
 	public function getPermissions() {
 		return array(
