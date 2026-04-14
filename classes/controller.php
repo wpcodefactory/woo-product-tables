@@ -2,6 +2,8 @@
 /**
  * Product Table by WBW - ControllerWtbp Class
  *
+ * @version 2.2.9
+ *
  * @author  woobewoo
  */
 
@@ -337,6 +339,7 @@ abstract class ControllerWtbp {
 
 	/**
 	 * clear.
+	 *
 	 * @version 2.2.9
 	 */
 	public function clear() {
