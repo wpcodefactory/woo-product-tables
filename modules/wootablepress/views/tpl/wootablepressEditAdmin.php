@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table for WooCommerce by WBW Pro - Edit Admin
+ *
+ * @version 2.3.0
+ *
+ * @author woobewoo
+ */
+
 $isPro = true;
 if ( ! $isPro ) {
 	$wtbpDisabled = 'wtbpDisabled';
@@ -22,12 +30,12 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 									<span id="wtbpTableTitleShell" title="<?php echo esc_attr(__('Click to edit', 'woo-product-tables')); ?>">
 									<?php $tableTitle = isset($this->table['title']) ? $this->table['title'] : ''; ?>
 										<span id="wtbpTableTitleLabel"><?php echo esc_html($tableTitle); ?></span>
-										<?php 
+										<?php
 											HtmlWtbp::text('title', array(
 											'value' => $tableTitle,
 											'attrs' => 'class="wtbpHidden" id="wtbpTableTitleTxt"',
 											'required' => true,
-											)); 
+											));
 											?>
 										<i class="fa fa-fw fa-pencil"></i>
 								</span>
@@ -39,9 +47,9 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 									</select>
 									<i class="fa fa-question woobewoo-tooltip" title="<?php echo esc_attr(__('Table PHP code: lets display the table through themes/plugins files (for example in the site footer). You can use shortcode in this way. <a href="https://woobewoo.com/documentation/how-to-add-a-product-table-to-a-page" target="_blank">Read more.</a>', 'woo-product-tables')); ?>"></i>
 								</div>
-								<?php 
+								<?php
 								$tableId = isset($this->table['id']) ? $this->table['id'] : '';
-								if ($tableId) { 
+								if ($tableId) {
 									?>
 									<div class="col-md-5 col-sm-6 col-xs-6 wtbpCopyTextCodeShowBlock wtbpShortcode shortcode">
 										<?php
@@ -112,7 +120,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 
 					<div class="row row-tab active" id="row-tab-content">
 						<!-- Save post id's -->
-						<?php 
+						<?php
 							HtmlWtbp::hidden('settings[productids]', array(
 								'value' => ( isset($settings['productids']) ? $settings['productids'] : '' ),
 							));
@@ -254,7 +262,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 										empty($columnData['plugin-display']) ? '' : 'data-plugin-display="' . $columnData['plugin-display'] . '"';
 									?>
 									<div class="wtbpOptions"
-										data-slug="<?php echo esc_attr($slug); ?>" 
+										data-slug="<?php echo esc_attr($slug); ?>"
 										<?php echo esc_attr($dataPlugin); ?>
 										<?php echo esc_attr($dataPluginDsiplay); ?>
 									>
@@ -271,17 +279,17 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 								}
 								?>
 								<!-- Save show elements name like columns order in content table -->
-								<?php 
+								<?php
 									HtmlWtbp::hidden('settings[order]', array(
 									'value' => htmlentities(json_encode($curOrder)),
 									));
 									?>
 							</div>
 							<div class="wtpbAutoCategories wtbp-content-block">
-								<?php 
+								<?php
 								if ($this->is_pro) {
 									DispatcherWtbp::doAction('addEditAdminSettings', 'partEditAdminAddAuto', array('settings' => $this->settings, 'categories_html' => $this->categories_html, 'products_has_variations_html' => $this->products_has_variations_html));
-								} else { 
+								} else {
 									?>
 									<div class="woobewoo-check-group">
 										<?php HtmlWtbp::checkbox('settings[auto_categories_enable]', array('checked' => '', 'disabled' => 1)); ?>
@@ -398,7 +406,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 									<label><?php esc_html_e('Show link to the', 'woo-product-tables'); ?></label>
 									<?php
 									$titleLinks = array('' => __('Product page', 'woo-product-tables'));
-									if ($this->is_pro && class_exists('YITH_WCQV_Frontend')) { 
+									if ($this->is_pro && class_exists('YITH_WCQV_Frontend')) {
 										$titleLinks['quick'] = __('Quick view', 'woo-product-tables');
 									}
 									HtmlWtbp::selectbox('product_title_link_to', array(
@@ -518,7 +526,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 										<?php esc_html_e('Cut description text', 'woo-product-tables'); ?>
 									</label>
 									<i class="fa fa-question woobewoo-tooltip" title="<?php echo esc_attr(__('Enter the maximum number of characters that should be displayed in the description.', 'woo-product-tables')); ?>"></i>
-									<?php 
+									<?php
 										HtmlWtbp::text('cut_description_text_size', array(
 										'placeholder' => '100',
 										'attrs' => 'data-parent="cut_description_text" class="wtbpHideByParent woobewoo-width60"'
@@ -529,7 +537,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 									<input type="checkbox" name="cut_short_description_text" class="wtbpNotOutline" value="1">
 									<label><?php esc_html_e('Cut short description text', 'woo-product-tables'); ?></label>
 									<i class="fa fa-question woobewoo-tooltip" title="<?php echo esc_attr(__('Enter the maximum number of characters that should be displayed in the short description.', 'woo-product-tables')); ?>"></i>
-									<?php 
+									<?php
 										HtmlWtbp::text('cut_short_description_text_size', array(
 										'placeholder' => '100',
 										'attrs' => 'data-parent="cut_short_description_text" class="wtbpHideByParent woobewoo-width60"'
@@ -543,7 +551,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 								</div>
 								<div class="wtbpOptionContainer" data-properties="product_link">
 									<label><?php esc_html_e('Button text', 'woo-product-tables'); ?></label>
-									<?php 
+									<?php
 										HtmlWtbp::text('product_link_text', array(
 										'placeholder' => 'More',
 										'attrs' => 'data-parent="product_link_text" class="wtbp-width200"'
@@ -586,7 +594,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 										</label>
 										<i class="fa fa-question woobewoo-tooltip" title="<?php echo esc_attr(__('Each table row will have the class', 'woo-product-tables') . ' wtbp_attr_[slug]'); ?>"></i>
 									</div>
-									
+
 									<div class="wtbpOptionContainer" data-properties="add_to_cart">
 										<input type="checkbox" name="add_to_cart_variation_buttons" class="wtbpNotOutline" value="1">
 										<label>
@@ -685,7 +693,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 									<div class="wtbpOptionContainer" data-types="link">
 										<label><?php esc_html_e('Show as', 'woo-product-tables'); ?></label>
 										<i class="fa fa-question woobewoo-tooltip" title="<?php echo esc_attr(__('Select the type of content display for this column.', 'woo-product-tables')); ?>"></i>
-										<?php 
+										<?php
 										HtmlWtbp::selectbox('acf_link_show_as', array(
 											'options' => array(
 												'link' => __('link', 'woo-product-tables'),
@@ -697,7 +705,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 										);
 										?>
 										<div class="wtbpHideByParentBlock">
-											<?php 
+											<?php
 											HtmlWtbp::selectFileBtn('acf_image_path', array(
 												'type' => 'image',
 												'value_attrs' => 'data-parent="acf_link_show_as" data-parent-value="image" class="wtbpHideByParent"',
@@ -708,7 +716,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 									<div class="wtbpOptionContainer" data-properties="featured">
 										<label><?php esc_html_e('Show as', 'woo-product-tables'); ?></label>
 										<i class="fa fa-question woobewoo-tooltip" title="<?php echo esc_attr(__('Select the type of content display for this column.', 'woo-product-tables')); ?>"></i>
-										<?php 
+										<?php
 										HtmlWtbp::selectbox('featured_show_as', array(
 											'options' => array(
 												'text' => __('text', 'woo-product-tables'),
@@ -719,7 +727,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 										);
 										?>
 										<div class="wtbpHideByParentBlock">
-											<?php 
+											<?php
 											HtmlWtbp::selectFileBtn('featured_image_path', array(
 												'type' => 'image',
 												'value_attrs' => 'data-parent="featured_show_as" data-parent-value="image" class="wtbpHideByParent"',
@@ -730,7 +738,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 									<div class="wtbpOptionContainer" data-properties="downloads">
 										<label><?php esc_html_e('Show as', 'woo-product-tables'); ?></label>
 										<i class="fa fa-question woobewoo-tooltip" title="<?php echo esc_attr(__('Select the type of content display for this column.', 'woo-product-tables')); ?>"></i>
-										<?php 
+										<?php
 										HtmlWtbp::selectbox('downloads_show_as', array(
 											'options' => array('icon' => __('icon', 'woo-product-tables'), 'button' => __('button', 'woo-product-tables'), 'link' => __('link', 'woo-product-tables'), 'audio' => __('audio', 'woo-product-tables'), 'video' => __('video', 'woo-product-tables')),
 											'attrs' => 'class="woobewoo-width100"')
@@ -740,7 +748,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 									<div class="wtbpOptionContainer" data-types="true_false">
 										<label><?php esc_html_e('TRUE show as', 'woo-product-tables'); ?></label>
 										<i class="fa fa-question woobewoo-tooltip" title="<?php echo esc_attr(__('Select the type of content display for this column.', 'woo-product-tables')); ?>"></i>
-										<?php 
+										<?php
 										HtmlWtbp::text('true_show_as', array(
 											'placeholder' => 'true',
 											'attrs' => 'class="woobewoo-width100"'
@@ -754,7 +762,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 									</div>
 									<div class="wtbpOptionContainer" data-types="quick_view">
 										<label><?php esc_html_e('Button label', 'woo-product-tables'); ?></label>
-										<?php 
+										<?php
 										HtmlWtbp::text('button_label', array());
 										?>
 									</div>
@@ -765,8 +773,8 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 									</div>
 									<div class="wtbpOptionContainer" data-properties="categories">
 										<label><?php esc_html_e('Exclude terms ids', 'woo-product-tables'); ?></label>
-										<i class="fa fa-question woobewoo-tooltip" title="<?php echo esc_attr__('Here you may exclude category terms by ids. Example input: 1,2,3', 'woo-product-tables'); ?>"></i>										
-										<?php 
+										<i class="fa fa-question woobewoo-tooltip" title="<?php echo esc_attr__('Here you may exclude category terms by ids. Example input: 1,2,3', 'woo-product-tables'); ?>"></i>
+										<?php
 										HtmlWtbp::text('product_category_exclude', array(
 											'attrs' => 'class="woobewoo-width100"'
 										));
@@ -844,14 +852,14 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 								<div class="wtbpOptionContainer" data-properties="thumbnail">
 									<label><?php esc_html_e('Responsive mod thumnbnail size', 'woo-product-tables'); ?></label>
 									<i class="fa fa-question woobewoo-tooltip" title="<?php echo esc_attr(__('If Responsive mode is enabled, this value will be used for the thumbnail size.', 'woo-product-tables')); ?>"></i>
-									<?php 
+									<?php
 										HtmlWtbp::text('mobile_thumbnail_size_width', array(
 										'placeholder' => '150',
 										'attrs' => 'class="wtbp-small-input"'
 										));
 										?>
 									x
-									<?php 
+									<?php
 										HtmlWtbp::text('mobile_thumbnail_size_height', array(
 										'placeholder' => '150',
 										'attrs' => 'class="wtbp-small-input"'
@@ -933,7 +941,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[caption_enable]', array(
 														'checked' => ( isset($settings['caption_enable']) ? (int) $settings['caption_enable'] : '' ),
 														'attrs' => ' data-not-redraw="1"'
@@ -950,7 +958,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::textarea('settings[caption_text]', array(
 														'value' => ( isset($settings['caption_text']) ? $settings['caption_text'] : '' ),
 														'attrs' => 'class="woobewoo-width-full"'
@@ -966,7 +974,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[description_enable]', array(
 															'checked' => ( isset($settings['description_enable']) ? (int) $settings['description_enable'] : '' )
 														));
@@ -982,7 +990,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::textarea('settings[description_text]', array(
 															'value' => ( isset($settings['description_text']) ? $settings['description_text'] : '' ),
 															'attrs' => 'class="woobewoo-width-full"'
@@ -998,7 +1006,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[header_show]', array(
 														'checked' => ( isset($settings['header_show']) ? (int) $settings['header_show'] : '' )
 														));
@@ -1074,7 +1082,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[footer_show]', array(
 														'checked' => ( isset($settings['footer_show']) ? (int) $settings['footer_show'] : '' )
 														));
@@ -1089,7 +1097,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[signature_enable]', array(
 														'checked' => ( isset($settings['signature_enable']) ? (int) $settings['signature_enable'] : '' )
 														));
@@ -1105,7 +1113,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::textarea('settings[signature_text]', array(
 														'value' => ( isset($settings['signature_text']) ? $settings['signature_text'] : '' ),
 														'attrs' => 'class="woobewoo-width-full"'
@@ -1124,7 +1132,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::selectbox('settings[date_formats]', array(
 														'options' => array('Y-m-d' => '1991-12-25', 'd.m.Y' => '25.12.1991'),
 														'value' => ( isset($settings['date_formats']) ? $settings['date_formats'] : 'y-m-d' ),
@@ -1141,7 +1149,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::selectbox('settings[time_formats]', array(
 														'options' => array('H:i' => '18:00', 'h:i a' => '9:00 pm', 'h:i' => '36:40', 'h:i:s' => '36:40:12'),
 														'value' => ( isset($settings['time_formats']) ? $settings['time_formats'] : 'H:m' ),
@@ -1166,7 +1174,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[table_information]', array(
 														'checked' => ( isset($settings['table_information']) ? (int) $settings['table_information'] : '' )
 														));
@@ -1182,7 +1190,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[sorting_custom]', array(
 														'checked' => ( isset($settings['sorting_custom']) ? (int) $settings['sorting_custom'] : '' )
 														));
@@ -1198,9 +1206,9 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::selectbox('settings[pre_sorting]', array(
-														'options' => array(
+														'options' =>  DispatcherWtbp::applyFilters('sortingOptions', array(
 															'' => __('Manual', 'woo-product-tables'),
 															'popularity' => __('Popularity', 'woo-product-tables'),
 															'rating'     => __('Rating', 'woo-product-tables'),
@@ -1209,14 +1217,15 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 															'rand'       => __('Random', 'woo-product-tables'),
 															'title'      => __('Name', 'woo-product-tables'),
 															'menu_order' => __('Menu order', 'woo-product-tables'),
-															'categories' => __('Category', 'woo-product-tables'),
-														),
+															'categories' => __('Category', 'woo-product-tables')
+														)),
 														'value' => ( isset($settings['pre_sorting']) ? $settings['pre_sorting'] : '' ),
 														'attrs' => ' class="woobewoo-flat-input"'
 														));
 														?>
 												</div>
 											</div>
+                                            <?php DispatcherWtbp::doAction('afterPreSortingHTML'); ?>
 											<?php $classHidden = !$sortingCustom || $this->getTableSetting($settings, 'pre_sorting', '') == '' ? 'wtbpHidden' : ''; ?>
 											<div class="setting-wrapper setting-suboption <?php echo esc_attr($classHidden); ?>" data-main="settings[pre_sorting]" data-main-notvalue="">
 												<div class="setting-label">
@@ -1226,7 +1235,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[pre_sorting_desc]', array(
 														'checked' => ( isset($settings['pre_sorting_desc']) ? (int) $settings['pre_sorting_desc'] : '' )
 														));
@@ -1241,7 +1250,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[sorting]', array(
 														'checked' => ( isset($settings['sorting']) ? (int) $settings['sorting'] : '' )
 														));
@@ -1257,7 +1266,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::selectbox('settings[sorting_default]', array(
 														'options' => $sortableColumns,
 														'value' => ( isset($settings['sorting_default']) ? $settings['sorting_default'] : '' ),
@@ -1274,7 +1283,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[sorting_desc]', array(
 														'checked' => ( isset($settings['sorting_desc']) ? (int) $settings['sorting_desc'] : '' )
 														));
@@ -1289,7 +1298,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[pagination]', array(
 														'checked' => ( isset($settings['pagination']) ? (int) $settings['pagination'] : '' ),
 														'attrs' => ' data-need-save="1"'
@@ -1297,7 +1306,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 														?>
 												</div>
 											</div>
-											<?php 
+											<?php
 												$isPagination = $this->getTableSetting($settings, 'pagination', false);
 												$isPaginationMenu = $isPagination && $this->getTableSetting($settings, 'pagination_menu', false);
 												$classHidden = !$isPagination ? 'wtbpHidden' : '';
@@ -1311,7 +1320,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[pagination_menu]', array(
 														'checked' => ( isset($settings['pagination_menu']) ? $settings['pagination_menu'] : '' )
 														));
@@ -1351,7 +1360,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[page_length]', array(
 														'value' => ( isset($settings['page_length']) ? $settings['page_length'] : '10' ),
 														'attrs' => ' class="woobewoo-flat-input woobewoo-width60"'
@@ -1369,17 +1378,17 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[pagination_menu_content]', array(
 														'value' => ( isset($settings['pagination_menu_content']) ? $settings['pagination_menu_content'] : '10,20,50,100,All' )
 														));
 														?>
 												</div>
 											</div>
-											<?php 
+											<?php
 											if ($this->is_pro) {
 												DispatcherWtbp::doAction('addEditAdminSettings', 'partEditAdminSSP', array('settings' => $this->settings));
-											} else { 
+											} else {
 												$classHidden = !$isPagination ? 'wtbpHidden' : '';
 												?>
 												<div class="setting-wrapper setting-wrapper-inline setting-suboption <?php echo esc_attr($classHidden); ?>"
@@ -1403,7 +1412,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[searching]', array(
 														'checked' => ( isset($settings['searching']) ? (int) $settings['searching'] : '' )
 														));
@@ -1418,7 +1427,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[column_searching]', array(
 														'checked' => ( isset($settings['column_searching']) ? (int) $settings['column_searching'] : '' )
 														));
@@ -1486,7 +1495,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[print]', array(
 														'checked' => ( isset($settings['print']) ? (int) $settings['print'] : '' )
 														));
@@ -1528,7 +1537,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[print_captions]', array(
 														'checked' => ( isset($settings['print_captions']) ? (int) $settings['print_captions'] : '' )
 														));
@@ -1543,7 +1552,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[csv]', array(
 														'checked' => ( isset($settings['csv']) ? (int) $settings['csv'] : '' )
 														));
@@ -1652,7 +1661,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 											<?php
 											if ($this->is_pro) {
 												DispatcherWtbp::doAction('addEditAdminSettings', 'partEditAdminFeatures', array('settings' => $this->settings));
-											} else { 
+											} else {
 												?>
 												<div class="setting-wrapper setting-wrapper-inline">
 													<div class="setting-label">
@@ -1783,7 +1792,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[hide_quantity_input]', array(
 														'checked' => ( isset($settings['hide_quantity_input']) ? (int) $settings['hide_quantity_input'] : '' )
 														));
@@ -1793,10 +1802,10 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 											<div class="setting-title">
 												<?php esc_html_e('Filters', 'woo-product-tables'); ?>
 											</div>
-											<?php 
+											<?php
 											if ($this->is_pro) {
 												DispatcherWtbp::doAction('addEditAdminSettings', 'partEditAdminFilters', array('settings' => $this->settings, 'columns' => $this->table_columns));
-											} else { 
+											} else {
 												?>
 												<div class="setting-wrapper setting-wrapper-inline">
 													<div class="setting-label">
@@ -1846,8 +1855,8 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 												<div class="setting-wrapper setting-wrapper-inline">
 													<div class="setting-label">
 														<label>
-															<?php 
-															esc_html_e('Custom taxonomy filter', 'woo-product-tables'); 
+															<?php
+															esc_html_e('Custom taxonomy filter', 'woo-product-tables');
 															/* translators: 1: link for Custom Post Type UI 2: link ACF 3: link for Read more */
 															$tooltip = '<div class="wtbpTooltipsWrapper"><div class="wtbpTooltipsText">' . sprintf(__('Display filters for custom taxonomy created with the help of %1$s and %2$s plugins. %3$s', 'woo-product-tables'), '<a href="https://woobewoo.com/documentation/how-to-add-custom-taxonomy-to-the-table" target="_blank">Custom Post Type UI</a>', '<a href="https://woobewoo.com/documentation/how-to-add-custom-taxonomy-to-the-table" target="_blank">ACF</a>', '<a href="https://woobewoo.com/documentation/product-attribute-and-category-filters" target="_blank">' . __('Read more', 'woo-product-tables') . '</a>') . '</div></div>';
 															?>
@@ -1880,7 +1889,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 												<div class="setting-wrapper setting-wrapper-inline">
 													<div class="setting-label">
 														<label>
-															<?php 
+															<?php
 															esc_html_e('Category filter', 'woo-product-tables');
 															$tooltip = '<div class="wtbpTooltipsWrapper"><div class="wtbpTooltipsText">' . __('Category filter. Works only with enabled category column.', 'woo-product-tables') . ' <a href="https://woobewoo.com/documentation/product-attribute-and-category-filters/" target="_blank">' . __('Read more', 'woo-product-tables') . '</a></div><img src="' . esc_url($this->getModule()->getModPath() . 'img/filter_cat.png') . '" height="56"></div>';
 															?>
@@ -1924,13 +1933,13 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[width][fixed_width]', array(
 														'value' => ( isset($settings['width']['fixed_width']) ? $settings['width']['fixed_width'] : '100' ),
 														'attrs' => 'class="wtbp-small-input"'
 														));
 														?>
-													<?php 
+													<?php
 														HtmlWtbp::selectbox('settings[width][width_unit]', array(
 														'options' => array('pixels' => 'px', 'percents' => '%'),
 														'value' => ( isset($settings['width']['width_unit']) ? $settings['width']['width_unit'] : 'percents' ),
@@ -1970,7 +1979,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input textright">
-													<?php 
+													<?php
 													HtmlWtbp::text('settings[thumbnail_width]', array(
 														'value' => ( isset($settings['thumbnail_width']) ? $settings['thumbnail_width'] : '' ),
 														'attrs' => 'class="woobewoo-width60"'
@@ -1991,7 +2000,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::selectbox('settings[mobile_width]', array(
 														'options' => array('320' => '320 px', '480' => '480 px', '600' => '600 px', '768' => '768 px', '1024' => '1024 px', '1170' => '1170 px'),
 														'value' => ( isset($settings['mobile_width']) ? $settings['mobile_width'] : '768' ),
@@ -2003,18 +2012,18 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 											<div class="setting-wrapper">
 												<div class="setting-label">
 													<label>
-														<?php 
-														esc_html_e('Responsive Mode', 'woo-product-tables'); 
-														$tooltip = __('Standard Responsive mode - in this mode if table content doesn\'t fit all columns become under each other with one cell per row.', 'woo-product-tables') . '<br><br>' . 
-															__('Automatic column hiding - in this mode table columns will collapse from right to left if content does not fit to parent container width.', 'woo-product-tables') . '<br><br>' . 
+														<?php
+														esc_html_e('Responsive Mode', 'woo-product-tables');
+														$tooltip = __('Standard Responsive mode - in this mode if table content doesn\'t fit all columns become under each other with one cell per row.', 'woo-product-tables') . '<br><br>' .
+															__('Automatic column hiding - in this mode table columns will collapse from right to left if content does not fit to parent container width.', 'woo-product-tables') . '<br><br>' .
 															__('Horizontal scroll - in this mode scroll bar will be added if table overflows parent container width.', 'woo-product-tables') . '<br><br>' .
-															__('Disable Responsivity - default table fluid layout.<a href="https://woobewoo.com/feature/fully-responsive" target="_blank">Read more.</a>', 'woo-product-tables'); 
+															__('Disable Responsivity - default table fluid layout.<a href="https://woobewoo.com/feature/fully-responsive" target="_blank">Read more.</a>', 'woo-product-tables');
 														?>
 														<i class="fa fa-question woobewoo-tooltip" title="<?php	echo esc_attr($tooltip); ?>"></i>
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::selectbox('settings[responsive_mode]', array(
 														'options' => array('responsive' => 'Responsive mode', 'hiding' => 'Automatic column hiding', 'horizontal' => 'Horizontal scroll', 'disable' => 'Disable Responsivity'),
 														'value' => ( isset($settings['responsive_mode']) ? $settings['responsive_mode'] : 'horizontal' ),
@@ -2068,7 +2077,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[responsive_column_hiding_force]', array(
 														'checked' => ( isset($settings['responsive_column_hiding_force']) ? (int) $settings['responsive_column_hiding_force'] : '' )
 														));
@@ -2083,7 +2092,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[row_striping]', array(
 														'checked' => ( isset($settings['row_striping']) ? (int) $settings['row_striping'] : '' )
 														));
@@ -2098,7 +2107,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[highlighting_mousehover]', array(
 														'checked' => ( isset($settings['highlighting_mousehover']) ? (int) $settings['highlighting_mousehover'] : '' )
 														));
@@ -2113,7 +2122,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[highlighting_order_column]', array(
 														'checked' => ( isset($settings['highlighting_order_column']) ? (int) $settings['highlighting_order_column'] : '' )
 														));
@@ -2128,7 +2137,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::selectbox('settings[borders]', array(
 														'options' => array('cell' => 'cell', 'rows' => 'rows', 'none' => 'none'),
 														'value' => ( isset($settings['borders']) ? $settings['borders'] : 'cell' ),
@@ -2145,17 +2154,17 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-check">
-													<?php 
+													<?php
 														HtmlWtbp::checkboxToggle('settings[hide_table_loader]', array(
 														'checked' => ( isset($settings['hide_table_loader']) ? (int) $settings['hide_table_loader'] : '' )
 														));
 														?>
 												</div>
 											</div>
-											<?php 
+											<?php
 											if ($this->is_pro) {
 												DispatcherWtbp::doAction('addEditAdminSettings', 'partEditAdminLoader', array('settings' => $this->settings));
-											} else { 
+											} else {
 												$classHidden = $this->getTableSetting($settings, 'hide_table_loader', false) ? 'wtbpHidden' : '';
 												?>
 												<div class="setting-wrapper setting-suboption <?php echo esc_attr($classHidden); ?>"
@@ -2195,7 +2204,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 											<div class="setting-title">
 												<?php esc_html_e('Table Styling', 'woo-product-tables'); ?>
 											</div>
-											<?php 
+											<?php
 											if ($this->is_pro) {
 												DispatcherWtbp::doAction('addEditAdminSettings', 'partEditAdminCustomStyles', array('settings' => $this->settings));
 											} else {
@@ -2360,7 +2369,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[table_info]', array(
 														'value' => ( isset($settings['table_info']) ? $settings['table_info'] : '' ),
 														'attrs' => 'placeholder="Showing _START_ to _END_ of _TOTAL_ entries"'
@@ -2375,7 +2384,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[table_info_empty]', array(
 														'value' => ( isset($settings['table_info_empty']) ? $settings['table_info_empty'] : '' ),
 														'attrs' => 'placeholder="Showing 0 to 0 of 0 entries"'
@@ -2390,7 +2399,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[filtered_info_text]', array(
 														'value' => ( isset($settings['filtered_info_text']) ? $settings['filtered_info_text'] : '' ),
 														'attrs' => 'placeholder="(filtered from _MAX_ total entries)"'
@@ -2405,7 +2414,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[length_text]', array(
 														'value' => ( isset($settings['length_text']) ? $settings['length_text'] : '' ),
 														'attrs' => 'placeholder="Show _MENU_ entries"'
@@ -2420,7 +2429,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[search_label]', array(
 														'value' => ( isset($settings['search_label']) ? $settings['search_label'] : '' ),
 														'attrs' => 'placeholder="Search:"'
@@ -2435,7 +2444,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[processing_text]', array(
 														'value' => ( isset($settings['processing_text']) ? $settings['processing_text'] : '' ),
 														'attrs' => 'placeholder="Processing..."'
@@ -2450,7 +2459,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[zero_records]', array(
 														'value' => ( isset($settings['zero_records']) ? $settings['zero_records'] : '' ),
 														'attrs' => 'placeholder="No matching records are found"'
@@ -2465,7 +2474,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[lang_previous]', array(
 														'value' => ( isset($settings['lang_previous']) ? $settings['lang_previous'] : '' ),
 														'attrs' => 'placeholder="Previous"'
@@ -2480,7 +2489,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[lang_next]', array(
 														'value' => ( isset($settings['lang_next']) ? $settings['lang_next'] : '' ),
 														'attrs' => 'placeholder="Next"'
@@ -2495,7 +2504,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[filter_text]', array(
 														'value' => ( isset($settings['filter_text']) ? $settings['filter_text'] : '' ),
 														'attrs' => 'placeholder="Filter"'
@@ -2510,7 +2519,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[reset_text]', array(
 														'value' => ( isset($settings['reset_text']) ? $settings['reset_text'] : '' ),
 														'attrs' => 'placeholder="Reset"'
@@ -2525,7 +2534,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[stock_quantity_text]', array(
 														'value' => ( isset($settings['stock_quantity_text']) ? $settings['stock_quantity_text'] : '' ),
 														'attrs' => 'placeholder="items"'
@@ -2540,7 +2549,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[select_attributes_text]', array(
 														'value' => ( isset($settings['select_attributes_text']) ? $settings['select_attributes_text'] : '' ),
 														'attrs' => 'placeholder="Select attributes before add the product to the cart"'
@@ -2555,7 +2564,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[product_added_to_cart]', array(
 														'value' => ( isset($settings['product_added_to_cart']) ? $settings['product_added_to_cart'] : 'Product added to cart' ),
 														'attrs' => 'placeholder="Product added to cart"'
@@ -2570,7 +2579,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 													</label>
 												</div>
 												<div class="setting-input">
-													<?php 
+													<?php
 														HtmlWtbp::text('settings[product_not_added_to_cart]', array(
 														'value' => ( isset($settings['product_not_added_to_cart']) ? $settings['product_not_added_to_cart'] : 'Product not added to cart' ),
 														'attrs' => 'placeholder="Product not added to cart"'
@@ -2668,7 +2677,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 							</div>
 						</div>
 					</div>
-					<?php 
+					<?php
 					HtmlWtbp::hidden( 'mod', array( 'value' => 'wootablepress' ) );
 					HtmlWtbp::hidden( 'action', array( 'value' => 'save' ) );
 					HtmlWtbp::hidden( 'id', array( 'value' => $this->table['id'] ) );
