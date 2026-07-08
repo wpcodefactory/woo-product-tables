@@ -34,12 +34,12 @@ class ReqWtbp {
 			$nonce = empty($_REQUEST['_wpnonce']) ? '' : sanitize_text_field($_REQUEST['_wpnonce']);
 			if (!wp_verify_nonce($nonce, 'my-nonce')) {
 				echo esc_html__('Security check', 'woo-product-tables');
-				exit(); 
+				exit();
 			}
 		}
 
 		$from = strtolower($from);
-		
+
 		$getName = empty($_GET[$name]) ? '' : sanitize_text_field($_GET[$name]);
 		$postName = empty($_POST[$name]) ? '' : sanitize_text_field($_POST[$name]);
 
@@ -50,7 +50,7 @@ class ReqWtbp {
 				$from = 'post';
 			}
 		}
-		
+
 		switch ($from) {
 			case 'get':
 				if (isset($_GET[$name])) {
@@ -94,10 +94,20 @@ class ReqWtbp {
 	public static function sanitizeData( $filtered, $value ) {
 		return is_array($value) ? self::sanitizeArray($value) : $filtered;
 	}
+
+	/**
+	 * sanitizeArray.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @param array $arr
+	 *
+	 * @return array
+	 */
 	public static function sanitizeArray( $arr ) {
 		$newArr = array();
 		foreach ($arr as $k => $v) {
-			$newArr[$k] = is_array($v) ? self::sanitizeArray($v) : _sanitize_text_fields($v, false);
+			$newArr[ $k ] = is_array( $v ) ? self::sanitizeArray( $v ) : sanitize_text_field( $v );
 		}
 		return $newArr;
 	}
@@ -134,7 +144,7 @@ class ReqWtbp {
 			$nonce = empty($_REQUEST['_wpnonce']) ? '' : sanitize_text_field($_REQUEST['_wpnonce']);
 			if (!wp_verify_nonce($nonce, 'my-nonce')) {
 				esc_html__('Security check', 'woo-product-tables');
-				exit(); 
+				exit();
 			}
 		}
 		$in = strtolower($in);
@@ -165,7 +175,7 @@ class ReqWtbp {
 			$nonce = empty($_REQUEST['_wpnonce']) ? '' : sanitize_text_field($_REQUEST['_wpnonce']);
 			if (!wp_verify_nonce($nonce, 'my-nonce')) {
 				esc_html__('Security check', 'woo-product-tables');
-				exit(); 
+				exit();
 			}
 		}
 		$what = strtolower($what);
