@@ -952,6 +952,11 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $link;
 	}
 
+	/**
+	 * getProductContent.
+	 *
+	 * @version 2.3.0
+	 */
 	public function getProductContent( $productIds, $tableSettings, $preview = true, &$page = array() ) {
 		set_time_limit( 300 );
 		$frontend = ! is_admin() || $preview;
@@ -1232,7 +1237,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 					$hideVariationAttr                 = $this->getTableSetting( $column, 'add_to_cart_hide_variation_attribute', false );
 					$buttonForVariation                = $isPro && $this->getTableSetting( $column, 'add_to_cart_variation_buttons', false );
 					$isPopupForVariation               = $isPro && ! $buttonForVariation && $this->getTableSetting( $column, 'add_to_cart_popup', false );
-					$popupForVariationBtnText          = $isPopupForVariation ? $this->getTableSetting( $column, 'add_to_cart_popup_btn_text', __( 'Select options', 'woocommerce' ) ) : __( 'Select options', 'woocommerce' );
+					$popupForVariationBtnText          = $isPopupForVariation ? $this->getTableSetting( $column, 'add_to_cart_popup_btn_text', __( 'Select options', 'woo-product-tables' ) ) : __( 'Select options', 'woo-product-tables' );
 					$popupForVariationShortDescription = $this->getTableSetting( $column, 'add_to_cart_popup_short_description', '0' );
 					$naturalOrder                      = $this->getTableSetting( $column, 'natural_order', false );
 					$customOrder                       = $this->getTableSetting( $column, 'custom_order', false );
@@ -1465,7 +1470,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 							} elseif ( 'image' == $showAs ) {
 								$featured = '<img class="wtbpFeaturedImage" src="' . esc_url( $this->getTableSetting( $column, 'featured_image_path', WTBP_IMG_PATH . 'default.png' ) ) . '">';
 							} else {
-								$featured = esc_html__( 'Featured', 'woocommerce' );
+								$featured = esc_html__( 'Featured', 'woo-product-tables' );
 							}
 						}
 						$data['featured'] = $featured;
@@ -1601,7 +1606,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 						$average = $_product->get_average_rating();
 						if ( $average ) {
 							/* translators: %s: average rating */
-							$reviews .= '<div class="star-rating" title="' . esc_attr( sprintf( __( 'Rated %s out of 5', 'woocommerce' ), $average ) ) . '"><span class="star-rating-width" data-width="' . esc_attr( ( $average / 5 ) * 100 ) . '%"><strong itemprop="ratingValue" class="rating">' . $average . '</strong> ' . esc_html__( 'out of 5', 'woocommerce' ) . '</span></div>';
+							$reviews .= '<div class="star-rating" title="' . esc_attr( sprintf( __( 'Rated %s out of 5', 'woo-product-tables' ), $average ) ) . '"><span class="star-rating-width" data-width="' . esc_attr( ( $average / 5 ) * 100 ) . '%"><strong itemprop="ratingValue" class="rating">' . $average . '</strong> ' . esc_html__( 'out of 5', 'woo-product-tables' ) . '</span></div>';
 						}
 						$data['reviews'] = $reviews;
 						break;
@@ -2210,6 +2215,8 @@ class WootablepressViewWtbp extends ViewWtbp {
 	/**
 	 * Replace button text for variable product.
 	 *
+	 * @version 2.3.0
+	 *
 	 * @param string $text
 	 *
 	 * @return string
@@ -2217,8 +2224,8 @@ class WootablepressViewWtbp extends ViewWtbp {
 	public function replaceButtonTextVariableProduct( $text ) {
 		if ( $this->loopButtonTitle ) {
 			$modifyText = $this->loopButtonTitle;
-		} elseif ( __( 'Select options', 'woocommerce' ) === $text ) {
-			$modifyText = __( 'Add to cart', 'woocommerce' );
+		} elseif ( __( 'Select options', 'woo-product-tables' ) === $text ) {
+			$modifyText = __( 'Add to cart', 'woo-product-tables' );
 		} else {
 			$modifyText = $text;
 		}
