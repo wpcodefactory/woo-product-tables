@@ -3,6 +3,8 @@
  * Product Table by WBW - ModInstallerWtbp Class
  *
  * @author  woobewoo
+ *
+ * @version 2.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -91,6 +93,8 @@ class ModInstallerWtbp {
 	/**
 	 * Move files to plugin modules directory.
 	 *
+	 * @version 2.3.0
+	 *
 	 * @param string $code code for module
 	 * @param string $path path from what module will be moved
 	 * @return bool is success - true, else - false
@@ -101,7 +105,8 @@ class ModInstallerWtbp {
 				UtilsWtbp::copyDirectories($path, WTBP_MODULES_DIR . $code);
 				return true;
 			} else {
-				ErrorsWtbp::push(esc_html__('Cannot create module directory. Try to set permission to ' . WTBP_MODULES_DIR . ' directory 755 or 777', 'woo-product-tables'), ErrorsWtbp::MOD_INSTALL);
+				/* translators: %s: modules directory path */
+				ErrorsWtbp::push( esc_html( sprintf( __( 'Cannot create module directory. Try to set permission to %s directory 755 or 777', 'woo-product-tables' ), WTBP_MODULES_DIR ) ), ErrorsWtbp::MOD_INSTALL );
 			}
 		} else {
 			return true;

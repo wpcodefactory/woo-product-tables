@@ -1,4 +1,9 @@
 <?php
+/**
+ * Product Table by WBW - Validator.
+ *
+ * @version 2.3.0
+ */
 class ValidatorWtbp {
 	public static $errors = array();
 	public static function validate( $field, $label = '', $validate = array() ) {
@@ -113,24 +118,35 @@ class ValidatorWtbp {
 		}
 		return true;
 	}
+
+	/**
+	 * getProductValidationMethods.
+	 *
+	 * @version 2.3.0
+	 */
 	public static function getProductValidationMethods() {
 		$res = array();
 		$all = get_class_methods('ValidatorWtbp');
 		foreach ($all as $m) {
 			if (in_array($m, array('int', 'none', 'string'))) {
-				$res[$m] = esc_html__($m, 'woo-product-tables');
+				$res[$m] = esc_html($m);
 			}
 		}
 		return $res;
 	}
-	
+
+	/**
+	 * getUserValidationMethods.
+	 *
+	 * @version 2.3.0
+	 */
 	public static function getUserValidationMethods() {
 		// here validation for user fields
 		$res = array();
 		$all = get_class_methods('ValidatorWtbp');
 		foreach ($all as $m) {
 			if (in_array($m, array('int', 'none', 'string', 'email', 'validLen'))) {
-				$res[$m] = esc_html__($m, 'woo-product-tables');
+				$res[$m] = esc_html($m);
 			}
 		}
 		return $res;

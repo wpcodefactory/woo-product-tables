@@ -1,4 +1,9 @@
 <?php
+/**
+ * Product Table by WBW - Wootablepress View.
+ *
+ * @version 2.3.0
+ */
 
 class WootablepressViewWtbp extends ViewWtbp {
 	public $orderColumns     = array();
@@ -76,6 +81,11 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return parent::getContent( 'wootablepressEditAdmin' );
 	}
 
+	/**
+	 * renderHtml.
+	 *
+	 * @version 2.3.0
+	 */
 	public function renderHtml( $params ) {
 		$isWooCommercePluginActivated = $this->getModule()->isWooCommercePluginActivated();
 		if ( ! $isWooCommercePluginActivated ) {
@@ -126,13 +136,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 
 		foreach ( $phrases as $phrase => $str) {
 			$value = empty($tableSettings['settings'][ $phrase ]) ? '' : $tableSettings['settings'][ $phrase ];
-			$tableSettings['settings'][ $phrase ] = empty($value) ? $str : __( $value, 'woo-product-tables' );
-		}
-		$translates = array('caption_text', 'description_text');
-		foreach ($translates as $option) {
-			if (!empty($tableSettings['settings'][$option])) {
-				$tableSettings['settings'][$option] = __( $tableSettings['settings'][$option], 'woo-product-tables' );
-			}
+			$tableSettings['settings'][ $phrase ] = empty($value) ? $str : $value;
 		}
 		$pageType = '';
 		$pageTypeId = '';
@@ -1114,7 +1118,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 		$hideQuantityInput = ! empty( $settings['hide_quantity_input'] ) ? $settings['hide_quantity_input'] : false;
 
 		$stockNames                 = wc_get_product_stock_status_options();
-		$replacingTheTextOutOfStock = esc_html__( $this->getTableSetting( $settings, 'replacing_the_text_out_of_stock', false ), 'woo-product-tables' );
+		$replacingTheTextOutOfStock = esc_html( $this->getTableSetting( $settings, 'replacing_the_text_out_of_stock', false ) );
 		if ( $replacingTheTextOutOfStock ) {
 			$stockNames['outofstock'] = $replacingTheTextOutOfStock;
 		}
@@ -2194,10 +2198,13 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $dataArr;
 	}
 
+	/**
+	 * replaceAddToCartText.
+	 *
+	 * @version 2.3.0
+	 */
 	public function replaceAddToCartText( $text ) {
-		$modifyText = __( $text, 'woo-product-tables' );
-
-		return $modifyText;
+		return $text;
 	}
 
 	/**
@@ -2295,6 +2302,11 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $sortArray;
 	}
 
+	/**
+	 * generateTableHtml.
+	 *
+	 * @version 2.3.0
+	 */
 	public function generateTableHtml( $listPost, $frontend, $settings, $withHeader = true ) {
 		$dateAndTimeFormat = $this->getDateTimeFormat( $settings );
 		$columns           = $this->sortProductColumns();
@@ -2340,7 +2352,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 				$isColumnDisableSorting = $this->getTableSetting( $column, 'disable_sorting', false );
 
 				$noSort       = in_array( $key, $noSortColumns ) || $isColumnDisableSorting ? ' class="no-sort"' : '';
-				$tableHeader .= '<th data-key="' . esc_attr( $key ) . '"' . $noSort . '>' . ( 'check_multy' == $key ? '<input type="checkbox" class="wtbpAddMultyAll" data-position="' . esc_attr( $multyAddPosition ) . '">' : esc_html__( $this->getColumnNiceName( $key ), 'woo-product-tables' ) ) . '</th>';
+				$tableHeader .= '<th data-key="' . esc_attr( $key ) . '"' . $noSort . '>' . ( 'check_multy' == $key ? '<input type="checkbox" class="wtbpAddMultyAll" data-position="' . esc_attr( $multyAddPosition ) . '">' : esc_html( $this->getColumnNiceName( $key ) ) ) . '</th>';
 			}
 			$tableHeader .= '</tr>';
 		}

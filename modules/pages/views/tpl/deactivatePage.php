@@ -1,9 +1,14 @@
 <?php
+/**
+ * Product Table by WBW - Deactivate Page
+ *
+ * @version 2.3.0
+ */
 	$name = WTBP_WP_PLUGIN_NAME;
 ?>
 <html>
 	<head>
-		<title><?php esc_html_e( $name, 'woo-product-tables' ); ?></title>
+		<title><?php echo esc_html( $name ); ?></title>
 		<style type="text/css">
 			.wtbpDeletePage {
 				position: fixed;
@@ -18,7 +23,7 @@
 	</head>
 	<body>
 	<div class="wtbpDeletePage">
-	<div><?php esc_html_e( $name, 'woo-product-tables' ); ?></div>
+	<div><?php echo esc_html( $name ); ?></div>
 	<?php HtmlWtbp::formStart('deactivatePlugin', array('action' => $this->REQUEST_URI, 'method' => $this->REQUEST_METHOD)); ?>
 	<?php
 	$formData = array();
