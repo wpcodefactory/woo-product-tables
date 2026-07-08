@@ -6,7 +6,7 @@
  * Version: 2.3.0-dev-20260708-1200
  * Author: woobewoo
  * Author URI: https://woobewoo.com
- * Requires at least: 3.3
+ * Requires at least: 3.4
  * Text Domain: woo-product-tables
  * Domain Path: /languages
  * WC requires at least: 3.4.0
