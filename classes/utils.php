@@ -1,4 +1,9 @@
 <?php
+/**
+ * Product Table by WBW - Utils class.
+ *
+ * @version 2.3.0
+ */
 class UtilsWtbp {
 	public static function jsonEncode( $arr ) {
 		return ( is_array($arr) || is_object($arr) ) ? jsonEncodeUTFnormalWtbp($arr) : jsonEncodeUTFnormalWtbp(array());
@@ -54,7 +59,7 @@ class UtilsWtbp {
 				if ( ( '.' == $readdirectory ) || ( '..' == $readdirectory ) ) {
 					continue;
 				}
-				$PathDir = $source . '/' . $readdirectory; 
+				$PathDir = $source . '/' . $readdirectory;
 				if (is_dir($PathDir)) {
 					self::copyDirectories( $PathDir, $destination . '/' . $readdirectory );
 					continue;
@@ -85,10 +90,10 @@ class UtilsWtbp {
 		} else {
 			$res = sanitize_text_field($_SERVER['HTTP_CLIENT_IP']);
 		}
-		
+
 		return $res;
 	}
-	
+
 	/**
 	 * Parse xml file into simpleXML object
 	 *
@@ -104,7 +109,7 @@ class UtilsWtbp {
 	/**
 	 * Check if the element exists in array
 	 *
-	 * @param array $param 
+	 * @param array $param
 	 */
 	public static function xmlAttrToStr( $param, $element ) {
 		if (isset($param[$element])) {
@@ -214,7 +219,7 @@ class UtilsWtbp {
 	 * @param int $to - how many years in future
 	 * @param $formatKey - format for keys in array, @see strftime
 	 * @param $formatVal - format for values in array, @see strftime
-	 * @return array - years 
+	 * @return array - years
 	 */
 	public static function getYearsArray( $from, $to, $formatKey = '%Y', $formatVal = '%Y' ) {
 		$today = getdate();
@@ -290,6 +295,12 @@ class UtilsWtbp {
 	public static function getFileExt( $path ) {
 		return strtolower( pathinfo($path, PATHINFO_EXTENSION) );
 	}
+
+	/**
+	 * getRandStr.
+	 *
+	 * @version 2.3.0
+	 */
 	public static function getRandStr( $length = 10, $allowedChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890', $params = array() ) {
 		$result = '';
 		$allowedCharsLen = strlen($allowedChars);
@@ -297,7 +308,7 @@ class UtilsWtbp {
 			$allowedChars = strtolower($allowedChars);
 		}
 		while (strlen($result) < $length) {
-			$result .= substr($allowedChars, rand(0, $allowedCharsLen), 1);
+			$result .= substr($allowedChars, wp_rand(0, $allowedCharsLen), 1);
 		}
 
 		return $result;
@@ -346,7 +357,7 @@ class UtilsWtbp {
 
 	/**
 	 * Activate all CSP Plugins
-	 * 
+	 *
 	 * @param bool $isNetworkWide Check if site activated for network
 	 *
 	 * @return NULL Check if it's site or multisite and activate.
@@ -376,7 +387,7 @@ class UtilsWtbp {
 
 	/**
 	 * Delete All CSP Plugins
-	 * 
+	 *
 	 * @return NULL Check if it's site or multisite and decativate it.
 	 */
 	public static function deletePlugin() {
@@ -387,7 +398,7 @@ class UtilsWtbp {
 				if (switch_to_blog($id)) {
 					InstallerWtbp::delete();
 					restore_current_blog();
-				} 
+				}
 			}
 			return;
 		} else {
@@ -402,7 +413,7 @@ class UtilsWtbp {
 				if (switch_to_blog($id)) {
 					InstallerWtbp::deactivate();
 					restore_current_blog();
-				} 
+				}
 			}
 			return;
 		} else {
@@ -412,11 +423,11 @@ class UtilsWtbp {
 	public static function isWritable( $filename ) {
 		return is_writable($filename);
 	}
-	
+
 	public static function isReadable( $filename ) {
 		return is_readable($filename);
 	}
-	
+
 	public static function fileExists( $filename ) {
 		return file_exists($filename);
 	}
@@ -508,7 +519,7 @@ class UtilsWtbp {
 		$platform = 'Unknown';
 		$version = '';
 		$pattern = '';
-		
+
 		if ($u_agent) {
 			//First get the platform?
 			if (preg_match('/linux/i', $u_agent)) {
@@ -573,7 +584,7 @@ class UtilsWtbp {
 	}
 	public static function getBrowsersList() {
 		return array(
-			'Unknown', 'Internet Explorer', 'Mozilla Firefox', 'Google Chrome', 'Apple Safari', 
+			'Unknown', 'Internet Explorer', 'Mozilla Firefox', 'Google Chrome', 'Apple Safari',
 			'Opera', 'Netscape',
 		);
 	}

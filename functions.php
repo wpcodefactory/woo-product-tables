@@ -36,6 +36,8 @@ if (!function_exists('dateToTimestampWtbp')) {
 /**
  * Generate random string name.
  *
+ * @version 2.3.0
+ *
  * @param int $lenFrom min len
  * @param int $lenTo max len
  * @return string random string with length from $lenFrom to $lenTo
@@ -43,10 +45,10 @@ if (!function_exists('dateToTimestampWtbp')) {
 if (!function_exists('getRandNameWtbp')) {
 	function getRandNameWtbp( $lenFrom = 6, $lenTo = 9 ) {
 		$res = '';
-		$len = mt_rand($lenFrom, $lenTo);
+		$len = wp_rand($lenFrom, $lenTo);
 		if ($len) {
 			for ($i = 0; $i < $len; $i++) {
-				$res .= chr(mt_rand(97, 122));	/*rand symbol from a to z*/
+				$res .= chr(wp_rand(97, 122));	/*rand symbol from a to z*/
 			}
 		}
 		return $res;
@@ -214,6 +216,8 @@ if (!function_exists('jsonEncodeUTFnormalWtbp')) {
 /**
  * Prepares the params values to store into db.
  *
+ * @version 2.3.0
+ *
  * @param array $d $_POST array
  * @return array
  */
@@ -240,7 +244,7 @@ if (!function_exists('prepareParamsWtbp')) {
 		}
 		if (isset($d['code'])) {
 			if ('' == $d['code']) {
-				$d['code'] = prepareFieldCodeWtbp($d['label']) . '_' . rand(0, 9999999);
+				$d['code'] = prepareFieldCodeWtbp($d['label']) . '_' . wp_rand(0, 9999999);
 			}
 		}
 		return $d;

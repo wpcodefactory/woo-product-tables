@@ -162,7 +162,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 			$pageTypeId = $pageObj->term_id;
 		}
 
-		$viewId = $id . '_' . mt_rand( 0, 999999 );
+		$viewId = $id . '_' . wp_rand( 0, 999999 );
 		$this->assign( 'tableId', $id );
 		$this->assign( 'viewId', $viewId );
 		$this->assign( 'html', $html );
