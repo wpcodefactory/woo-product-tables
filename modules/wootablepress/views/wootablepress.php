@@ -38,6 +38,13 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return parent::getContent( 'wootablepressAdmin' );
 	}
 
+	/**
+	 * getEditTabContent.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @param int $idIn
+	 */
 	public function getEditTabContent( $idIn ) {
 		$isWooCommercePluginActivated = $this->getModule()->isWooCommercePluginActivated();
 		if ( ! $isWooCommercePluginActivated ) {
@@ -46,12 +53,13 @@ class WootablepressViewWtbp extends ViewWtbp {
 
 		FrameWtbp::_()->getModule( 'templates' )->loadBootstrap();
 		FrameWtbp::_()->getModule( 'templates' )->loadJqueryUi();
-		FrameWtbp::_()->getModule( 'templates' )->loadCodemirror();
 		FrameWtbp::_()->getModule( 'templates' )->loadSlimscroll();
 
 		$this->loadAssets();
 
+		// Registered before loadCodemirror() so its localized editor settings attach to an already-registered handle.
 		FrameWtbp::_()->addScript( 'wtbp.admin.tables.js', $this->getModule()->getModPath() . 'js/tables.admin.js' );
+		FrameWtbp::_()->getModule( 'templates' )->loadCodemirror();
 		FrameWtbp::_()->addStyle( 'wtbp.admin.tables.css', $this->getModule()->getModPath() . 'css/admin.tables.css' );
 		FrameWtbp::_()->addStyle( 'wtbp.frontend.tables.css', $this->getModule()->getModPath() . 'css/frontend.tables.css' );
 		FrameWtbp::_()->addScript( 'adminCreateTableWtbp', $this->getModule()->getModPath() . 'js/create-table.js' );

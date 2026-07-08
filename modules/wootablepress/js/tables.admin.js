@@ -1,3 +1,8 @@
+/**
+ * Product Table by WBW - WooTablePress Admin Tables
+ *
+ * @version 2.3.0
+ */
 (function ($, app) {
 	"use strict";
 	function AdminPage() {
@@ -493,14 +498,8 @@
 		$('.wtbpCssTab.button').on('click', function (e) {
 			var cssText = $('#wtbpCssEditor').get(0);
 			if(typeof(cssText.CodeMirrorEditor) === 'undefined') {
-				if(typeof(CodeMirror) !== 'undefined') {
-					var cssEditor = CodeMirror.fromTextArea(cssText, {
-						mode: 'css',
-						lineWrapping: true,
-						lineNumbers: true,
-						matchBrackets: true,
-						autoCloseBrackets: true
-					});
+				if(typeof(wp) !== 'undefined' && wp.codeEditor && typeof(wtbpCssEditorSettings) !== 'undefined') {
+					var cssEditor = wp.codeEditor.initialize(cssText, wtbpCssEditorSettings).codemirror;
 					cssEditor.on('change', function() {
 						_thisObj.tableNeedSave = true;
 						_thisObj.tableNeedPreview = true;
@@ -515,14 +514,8 @@
 		$('.wtbpJsTab.button').on('click', function (e) {
 			var jsText = $('#wtbpJsEditor').get(0);
 			if(typeof(jsText.CodeMirrorEditor) === 'undefined') {
-				if(typeof(CodeMirror) !== 'undefined') {
-					var jsEditor = CodeMirror.fromTextArea(jsText, {
-						mode: 'JavaScript',
-						lineWrapping: true,
-						lineNumbers: true,
-						matchBrackets: true,
-						autoCloseBrackets: true
-					});
+				if(typeof(wp) !== 'undefined' && wp.codeEditor && typeof(wtbpJsEditorSettings) !== 'undefined') {
+					var jsEditor = wp.codeEditor.initialize(jsText, wtbpJsEditorSettings).codemirror;
 					jsEditor.on('change', function() {
 						_thisObj.tableNeedSave = true;
 						_thisObj.tableNeedPreview = true;
