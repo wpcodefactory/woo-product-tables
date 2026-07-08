@@ -2,6 +2,7 @@
 /**
  * Product Table by WBW - Functions
  *
+ * @version 2.3.0
  * @author  woobewoo
  */
 
@@ -313,11 +314,13 @@ if (!function_exists('ctype_alpha')) {
 
 /**
  * trueRequestWtbp.
+ *
+ * @version 2.3.0
  */
 if ( ! function_exists( 'trueRequestWtbp' ) ) {
 	function trueRequestWtbp() {
 		$request = true;
-		$uri     = ( isset( $_SERVER['REQUEST_URI'] ) && '' !== $_SERVER['REQUEST_URI'] ) ? esc_url_raw( $_SERVER['REQUEST_URI'] ) : '';
+		$uri     = ( isset( $_SERVER['REQUEST_URI'] ) && '' !== $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 
 		if ( '' === $uri ) {
 			$request = false;
