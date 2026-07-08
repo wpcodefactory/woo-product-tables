@@ -4,6 +4,8 @@
  *
  * @version 2.3.0
  */
+
+defined( 'ABSPATH' ) || exit;
 ?>
 <div id="wtbpVariablesModal" class="wtbpModal" style="display: none;">
 	<div class="wtbpModalContent wtbpModalContentForVariations">

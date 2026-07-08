@@ -5,6 +5,8 @@
  * @version 2.3.0
  */
 
+defined( 'ABSPATH' ) || exit;
+
 class WootablepressViewWtbp extends ViewWtbp {
 	public $orderColumns     = array();
 	public $columnNiceNames  = array();

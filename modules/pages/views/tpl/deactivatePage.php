@@ -4,6 +4,9 @@
  *
  * @version 2.3.0
  */
+
+defined( 'ABSPATH' ) || exit;
+
 	$name = WTBP_WP_PLUGIN_NAME;
 ?>
 <html>

@@ -1,4 +1,12 @@
-<?php 
+<?php
+/**
+ * Product Table by WBW - additionalmainAdminShowOnOptions.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 $str = __('Show when user tries to exit from your site.', 'woo-product-tables') . '<a target="_blank" href="https://woobewoo.com/">' . __('Check example', 'woo-product-tables') . '.</a>'; 
 ?>
 

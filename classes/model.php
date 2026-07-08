@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Model class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 abstract class ModelWtbp extends BaseObjectWtbp {
 	protected $_data = array();
 	protected $_code = '';

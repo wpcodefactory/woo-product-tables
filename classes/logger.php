@@ -5,6 +5,8 @@
  * @version 2.3.0
  */
 
+defined( 'ABSPATH' ) || exit;
+
 define('WTBP_LOG', true);
 
 class LoggerWtbp {

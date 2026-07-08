@@ -5,6 +5,8 @@
  * @version 2.3.0
  */
 
+defined( 'ABSPATH' ) || exit;
+
 class TemplatesWtbp extends ModuleWtbp {
 	protected $_styles = array();
 	private $_cdnUrl = '';

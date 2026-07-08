@@ -1,4 +1,7 @@
 <?php
+
+defined( 'ABSPATH' ) || exit;
+
 require_once(dirname(__FILE__) . '/../Base/MixpanelBase.php');
 require_once(dirname(__FILE__) . '/../ConsumerStrategies/FileConsumer.php');
 require_once(dirname(__FILE__) . '/../ConsumerStrategies/CurlConsumer.php');

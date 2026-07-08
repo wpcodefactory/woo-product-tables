@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Table class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 abstract class TableWtbp {
 	/**
 	 * ID column name

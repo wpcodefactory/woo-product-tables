@@ -1,3 +1,12 @@
+<?php
+/**
+ * Product Table by WBW - wootablepressHtml.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+?>
 <div id="wtbp-table-wrapper-<?php echo esc_attr($this->viewId); ?>" style="visibility: hidden;" data-table-id="wtbp-table-<?php echo esc_attr($this->viewId); ?>" class="wtbpTableWrapper" data-page-type="<?php echo esc_attr($this->pageType); ?>" data-page-typeid="<?php echo esc_attr($this->pageTypeId); ?>">
 	<?php HtmlWtbp::echoEscapedHtml($this->pre_table); ?> 
 	<table id="wtbp-table-<?php echo esc_attr($this->viewId); ?>" data-table-id="<?php echo esc_attr($this->tableId); ?>" class="wtbpContentTable" data-settings="<?php echo esc_attr(htmlspecialchars(json_encode($this->settings['settings']), ENT_QUOTES, 'UTF-8')); ?>">

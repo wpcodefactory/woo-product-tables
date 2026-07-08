@@ -1,3 +1,12 @@
+<?php
+/**
+ * Product Table by WBW - pluginDeactivation.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+?>
 <style type="text/css">
 	.wtbpDeactivateDescShell {
 		display: none;

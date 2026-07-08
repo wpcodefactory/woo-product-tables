@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Response class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 #[\AllowDynamicProperties]
 class ResponseWtbp {
 	public $code = 0;

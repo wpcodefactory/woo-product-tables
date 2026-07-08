@@ -1,13 +1,13 @@
 <?php
 /**
  * Class contain table settings api
- */
-
-/**
- * Class contain table settings api
  * You can use it in any part of your code with construction
  * FrameWtbp::_()->getModule('wootablepress')->getModel('settings');
+ *
+ * @version 2.3.0
  */
+
+defined( 'ABSPATH' ) || exit;
 
 class SettingsModelWtbp extends ModelWtbp {
 	/**

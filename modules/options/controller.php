@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - OptionsController class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class OptionsControllerWtbp extends ControllerWtbp {
 	public function saveGroup() {
 		check_ajax_referer( 'wtbp-save-nonce', 'wtbpNonce' );

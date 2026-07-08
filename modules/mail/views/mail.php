@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - MailView class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class MailViewWtbp extends ViewWtbp {
 	public function getTabContent() {
 		FrameWtbp::_()->getModule('templates')->loadJqueryUi();

@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - MailController class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class MailControllerWtbp extends ControllerWtbp {
 	public function testEmail() {
 		$res = new ResponseWtbp();

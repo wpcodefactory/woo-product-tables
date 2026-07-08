@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - PromoModel class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class PromoModelWtbp extends ModelWtbp {
 	private $_apiUrl = '';
 	private $_bigCli = null;

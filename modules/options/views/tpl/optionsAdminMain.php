@@ -1,3 +1,12 @@
+<?php
+/**
+ * Product Table by WBW - optionsAdminMain.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+?>
 <style type="text/css">
 	.wtbpAdminMainLeftSide {
 		width: 56%;

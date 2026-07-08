@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
 require_once(dirname(__FILE__) . '/Base/MixpanelBase.php');
 require_once(dirname(__FILE__) . '/Producers/MixpanelPeople.php');
 require_once(dirname(__FILE__) . '/Producers/MixpanelEvents.php');

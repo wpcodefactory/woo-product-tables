@@ -1,5 +1,13 @@
 <?php
 /**
+ * Product Table by WBW - Db class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
  * Shell - class to work with $wpdb global object
  */
 class DbWtbp {

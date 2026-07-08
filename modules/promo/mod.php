@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Promo class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class PromoWtbp extends ModuleWtbp {
 	private $_mainLink = '';
 	private $_minDataInStatToSend = 20;	// At least 20 points in table shuld be present before send stats

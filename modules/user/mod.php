@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - User class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class UserWtbp extends ModuleWtbp {
 	protected $_data = array();
 	protected $_curentID = 0;

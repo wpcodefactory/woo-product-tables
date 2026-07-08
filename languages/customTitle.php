@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - customTitle.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 __('Thumbnail', 'woo-product-tables');
 __('Name', 'woo-product-tables');
 __('Categories', 'woo-product-tables');

@@ -4,6 +4,9 @@
  *
  * @version 2.3.0
  */
+
+defined( 'ABSPATH' ) || exit;
+
 class UtilsWtbp {
 	public static function jsonEncode( $arr ) {
 		return ( is_array($arr) || is_object($arr) ) ? jsonEncodeUTFnormalWtbp($arr) : jsonEncodeUTFnormalWtbp(array());

@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Frame class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class FrameWtbp {
 	private $_modules = array();
 	private $_tables = array();

@@ -1,3 +1,12 @@
+<?php
+/**
+ * Product Table by WBW - adminFooter.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+?>
 <div class="wtbpAdminFooterShell woobewoo-hidden">
 	<div class="wtbpAdminFooterCell">
 		<?php echo esc_html(WTBP_WP_PLUGIN_NAME); ?>

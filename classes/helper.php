@@ -1,9 +1,16 @@
 <?php
 /**
+ * Product Table by WBW - Helper class.
+ *
  * Abstract class of module helper
  * Module helper has all the functions that are needed in module workflow
  * Besides it contains the methods to build html elements
+ *
+ * @version 2.3.0
  */
+
+defined( 'ABSPATH' ) || exit;
+
 abstract class HelperWtbp {
 	protected $_code = '';
 	protected $_module = '';

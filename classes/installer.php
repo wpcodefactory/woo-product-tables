@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Installer class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class InstallerWtbp {
 	public static $update_to_version_method = '';
 	private static $_firstTimeActivated = false;

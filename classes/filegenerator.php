@@ -1,7 +1,14 @@
 <?php
 /**
+ * Product Table by WBW - Filegenerator class.
+ *
  * Class to generate fiels and output them in attachment by http (https) protocol
+ *
+ * @version 2.3.0
  */
+
+defined( 'ABSPATH' ) || exit;
+
 class FilegeneratorWtbp {
 	protected static $_instances = array();
 	protected $_filename = '';

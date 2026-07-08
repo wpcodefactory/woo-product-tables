@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Pages class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class PagesWtbp extends ModuleWtbp {
 	/**
 	 * Check if current page is Login page

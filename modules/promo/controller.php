@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - PromoController class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class PromoControllerWtbp extends ControllerWtbp {
 	public function welcomePageSaveInfo() {
 		$res = new ResponseWtbp();

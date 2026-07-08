@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Wootablepress class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class WootablepressWtbp extends ModuleWtbp {
 	public function init() {
 		if (is_admin()) {

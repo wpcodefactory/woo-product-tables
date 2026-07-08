@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - OptionsView class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class OptionsViewWtbp extends ViewWtbp {
 	private $_news = array();
 	public function getNewFeatures() {

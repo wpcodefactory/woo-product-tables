@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - PromoView class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class PromoViewWtbp extends ViewWtbp {
 	public function displayAdminFooter() {
 		parent::display('adminFooter');

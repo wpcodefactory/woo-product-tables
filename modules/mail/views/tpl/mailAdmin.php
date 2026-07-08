@@ -1,3 +1,12 @@
+<?php
+/**
+ * Product Table by WBW - mailAdmin.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+?>
 <form id="wtbpMailTestForm">
 	<label>
 		<?php esc_html_e('Send test email to', 'woo-product-tables'); ?>

@@ -22,6 +22,8 @@
  * @version     2.8.24
  */
 
+defined( 'ABSPATH' ) || exit;
+
 class Mobile_Detect_Wtbp {
 	/**
 	 * Mobile detection type.

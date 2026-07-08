@@ -1,3 +1,12 @@
+<?php
+/**
+ * Product Table by WBW - featuredPlugins.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+?>
 <section id="woobewoo-featured-plugins" class="woobewoo-item woobewoo-panel">
 	<div class="woobewooPageBundleContainer container-fluid">
 		<div class="bundle-text col-md-7 col-xs-12"><?php esc_html_e('Get plugins bundle today and save over 80%', 'woo-product-tables'); ?></div>

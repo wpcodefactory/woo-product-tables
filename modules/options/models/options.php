@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - OptionsModel class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class OptionsModelWtbp extends ModelWtbp {
 	private $_values = array();
 	private $_valuesLoaded = false;

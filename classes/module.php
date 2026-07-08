@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Module class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 abstract class ModuleWtbp extends BaseObjectWtbp {
 	protected $_controller = null;
 	protected $_helper = null;

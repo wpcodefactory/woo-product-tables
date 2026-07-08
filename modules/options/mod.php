@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Options class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class OptionsWtbp extends ModuleWtbp {
 	private $_tabs = array();
 	private $_options = array();

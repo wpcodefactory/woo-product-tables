@@ -7,6 +7,9 @@
  *
  * @version 2.3.0
  */
+
+defined( 'ABSPATH' ) || exit;
+
 class FieldAdapterWtbp {
 	const DB = 'DbWtbp';
 	const HTML = 'HtmlWtbp';

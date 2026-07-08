@@ -4,6 +4,9 @@
  *
  * @version 2.3.0
  */
+
+defined( 'ABSPATH' ) || exit;
+
 class ValidatorWtbp {
 	public static $errors = array();
 	public static function validate( $field, $label = '', $validate = array() ) {
