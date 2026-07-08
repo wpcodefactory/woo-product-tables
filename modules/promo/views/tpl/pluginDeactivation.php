@@ -1,8 +1,10 @@
 <?php
 /**
- * Product Table by WBW - pluginDeactivation.
+ * Product Table for WooCommerce by WBW - Plugin Deactivation
  *
  * @version 2.3.0
+ *
+ * @author woobewoo
  */
 
 defined( 'ABSPATH' ) || exit;

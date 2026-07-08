@@ -1,8 +1,10 @@
 <?php
 /**
- * Product Table by WBW - optionsSettingsTabContent.
+ * Product Table for WooCommerce by WBW - Options Settings Tab Content
  *
  * @version 2.3.0
+ *
+ * @author woobewoo
  */
 
 defined( 'ABSPATH' ) || exit;

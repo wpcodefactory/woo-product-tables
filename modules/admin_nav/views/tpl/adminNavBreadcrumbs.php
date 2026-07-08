@@ -1,8 +1,10 @@
 <?php
 /**
- * Product Table by WBW - adminNavBreadcrumbs.
+ * Product Table for WooCommerce by WBW - Admin Nav Breadcrumbs
  *
  * @version 2.3.0
+ *
+ * @author woobewoo
  */
 
 defined( 'ABSPATH' ) || exit;

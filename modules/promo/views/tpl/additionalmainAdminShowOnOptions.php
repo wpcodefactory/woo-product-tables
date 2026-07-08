@@ -1,8 +1,10 @@
 <?php
 /**
- * Product Table by WBW - additionalmainAdminShowOnOptions.
+ * Product Table for WooCommerce by WBW - Additional Main Admin Show On Options
  *
  * @version 2.3.0
+ *
+ * @author woobewoo
  */
 
 defined( 'ABSPATH' ) || exit;

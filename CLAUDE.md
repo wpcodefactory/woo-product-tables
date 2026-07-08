@@ -68,27 +68,26 @@ A module directory conventionally contains `mod.php` (module class), `controller
 - Every PHPDoc `@version` tag (on functions, methods, classes, class members, requires/includes, hooks, file headers, constants) must be updated to match the new plugin version, but **only on the elements actually changed** in that edit, plus the containing class/file header — don't bulk-update `@version` tags on untouched code.
 - The `@version` tag never includes the `-dev-...` suffix — strip it. If the working version is `2.3.0-dev-20260707-0445`, the `@version` tag is `2.3.0`.
 - If an element being changed has no `@version` tag (or no docblock at all), add one — don't skip it just because it wasn't there before.
-- A new/updated docblock is never just `@version`/`@since` tags on their own — it must always start with a one-line title (the method/class name followed by a period, e.g. `renderHtml.`), then a blank comment line, then the tags. This applies even to a short docblock added solely to carry a `@version` bump.
+- A new/updated docblock is never just `@version`/`@since` tags on their own — it must always start with a one-line title, then a blank comment line, then the tags. This applies even to a short docblock added solely to carry a `@version` bump. **The title format depends on file type — see "Doc block shape by file type" below; don't default to the method-docblock style (`renderHtml.`) for file headers.**
 - Whenever any method inside a class is changed and its docblock gets a `@version` bump, the containing class's own file-header docblock must also get its `@version` bumped (or added if missing) in the same edit — this is required any time a method changes, not only when the file had zero docblocks to begin with.
 - Tag order: `@version` (and `@since`, when present) always comes immediately after the title line/blank line, before any other tags (`@param`, `@return`, `@see`, `@author`, etc.) — never appended at the end of an existing tag block.
 - When adding or updating a docblock directly above a method/property, make sure there's a blank line separating it from the previous line of code (e.g. the closing `}` of the prior method) if one doesn't already exist — a docblock must never be glued directly to the preceding statement.
 - `@since` is only added/set on genuinely new files, new classes, or new methods/functions — this applies to any file type (PHP class files, PHP templates, JS files, etc.), not just PHP classes. It is not touched on pre-existing elements that are merely being edited.
 - `readme.txt` (`Stable tag:`) and `changelog.txt` are updated separately at actual release time, not during dev-version bumps.
 
-Doc block shape by file type (using version `2.3.0` as the example target):
+Doc block shape by file type (using version `2.3.0` as the example target). **The two shapes below are not interchangeable — a class file header must never use the template title format, and a template file header must never use the class title format. Check which kind of file you're editing before writing the title line.**
 
-Class-based PHP file — file header plus a block per changed method:
+Class-based PHP file (any file that declares a class, e.g. `classes/*.php`, `modules/*/mod.php`, `modules/*/controller.php`, `modules/*/models/*.php`) — file header title is `Product Table by WBW - <ClassName without the Wtbp suffix> class.` (period at the end, no `@author` tag), plus a block per changed method:
 ```php
 <?php
 /**
- * Plugin A - Class Test.
+ * Product Table by WBW - Utils class.
  *
  * @version 2.3.0
  * @since   1.0.0
- * @author  WPFactory
  */
 
-class Test {
+class UtilsWtbp {
 
 	/**
 	 * Method A.
@@ -102,11 +101,13 @@ class Test {
 
 }
 ```
+Real examples already in the repo: [classes/utils.php](classes/utils.php) (`Utils class.`), [classes/logger.php](classes/logger.php) (`LoggerWtbp class.` — an older file that kept the `Wtbp` suffix; prefer omitting it in new/updated titles).
 
-PHP template file (e.g. `partEditAdminCustomMetaPro.php`) — file header only, `@since` matches the version the template was first introduced in (or the current version if it's new):
+PHP template file (any file under `modules/*/views/tpl/*.php`, or a similar file-header-only PHP file that doesn't declare a class, e.g. `languages/customTitle.php`) — file header only, title is `Product Table for WooCommerce by WBW - <Human-Readable Title>` (Title Case, **no trailing period**, and **no "Pro"** — this plugin is the free version, per the `Plugin Name:` header in [woo-producttables.php](woo-producttables.php)), and **must** include `@author woobewoo`. `@since` matches the version the template was first introduced in (or the current version if it's new):
 ```php
+<?php
 /**
- * <plugin name> - Edit Admin Custom Meta
+ * Product Table for WooCommerce by WBW - Edit Admin Custom Meta
  *
  * @version 2.3.0
  * @since 2.3.0
@@ -114,6 +115,7 @@ PHP template file (e.g. `partEditAdminCustomMetaPro.php`) — file header only, 
  * @author woobewoo
  */
 ```
+Real examples already in the repo: [modules/pages/views/tpl/deactivatePage.php](modules/pages/views/tpl/deactivatePage.php), [modules/options/views/tpl/optionsAdminMain.php](modules/options/views/tpl/optionsAdminMain.php). Note: [modules/wootablepress/views/tpl/wootablepressEditAdmin.php](modules/wootablepress/views/tpl/wootablepressEditAdmin.php) has `... WBW Pro - Edit Admin` in its title — that's a leftover from a Pro-plugin-derived file, not the pattern to copy; don't propagate "Pro" into new/updated titles.
 
 JS file (e.g. `wootables.admin.pro.js`) — file header only; `@since` omitted here only because this example file is pre-existing (add it if the file is new):
 ```js
