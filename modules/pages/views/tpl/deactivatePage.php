@@ -3,7 +3,7 @@
 ?>
 <html>
 	<head>
-		<title><?php esc_html_e( $name ); ?></title>
+		<title><?php esc_html_e( $name, 'woo-product-tables' ); ?></title>
 		<style type="text/css">
 			.wtbpDeletePage {
 				position: fixed;
@@ -18,7 +18,7 @@
 	</head>
 	<body>
 	<div class="wtbpDeletePage">
-	<div><?php esc_html_e( $name ); ?></div>
+	<div><?php esc_html_e( $name, 'woo-product-tables' ); ?></div>
 	<?php HtmlWtbp::formStart('deactivatePlugin', array('action' => $this->REQUEST_URI, 'method' => $this->REQUEST_METHOD)); ?>
 	<?php
 	$formData = array();

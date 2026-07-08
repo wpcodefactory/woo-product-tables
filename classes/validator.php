@@ -29,7 +29,7 @@ class ValidatorWtbp {
 	public static function validLen( $field, $label = '', $validate = array() ) {
 		if ( !(bool) ( strlen($field->value) <= $field->maxlen )) {
 			/* translators: 1: label 2: max length */
-			self::addError(esc_html(sprintf(__('Invalid length for %1$s, max length is %2$s'), $field->label, $field->maxlen)), $field->name);
+			self::addError(esc_html(sprintf(__('Invalid length for %1$s, max length is %2$s', 'woo-product-tables'), $field->label, $field->maxlen)), $field->name);
 			return false;
 		}
 		return true;
@@ -43,7 +43,7 @@ class ValidatorWtbp {
 	public static function numeric( $field ) {
 		if (!is_numeric($field->value) && !empty($field->value)) {
 			/* translators: %s: label */
-			self::addError(esc_html(sprintf(__('Invalid numeric value for %s'), $field->label)), $field->name);
+			self::addError(esc_html(sprintf(__('Invalid numeric value for %s', 'woo-product-tables'), $field->label)), $field->name);
 			return false;
 		}
 		return true;
@@ -73,7 +73,7 @@ class ValidatorWtbp {
 	public static function notEmpty( $field ) {
 		if (!self::_notEmpty($field->value)) {
 			/* translators: %s: label */
-			self::addError(esc_html(sprintf(__('Please enter %s'), $field->label)), $field->name);
+			self::addError(esc_html(sprintf(__('Please enter %s', 'woo-product-tables'), $field->label)), $field->name);
 			return false;
 		}
 		return true;
@@ -81,7 +81,7 @@ class ValidatorWtbp {
 	public static function selectNotEmpty( $field ) {
 		if (empty($field->value)) {
 			/* translators: %s: label */
-			self::addError(esc_html(sprintf(__('Please select %s'), $field->label)), $field->name);
+			self::addError(esc_html(sprintf(__('Please select %s', 'woo-product-tables'), $field->label)), $field->name);
 			return false;
 		}
 		return true;
@@ -89,11 +89,11 @@ class ValidatorWtbp {
 	public static function email( $field ) {
 		if (!is_email($field->value)) {
 			/* translators: %s: label */
-			self::addError(esc_html(sprintf(__('Invalid %s'), $field->label)), $field->name);
+			self::addError(esc_html(sprintf(__('Invalid %s', 'woo-product-tables'), $field->label)), $field->name);
 			return false;
 		} elseif (email_exists($field->value)) {
 			/* translators: %s: label */
-			self::addError(esc_html(sprintf(__('%s is already registered'), $field->label)), $field->name);
+			self::addError(esc_html(sprintf(__('%s is already registered', 'woo-product-tables'), $field->label)), $field->name);
 			return false;
 		}
 		return true;
@@ -108,7 +108,7 @@ class ValidatorWtbp {
 	public static function string( $field ) {
 		if (preg_match('/([0-9].*)/', $field->value)) {
 			/* translators: %s: label */
-			self::addError(esc_html(sprintf(__('Invalid %s'), $field->label)), $field->name);
+			self::addError(esc_html(sprintf(__('Invalid %s', 'woo-product-tables'), $field->label)), $field->name);
 			return false;
 		}
 		return true;
@@ -118,7 +118,7 @@ class ValidatorWtbp {
 		$all = get_class_methods('ValidatorWtbp');
 		foreach ($all as $m) {
 			if (in_array($m, array('int', 'none', 'string'))) {
-				$res[$m] = esc_html__($m);
+				$res[$m] = esc_html__($m, 'woo-product-tables');
 			}
 		}
 		return $res;
@@ -130,7 +130,7 @@ class ValidatorWtbp {
 		$all = get_class_methods('ValidatorWtbp');
 		foreach ($all as $m) {
 			if (in_array($m, array('int', 'none', 'string', 'email', 'validLen'))) {
-				$res[$m] = esc_html__($m);
+				$res[$m] = esc_html__($m, 'woo-product-tables');
 			}
 		}
 		return $res;

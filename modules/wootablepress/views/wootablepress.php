@@ -1114,7 +1114,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 		$hideQuantityInput = ! empty( $settings['hide_quantity_input'] ) ? $settings['hide_quantity_input'] : false;
 
 		$stockNames                 = wc_get_product_stock_status_options();
-		$replacingTheTextOutOfStock = esc_html__( $this->getTableSetting( $settings, 'replacing_the_text_out_of_stock', false ) );
+		$replacingTheTextOutOfStock = esc_html__( $this->getTableSetting( $settings, 'replacing_the_text_out_of_stock', false ), 'woo-product-tables' );
 		if ( $replacingTheTextOutOfStock ) {
 			$stockNames['outofstock'] = $replacingTheTextOutOfStock;
 		}

@@ -20,7 +20,7 @@ class PromoControllerWtbp extends ControllerWtbp {
 		$time = time();
 		$prevSendTime = (int) get_option(WTBP_CODE . '_last__time_contact_send');
 		if ($prevSendTime && ( $time - $prevSendTime ) < 5 * 60) {	// Only one message per five minutes
-			$res->pushError(esc_html__('Please don\'t send contact requests so often - wait for response for your previous requests.'));
+			$res->pushError(esc_html__('Please don\'t send contact requests so often - wait for response for your previous requests.', 'woo-product-tables'));
 			$res->ajaxExec();
 		}
 		$data = ReqWtbp::get('post');

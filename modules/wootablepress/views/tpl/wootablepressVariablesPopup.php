@@ -16,7 +16,7 @@
 			// translators:
 			$cartText = sprintf('%s ', $variationToCart);
 			?>
-			<div class="wtbpModalVariationBtns" data-add-to-cart-text="<?php esc_attr_e($cartText); ?>"></div>
+			<div class="wtbpModalVariationBtns" data-add-to-cart-text="<?php esc_attr_e($cartText, 'woo-product-tables'); ?>"></div>
 		</div>
 	</div>
 </div>

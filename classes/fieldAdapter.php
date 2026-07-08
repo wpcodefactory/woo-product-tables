@@ -193,7 +193,7 @@ class FieldAdapterWtbp {
 		$output = '';
 		if (!empty($params->attr)) {
 			foreach ($params->attr as $key => $value) {
-				$output .= esc_html__($key) . ':<br />';
+				$output .= esc_html__($key, 'woo-product-tables') . ':<br />';
 				$output .= HtmlWtbp::text('params[attr][' . $key . ']', array('value' => $value)) . '<br />';
 			}
 		} else {

@@ -48,11 +48,11 @@ class ModInstallerWtbp {
 					return true;
 				} else {
 					/* translators: %s: module name */
-					ErrorsWtbp::push(esc_html(sprintf(__('Move files for %s failed'), $module['code'])), ErrorsWtbp::MOD_INSTALL);
+					ErrorsWtbp::push(esc_html(sprintf(__('Move files for %s failed', 'woo-product-tables'), $module['code'])), ErrorsWtbp::MOD_INSTALL);
 				}
 			} else {
 				/* translators: %s: module name */
-				ErrorsWtbp::push(esc_html(sprintf(__('%s is not plugin module'), $module['code'])), ErrorsWtbp::MOD_INSTALL);
+				ErrorsWtbp::push(esc_html(sprintf(__('%s is not plugin module', 'woo-product-tables'), $module['code'])), ErrorsWtbp::MOD_INSTALL);
 			}
 		}
 		return false;
@@ -177,7 +177,7 @@ class ModInstallerWtbp {
 					} else { // if not - install it
 						if (!self::install($modDataArr, $locations['plugDir'])) {
 							/* translators: %s: module name */
-							ErrorsWtbp::push(esc_html(sprintf(__('Install %s failed'), $modDataArr['code'])), ErrorsWtbp::MOD_INSTALL);
+							ErrorsWtbp::push(esc_html(sprintf(__('Install %s failed', 'woo-product-tables'), $modDataArr['code'])), ErrorsWtbp::MOD_INSTALL);
 						}
 					}
 				}
