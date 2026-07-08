@@ -5,6 +5,8 @@ Donate link: https://woobewoo.com/plugins/table-woocommerce-plugin/
 Requires at least: 3.4
 Tested up to: 7.0
 Stable tag: 2.2.9
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Show your products in the searchable and sortable product table. WooCommerce product listings and flexible order forms with WBW Product Table
 
