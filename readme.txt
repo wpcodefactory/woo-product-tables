@@ -2,7 +2,7 @@
 Contributors: woobewoo
 Tags: product table, WooCommerce product table, WooCommerce, bulk order form, quick order form
 Donate link: https://woobewoo.com/plugins/table-woocommerce-plugin/
-Requires at least: 4.5
+Requires at least: 4.9
 Tested up to: 7.0
 Stable tag: 2.2.9
 License: GPLv2 or later
