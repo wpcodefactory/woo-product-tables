@@ -250,6 +250,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 		}
 
 		if ( ! empty( $filterCategory ) ) {
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Standard WP_Query tax_query filter, not a raw query; no non-JOIN alternative exists for this taxonomy filter, consistent with WC_Product_Query usage.
 			$args['tax_query'][] = array(
 				'taxonomy'         => 'product_cat',
 				'field'            => 'id',
@@ -259,6 +260,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 		}
 
 		if ( ! empty( $filterTag ) ) {
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Standard WP_Query tax_query filter, not a raw query; no non-JOIN alternative exists for this taxonomy filter, consistent with WC_Product_Query usage.
 			$args['tax_query'][] = array(
 				'taxonomy'         => 'product_tag',
 				'field'            => 'id',
@@ -271,6 +273,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 			if ( empty( wc_get_attribute( $filterAttribute )->slug ) ) {
 				$term                = get_term( $filterAttribute );
 				$taxonomy            = $term->taxonomy;
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Standard WP_Query tax_query filter, not a raw query; no non-JOIN alternative exists for this taxonomy filter, consistent with WC_Product_Query usage.
 				$args['tax_query'][] = array(
 					'taxonomy' => $taxonomy,
 					'field'    => 'id',
@@ -280,6 +283,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 			} else {
 				$term                = get_term( $filterAttribute );
 				$taxonomy            = $term->taxonomy;
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Standard WP_Query tax_query filter, not a raw query; no non-JOIN alternative exists for this taxonomy filter, consistent with WC_Product_Query usage.
 				$args['tax_query'][] = array(
 					'taxonomy' => wc_get_attribute( $filterAttribute )->slug,
 					'operator' => 'EXISTS',
@@ -320,6 +324,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 					'post_type'        => 'product',
 					'post_status'      => array( 'publish' ),
 					'fields'           => 'ids',
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Standard WP_Query tax_query filter, not a raw query; no non-JOIN alternative exists for this taxonomy filter, consistent with WC_Product_Query usage.
 					'tax_query'        => array(
 						array(
 							'taxonomy'         => 'product_cat',
@@ -1016,6 +1021,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 			'ignore_sticky_posts' => true,
 			'post_status'         => $postStatuses,
 			'posts_per_page'      => - 1,
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Standard WP_Query tax_query filter, not a raw query; no non-JOIN alternative exists for this taxonomy filter, consistent with WC_Product_Query usage.
 			'tax_query'           => array()
 		);
 
@@ -2519,12 +2525,18 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $options;
 	}
 
+	/**
+	 * Get products with variations HTML.
+	 *
+	 * @version 2.3.0
+	 */
 	public function getProductsWithVariationsHtml() {
 		$args     = array(
 			'post_type'           => 'product',
 			'posts_per_page'      => - 1,
 			'fields'              => array( 'ID', 'post_title' ),
 			'ignore_sticky_posts' => true,
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Standard WP_Query tax_query filter, not a raw query; no non-JOIN alternative exists for this taxonomy filter, consistent with WC_Product_Query usage.
 			'tax_query'           => array(
 				array(
 					'taxonomy' => 'product_type',

@@ -29,6 +29,10 @@ Don't run a WPCS/PHPCS bulk auto-fix pass across untouched code — apply these 
 
 There are no lint/build/test commands in this repo. Verify changes by loading the plugin in a WordPress site with WooCommerce active and exercising the relevant admin/frontend flow.
 
+## Git commits
+
+Never add a `Co-Authored-By: Claude ...` (or similar AI co-author) trailer to commit messages in this repo.
+
 ## Architecture
 
 The plugin is built on a custom in-house MVC micro-framework (classes suffixed `Wtbp`), not a modern WP boilerplate. Everything bootstraps from [woo-producttables.php](woo-producttables.php), which loads [config.php](config.php) (constants) and [functions.php](functions.php) (global helper functions), then imports the core framework classes from `classes/` via `importClassWtbp()`.

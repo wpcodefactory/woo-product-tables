@@ -98,6 +98,11 @@ class WootablepressWtbp extends ModuleWtbp {
 		}
 	}
 	
+	/**
+	 * Before main query CWG check terms.
+	 *
+	 * @version 2.3.0
+	 */
 	public function beforeMainQueryCwgCheckTerms( $args = array() ) {
 		$tax_query = array();
 		$user_id = is_user_logged_in() ? get_current_user_id() : 0;
@@ -201,6 +206,7 @@ class WootablepressWtbp extends ModuleWtbp {
 				'post_status'         => 'publish',
 				'posts_per_page'      => -1,
 				'fields'              => 'ids',
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Standard WP_Query tax_query filter, not a raw query; no non-JOIN alternative exists for this taxonomy filter, consistent with WC_Product_Query usage.
 				'tax_query'           => $tax_query
 			);
 			$tmp = new WP_Query($tmps);
