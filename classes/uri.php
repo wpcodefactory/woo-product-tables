@@ -76,17 +76,21 @@ class UriWtbp {
 
 	/**
 	 * getGetParams.
+	 *
+	 * @version 2.3.0
 	 */
 	public static function getGetParams( $exclude = array() ) {
 		$res = array();
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Read-only pass-through of query args for link generation, no form data is processed.
 		if (isset($_GET) && !empty($_GET)) {
 			foreach ($_GET as $key => $val) {
 				if (in_array($key, $exclude)) {
 					continue;
 				}
-				$res[$key] = $val;
+				$res[$key] = is_array($val) ? array_map('sanitize_text_field', wp_unslash($val)) : sanitize_text_field( wp_unslash( $val ) );
 			}
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 		return $res;
 	}
 

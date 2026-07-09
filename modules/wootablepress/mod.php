@@ -45,6 +45,12 @@ class WootablepressWtbp extends ModuleWtbp {
 	public function render( $params ) {
 		return $this->getView()->renderHtml($params);
 	}
+
+	/**
+	 * showAdminErrors.
+	 *
+	 * @version 2.3.0
+	 */
 	public function showAdminErrors() {
 		// check WooCommerce is installed and activated
 		if (!$this->isWooCommercePluginActivated()) {
@@ -64,7 +70,8 @@ class WootablepressWtbp extends ModuleWtbp {
 
 			$tableView->assign('errorMsg', $error);
 			// check current module
-			if (isset($_GET['page']) && WTBP_SHORTCODE == $_GET['page']) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check of the admin page slug to decide whether to show a notice, no form data is processed.
+			if (isset($_GET['page']) && WTBP_SHORTCODE == sanitize_text_field( wp_unslash( $_GET['page'] ) )) {
 				// show message
 				HtmlWtbp::echoEscapedHtml($tableView->getContent('showAdminNotice'));
 			}
