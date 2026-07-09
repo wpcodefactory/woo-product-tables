@@ -159,8 +159,11 @@ class FrameWtbp {
 			exit(esc_html_e('You have no permissions to view this page', 'woo-product-tables'));
 		}
 	}
+
 	/**
 	 * Check permissions for action in controller by $code
+	 *
+	 * @version 2.3.0
 	 *
 	 * @param string $code Code of controller that need to be checked
 	 * @param string $action Action that need to be checked
@@ -222,7 +225,7 @@ class FrameWtbp {
 				if (!empty($noncedMethods)) {
 					$noncedMethods = array_map('strtolower', $noncedMethods);
 					if (in_array($action, $noncedMethods)) {
-						$nonce = isset($_REQUEST['_wpnonce']) ? sanitize_text_field($_REQUEST['_wpnonce']) : reqWtpb::getVar('_wpnonce');
+						$nonce = isset($_REQUEST['_wpnonce']) ? sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ) : reqWtpb::getVar('_wpnonce');
 						if (!wp_verify_nonce( $nonce, $action )) {
 							$res = false;
 						}

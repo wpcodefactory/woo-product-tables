@@ -21,8 +21,11 @@ class ReqWtbp {
 			session_start();
 		}
 	}
+
 	/**
 	 * Get Value
+	 *
+	 * @version 2.3.0
 	 *
 	 * @param string $name key in variables array
 	 * @param string $from from where get result = "all", "input", "get"
@@ -31,7 +34,7 @@ class ReqWtbp {
 	*/
 	public static function getVar( $name, $from = 'all', $default = null ) {
 		if (self::$_requestWithNonce) {
-			$nonce = empty($_REQUEST['_wpnonce']) ? '' : sanitize_text_field($_REQUEST['_wpnonce']);
+			$nonce = empty($_REQUEST['_wpnonce']) ? '' : sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) );
 			if (!wp_verify_nonce($nonce, 'my-nonce')) {
 				echo esc_html__('Security check', 'woo-product-tables');
 				exit();
@@ -139,9 +142,19 @@ class ReqWtbp {
 				break;
 		}
 	}
+
+	/**
+	 * clearVar.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @param string $name key in variables array
+	 * @param string $in where to clear from = "input", "get", "post", "session", "cookie"
+	 * @param array $params additional params (e.g. cookie path)
+	 */
 	public static function clearVar( $name, $in = 'input', $params = array() ) {
 		if (self::$_requestWithNonce) {
-			$nonce = empty($_REQUEST['_wpnonce']) ? '' : sanitize_text_field($_REQUEST['_wpnonce']);
+			$nonce = empty($_REQUEST['_wpnonce']) ? '' : sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) );
 			if (!wp_verify_nonce($nonce, 'my-nonce')) {
 				esc_html__('Security check', 'woo-product-tables');
 				exit();
@@ -170,9 +183,18 @@ class ReqWtbp {
 				break;
 		}
 	}
+
+	/**
+	 * get.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @param string $what which superglobal to return = "get", "post", "session", "files"
+	 * @return array|null
+	 */
 	public static function get( $what ) {
 		if (self::$_requestWithNonce) {
-			$nonce = empty($_REQUEST['_wpnonce']) ? '' : sanitize_text_field($_REQUEST['_wpnonce']);
+			$nonce = empty($_REQUEST['_wpnonce']) ? '' : sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) );
 			if (!wp_verify_nonce($nonce, 'my-nonce')) {
 				esc_html__('Security check', 'woo-product-tables');
 				exit();
