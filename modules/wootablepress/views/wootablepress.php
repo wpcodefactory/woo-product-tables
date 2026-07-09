@@ -1985,7 +1985,13 @@ class WootablepressViewWtbp extends ViewWtbp {
 												natsort( $terms );
 											} else if ( 1 === $customOrder ) {
 												if (!isset($termsCustomOrders[$taxonomy])) {
-													$termsCustomOrder = get_terms($taxonomy, array('orderby' => 'menu_order', 'fields' => 'slugs'));
+													$termsCustomOrder = get_terms(
+														array(
+															'taxonomy' => $taxonomy,
+															'orderby'  => 'menu_order',
+															'fields'   => 'slugs',
+														)
+													);
 													$termsCustomOrders[$taxonomy] = is_array($termsCustomOrder) ? $termsCustomOrder : array();
 												}
 												if (!empty($termsCustomOrders[$taxonomy])) {
@@ -2481,12 +2487,18 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $dateAndTimeFormat;
 	}
 
+	/**
+	 * getTaxonomyHierarchyHtml.
+	 *
+	 * @version 2.3.0
+	 */
 	public function getTaxonomyHierarchyHtml( $parent = 0, $pre = '', $tax = 'product_cat' ) {
 		$args    = array(
+			'taxonomy'   => $tax,
 			'hide_empty' => true,
-			'parent'     => $parent
+			'parent'     => $parent,
 		);
-		$terms   = get_terms( $tax, $args );
+		$terms   = get_terms( $args );
 		$options = '';
 		foreach ( $terms as $term ) {
 			if ( ! empty( $term->term_id ) ) {
@@ -2532,11 +2544,19 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $options;
 	}
 
+	/**
+	 * getChildrenAttributesHierarchy.
+	 *
+	 * @version 2.3.0
+	 */
 	public function getChildrenAttributesHierarchy( $parent = 0, $slugname = '', $pre = '' ) {
-		$terms   = get_terms( $slugname, array(
-			'hide_empty' => true,
-			'parent'     => 0
-		) );
+		$terms   = get_terms(
+			array(
+				'taxonomy'   => $slugname,
+				'hide_empty' => true,
+				'parent'     => 0,
+			)
+		);
 		$options = '';
 		foreach ( $terms as $term ) {
 			if ( ! empty( $term->term_id ) ) {
