@@ -1427,7 +1427,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 						$data['thumbnail'] = $value;
 						break;
 					case 'product_title':
-						$postTitleFullNotag = strip_tags( $postTitleFull );
+						$postTitleFullNotag = wp_strip_all_tags( $postTitleFull );
 						$postTitle          = ! $isStripTitle ? $postTitleFullNotag
 							: $this->truncateWordwrap( $postTitleFullNotag, $stripTitleSize, '...' );
 
@@ -1580,7 +1580,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 							$popupContent = '<div class="wtbpModalContentFull">' . $postContent . '</div>';
 						}
 						if ( $stripDescription ) {
-							$postContent = strip_tags( $this->truncateWordwrap( $postContent, $stripDescriptionSize, '...' ) );
+							$postContent = wp_strip_all_tags( $this->truncateWordwrap( $postContent, $stripDescriptionSize, '...' ) );
 						}
 						if ( $displayDescriptionPopup && ( $frontend || $preview ) ) {
 							$postContent = '<div class="wtbpOpenModal">' . $postContent . $popupContent . '</div>';
@@ -1597,7 +1597,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 							$popupContent = '<div class="wtbpModalContentFull">' . $postShortDescr . '</div>';
 						}
 						if ( $stripDescriptionShort ) {
-							$postShortDescr = strip_tags( $this->truncateWordwrap( $postShortDescr, $stripSizeShort, '...' ) );
+							$postShortDescr = wp_strip_all_tags( $this->truncateWordwrap( $postShortDescr, $stripSizeShort, '...' ) );
 						}
 						if ( $displayShortDescriptionPopup && ( $frontend || $preview ) ) {
 							$postShortDescr = '<div class="wtbpOpenModal">' . $postShortDescr . $popupContent . '</div>';
