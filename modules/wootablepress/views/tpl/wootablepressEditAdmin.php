@@ -1225,7 +1225,7 @@ $settings = $this->getTableSetting($this->settings, 'settings', array());
 														?>
 												</div>
 											</div>
-                                            <?php DispatcherWtbp::doAction('afterPreSortingHTML', isset($settings['pre_sorting']) ? $settings['pre_sorting'] : ''); ?>
+                                            <?php DispatcherWtbp::doAction('afterPreSortingHTML', isset($settings) ? $settings : array()); ?>
 											<?php $classHidden = !$sortingCustom || $this->getTableSetting($settings, 'pre_sorting', '') == '' ? 'wtbpHidden' : ''; ?>
 											<div class="setting-wrapper setting-suboption <?php echo esc_attr($classHidden); ?>" data-main="settings[pre_sorting]" data-main-notvalue="">
 												<div class="setting-label">
