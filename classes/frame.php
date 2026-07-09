@@ -117,6 +117,12 @@ class FrameWtbp {
 			}
 		}
 	}
+
+	/**
+	 * Init.
+	 *
+	 * @version 2.3.0
+	 */
 	public function init() {
 		ReqWtbp::init();
 		$this->_extractTables();
@@ -134,16 +140,9 @@ class FrameWtbp {
 
 		add_action($addAssetsAction, array($this, 'addScripts'));
 		add_action($addAssetsAction, array($this, 'addStyles'));
-		global $langOK;
 		register_activation_hook(  WTBP_DIR . DS . WTBP_MAIN_FILE, array('UtilsWtbp', 'activatePlugin')  ); //See classes/install.php file
 		register_uninstall_hook(WTBP_DIR . DS . WTBP_MAIN_FILE, array('UtilsWtbp', 'deletePlugin'));
 		register_deactivation_hook(WTBP_DIR . DS . WTBP_MAIN_FILE, array( 'UtilsWtbp', 'deactivatePlugin' ) );
-
-		add_action('init', array($this, 'connectLang'));
-	}
-	public function connectLang() {
-		global $langOK;
-		$langOK = load_plugin_textdomain('woo-product-tables', false, WTBP_PLUG_NAME . '/languages/');		
 	}
 	/**
 	 * Check permissions for action in controller by $code and made corresponding action

@@ -11,9 +11,14 @@ class OptionsWtbp extends ModuleWtbp {
 	private $_tabs = array();
 	private $_options = array();
 	private $_optionsToCategoires = array();	// For faster search
-	
+
+	/**
+	 * Init.
+	 *
+	 * @version 2.3.0
+	 */
 	public function init() {
-		add_action('init', array($this, 'initAllOptValues'), 99);	// It should be init after all languages was inited (frame::connectLang)
+		add_action('init', array($this, 'initAllOptValues'), 99);	// It should be init after all languages were loaded
 		DispatcherWtbp::addFilter('mainAdminTabs', array($this, 'addAdminTab'));
 	}
 	public function initAllOptValues() {
