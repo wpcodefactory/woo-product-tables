@@ -37,7 +37,7 @@ class LoggerWtbp {
 	public function log( $message, $data = '' ) {
 		if ( defined( 'WTBP_LOG' ) && WTBP_LOG === true ) {
 			if ( ! is_string( $data ) && ! is_numeric( $data ) ) {
-				$data = var_export( $data, true );
+				$data = wp_json_encode( $data );
 			}
 			if ( ! function_exists( 'wc_get_logger' ) ) {
 				include_once( WP_PLUGIN_DIR . '/woocommerce/woocommerce.php' );
