@@ -370,6 +370,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 		$filterInTable = isset( $params['filter_in_table'] ) ? $params['filter_in_table'] : '';
 		$ids           = isset( $params['productids'] ) ? explode( ',', $params['productids'] ) : array();
 		if ( count( $ids ) > 0 && ! empty( $filterInTable ) ) {
+			// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in -- Excluding specific product IDs is a core feature of the table's filtering UI; no index-friendly alternative to post__not_in exists for this use case.
 			$args[ 'no' == $filterInTable ? 'post__not_in' : 'post__in' ] = $ids;
 		}
 		$args = $this->getSearchProductsFilters( $args, $params );
@@ -774,6 +775,11 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $result;
 	}
 
+	/**
+	 * Calc product ids.
+	 *
+	 * @version 2.3.0
+	 */
 	public function calcProductIds( $params, $getList = false ) {
 		$productIdsExits = ! empty( $params['productIdExist'] ) ? $params['productIdExist'] : array();
 		if ( is_string( $productIdsExits ) ) {
@@ -797,6 +803,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 
 			if ( $isAll ) {
 				if ( count( $productIdExcluded ) > 0 ) {
+					// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in -- Excluding specific product IDs is a core feature of the table's filtering UI; no index-friendly alternative to post__not_in exists for this use case.
 					$args['post__not_in'] = $productIdExcluded;
 				}
 			} else {
@@ -831,6 +838,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 					'ignore_sticky_posts' => true,
 					'post_status'         => array( 'publish' ),
 					'posts_per_page'      => - 1,
+					// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in -- Excluding specific product IDs is a core feature of the table's filtering UI; no index-friendly alternative to post__not_in exists for this use case.
 					'post__not_in'        => $productIds['not'],
 					'fields'              => 'ids',
 				);
@@ -1036,6 +1044,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 		} elseif ( is_array( $productIds['in'] ) ) {
 			$args['post__in'] = $productIds['in'];
 		} elseif ( is_array( $productIds['not'] ) ) {
+			// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in -- Excluding specific product IDs is a core feature of the table's filtering UI; no index-friendly alternative to post__not_in exists for this use case.
 			$args['post__not_in'] = $productIds['not'];
 			$args['post_type']    = 'product';
 			$args['post_status']  = 'publish';
