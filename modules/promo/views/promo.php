@@ -17,7 +17,7 @@ class PromoViewWtbp extends ViewWtbp {
 	}
 	public function getOverviewTabContent() {
 		FrameWtbp::_()->getModule('templates')->loadJqueryUi();
-		
+
 		FrameWtbp::_()->getModule('templates')->loadSlimscroll();
 		FrameWtbp::_()->addScript('wtbp.admin.overview', $this->getModule()->getModPath() . 'js/admin.overview.js');
 		FrameWtbp::_()->addStyle('wtbp.admin.overview', $this->getModule()->getModPath() . 'css/admin.overview.css');
@@ -33,9 +33,9 @@ class PromoViewWtbp extends ViewWtbp {
 	}
 	public function getMostFaqList() {
 		/* translators: 1: url 2: url */
-		$str1 = sprintf(esc_html__('By default all subscribers add to the WordPress. 
-					To find your subscribers go to Users tab on the left navigation menu of WordPress admin area. 
-					Also available subscription to the Aweber, MailChimp, MailPoet %1$s. 
+		$str1 = sprintf(esc_html__('By default all subscribers add to the WordPress.
+					To find your subscribers go to Users tab on the left navigation menu of WordPress admin area.
+					Also available subscription to the Aweber, MailChimp, MailPoet %1$s.
 					If you want to add another subscription service - just %2$s and provide URL of the subscription service.', 'woo-product-tables'),
 					'<a href="' . $this->getModule()->getMainLink() . '#subscribe-to-email-popup-settings" target="_blank">' . esc_html__('and other', 'woo-product-tables') . '</a>',
 					'<a href="' . $this->getModule()->getContactLink() . '" target="_blank">' . esc_html__('contact us', 'woo-product-tables') . '</a>');
@@ -43,19 +43,19 @@ class PromoViewWtbp extends ViewWtbp {
 		$str2 = sprintf(esc_html__("If you setup you're PopUp properly, and it still doesn't show on the page - there are can be conflict with your WordPress theme or other plugins. %s with the URL of the webpage you add popup and screenshots / text of the error messages, if you have one - and we will help you resolve your issue.", 'woo-product-tables'),
 			'<a href="' . $this->getModule()->getContactLink() . '" target="_blank">' . esc_html__('Contact us', 'woo-product-tables') . '</a>');
 		return array(
-			esc_html__("Where's my subscribers?", 'woo-product-tables') 
+			esc_html__("Where's my subscribers?", 'woo-product-tables')
 				=> $str1,
-			esc_html__("PopUp doesn't appear on the website", 'woo-product-tables') 
+			esc_html__("PopUp doesn't appear on the website", 'woo-product-tables')
 				=> $str2,
 		);
 	}
 	public function getNewsContent() {
 		$getData = wp_remote_get('https://woobewoo.com');
 		$content = '';
-		if ($getData 
-			&& is_array($getData) 
-			&& isset($getData['response']) 
-			&& isset($getData['response']['code']) 
+		if ($getData
+			&& is_array($getData)
+			&& isset($getData['response'])
+			&& isset($getData['response']['code'])
 			&& 200 == $getData['response']['code']
 			&& isset($getData['body'])
 			&& !empty($getData['body'])
@@ -67,12 +67,20 @@ class PromoViewWtbp extends ViewWtbp {
 		}
 		return $content;
 	}
+
+	/**
+	 * getServerSettings.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @return array
+	 */
 	public function getServerSettings() {
 		global $wpdb;
 		return array(
 			'Operating System' => array('value' => PHP_OS),
 			'PHP Version' => array('value' => PHP_VERSION),
-			'Server Software' => array('value' => empty($_SERVER['SERVER_SOFTWARE']) ? '' : sanitize_text_field($_SERVER['SERVER_SOFTWARE'])),
+			'Server Software' => array('value' => empty($_SERVER['SERVER_SOFTWARE']) ? '' : sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ),),
 			'MySQL' => array('value' =>  $wpdb->db_version()),
 			'PHP Allow URL Fopen' => array('value' => ini_get('allow_url_fopen') ? esc_html__('Yes', 'woo-product-tables') : esc_html__('No', 'woo-product-tables')),
 			'PHP Memory Limit' => array('value' => ini_get('memory_limit')),
@@ -85,6 +93,7 @@ class PromoViewWtbp extends ViewWtbp {
 			'PHP CURL Support' => array('value' => extension_loaded('curl') ? esc_html__('Yes', 'woo-product-tables') : esc_html__('No', 'woo-product-tables'), 'error' => !extension_loaded('curl')),
 		);
 	}
+
 	public function getLayeredStylePromo() {
 		$this->assign('promoLink', $this->getModule()->generateMainLink('utm_source=plugin&utm_medium=layered&utm_campaign=popup'));
 		return parent::getContent('layeredStylePromo');
