@@ -26,11 +26,32 @@ class UtilsWtbp {
 	public static function serialize( $data ) {
 		return serialize($data);
 	}
+
+	/**
+	 * Get initialized WP_Filesystem instance.
+	 *
+	 * @version 2.3.0
+	 * @since   2.3.0
+	 *
+	 * @return WP_Filesystem_Base|false filesystem instance, else - false
+	 */
+	public static function getFilesystem() {
+		global $wp_filesystem;
+		if ( empty( $wp_filesystem ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+		}
+		return $wp_filesystem;
+	}
+
+	/**
+	 * Create directory.
+	 *
+	 * @version 2.3.0
+	 */
 	public static function createDir( $path, $params = array('chmod' => null, 'httpProtect' => false) ) {
-		if (@mkdir($path)) {
-			if (!is_null($params['chmod'])) {
-				@chmod($path, $params['chmod']);
-			}
+		$wp_filesystem = self::getFilesystem();
+		if ( $wp_filesystem && $wp_filesystem->mkdir( $path, $params['chmod'] ) ) {
 			if (!empty($params['httpProtect'])) {
 				self::httpProtectDir($path);
 			}
@@ -51,12 +72,14 @@ class UtilsWtbp {
 	/**
 	 * Copy all files from one directory ($source) to another ($destination)
 	 *
+	 * @version 2.3.0
+	 *
 	 * @param string $source path to source directory
 	 * @params string $destination path to destination directory
 	 */
 	public static function copyDirectories( $source, $destination ) {
 		if (is_dir($source)) {
-			@mkdir($destination);
+			wp_mkdir_p($destination);
 			$directory = dir($source);
 			while ( false !== ( $readdirectory = $directory->read() ) ) {
 				if ( ( '.' == $readdirectory ) || ( '..' == $readdirectory ) ) {
@@ -129,9 +152,22 @@ class UtilsWtbp {
 		}
 		return $arr;
 	}
+
+	/**
+	 * Delete file.
+	 *
+	 * @version 2.3.0
+	 */
 	public static function deleteFile( $str ) {
-		return @unlink($str);
+		$wp_filesystem = self::getFilesystem();
+		return $wp_filesystem ? $wp_filesystem->delete($str) : false;
 	}
+
+	/**
+	 * Delete directory.
+	 *
+	 * @version 2.3.0
+	 */
 	public static function deleteDir( $str ) {
 		if (is_file($str)) {
 			return self::deleteFile($str);
@@ -140,7 +176,8 @@ class UtilsWtbp {
 			foreach ($scan as $index => $path) {
 				self::deleteDir($path);
 			}
-			return @rmdir($str);
+			$wp_filesystem = self::getFilesystem();
+			return $wp_filesystem ? $wp_filesystem->rmdir($str) : false;
 		}
 	}
 	/**
@@ -423,8 +460,15 @@ class UtilsWtbp {
 			InstallerWtbp::deactivate();
 		}
 	}
+
+	/**
+	 * Check if file is writable.
+	 *
+	 * @version 2.3.0
+	 */
 	public static function isWritable( $filename ) {
-		return is_writable($filename);
+		$wp_filesystem = self::getFilesystem();
+		return $wp_filesystem ? $wp_filesystem->is_writable($filename) : false;
 	}
 
 	public static function isReadable( $filename ) {
@@ -652,10 +696,16 @@ class UtilsWtbp {
 		// Simple for now
 		return ReqWtbp::getVar('HTTP_REFERER', 'server');
 	}
+
+	/**
+	 * Get host from referal url.
+	 *
+	 * @version 2.3.0
+	 */
 	public static function getReferalHost() {
 		$refUrl = self::getReferalUrl();
 		if (!empty($refUrl)) {
-			$refer = parse_url( $refUrl );
+			$refer = wp_parse_url( $refUrl );
 			if ($refer && isset($refer['host']) && !empty($refer['host'])) {
 				return $refer['host'];
 			}

@@ -101,7 +101,7 @@ class ModInstallerWtbp {
 	 */
 	public static function moveFiles( $code, $path ) {
 		if (!is_dir(WTBP_MODULES_DIR . $code)) {
-			if (mkdir(WTBP_MODULES_DIR . $code)) {
+			if (wp_mkdir_p(WTBP_MODULES_DIR . $code)) {
 				UtilsWtbp::copyDirectories($path, WTBP_MODULES_DIR . $code);
 				return true;
 			} else {
