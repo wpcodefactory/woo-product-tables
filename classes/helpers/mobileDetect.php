@@ -8,7 +8,7 @@
  * Mobile_Detect is a lightweight PHP class for detecting mobile devices (including tablets).
  * It uses the User-Agent string combined with specific HTTP headers to detect the mobile environment.
  * License     Code and contributions have 'MIT License'
- *              More details: https://github.com/serbanghita/Mobile-Detect/blob/master/LICENSE.txt 
+ *              More details: https://github.com/serbanghita/Mobile-Detect/blob/master/LICENSE.txt
  *              Original author: Victor Stanciu <vic.stanciu@gmail.com>
  *              Current authors: Serban Ghita <serbanghita@gmail.com>
  *                               Nick Ilyin <nick.ilyin@gmail.com>
@@ -614,7 +614,7 @@ class Mobile_Detect_Wtbp {
 		'Coast'         => array('Coast/[VER]'),
 		'Dolfin'        => 'Dolfin/[VER]',
 		// @reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent/Firefox
-		'Firefox'       => array('Firefox/[VER]', 'FxiOS/[VER]'), 
+		'Firefox'       => array('Firefox/[VER]', 'FxiOS/[VER]'),
 		'Fennec'        => 'Fennec/[VER]',
 		// http://msdn.microsoft.com/en-us/library/ms537503(v=vs.85).aspx
 		// https://msdn.microsoft.com/en-us/library/ie/hh869301(v=vs.85).aspx
@@ -1046,7 +1046,7 @@ class Mobile_Detect_Wtbp {
 	public function __call( $name, $arguments ) {
 		// make sure the name starts with 'is', otherwise
 		if (substr($name, 0, 2) !== 'is') {
-			throw new BadMethodCallException("No such method exists: $name");
+			throw new BadMethodCallException( "No such method exists: " . esc_html( $name ) );
 		}
 
 		$this->setDetectionType(self::DETECTION_TYPE_MOBILE);
