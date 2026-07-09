@@ -8,12 +8,16 @@
 defined( 'ABSPATH' ) || exit;
 
 class PagesWtbp extends ModuleWtbp {
+
 	/**
 	 * Check if current page is Login page
+	 *
+	 * @version 2.3.0
 	 */
 	public function isLogin() {
-		$name = empty($_SERVER['SCRIPT_NAME']) ? '' : sanitize_text_field($_SERVER['SCRIPT_NAME']);
-		$url = empty($_SERVER['REQUEST_URI']) ? '' : sanitize_text_field($_SERVER['REQUEST_URI']);
+		$name = empty($_SERVER['SCRIPT_NAME']) ? '' : sanitize_text_field( wp_unslash( $_SERVER['SCRIPT_NAME'] ) );
+		$url = empty($_SERVER['REQUEST_URI']) ? '' : sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 		return ( basename($name) == 'wp-login.php' || strpos($url, '/login/') === 0 );	// Some plugins create login page by this address
 	}
+
 }

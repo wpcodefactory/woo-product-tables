@@ -2,7 +2,7 @@
 /**
  * Product Table by WBW - URI
  *
- * @version 2.2.6
+ * @version 2.3.0
  *
  * @author  woobewoo
  */
@@ -131,10 +131,12 @@ class UriWtbp {
 	/**
 	 * Get current path.
 	 *
+	 * @version 2.3.0
+	 *
 	 * @return string current link
 	 */
 	public static function getCurrent() {
-		$url = ( empty($_SERVER['HTTP_HOST']) ? '' : sanitize_text_field($_SERVER['HTTP_HOST']) ) . ( empty($_SERVER['SCRIPT_NAME']) ? '' : sanitize_text_field($_SERVER['SCRIPT_NAME']) );
+		$url = ( empty($_SERVER['HTTP_HOST']) ? '' : sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) ) . ( empty($_SERVER['SCRIPT_NAME']) ? '' : sanitize_text_field( wp_unslash( $_SERVER['SCRIPT_NAME'] ) ) );
 		if (!empty($_SERVER['HTTPS'])) {
 			return 'https://' . $url;
 		} else {
@@ -144,10 +146,12 @@ class UriWtbp {
 
 	/**
 	 * getFullUrl.
+	 *
+	 * @version 2.3.0
 	 */
 	public static function getFullUrl() {
 		$url = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
-		$url .= ( empty($_SERVER['HTTP_HOST']) ? '' : sanitize_text_field($_SERVER['HTTP_HOST']) ) . ( empty($_SERVER['REQUEST_URI']) ? '' : sanitize_text_field($_SERVER['REQUEST_URI']) );
+		$url .= ( empty($_SERVER['HTTP_HOST']) ? '' : sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) ) . ( empty($_SERVER['REQUEST_URI']) ? '' : sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
 		return $url;
 	}
 

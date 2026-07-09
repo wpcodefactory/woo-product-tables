@@ -43,8 +43,8 @@ class ReqWtbp {
 
 		$from = strtolower($from);
 
-		$getName = empty($_GET[$name]) ? '' : sanitize_text_field($_GET[$name]);
-		$postName = empty($_POST[$name]) ? '' : sanitize_text_field($_POST[$name]);
+		$getName = empty($_GET[$name]) ? '' : sanitize_text_field( wp_unslash( $_GET[ $name ] ) );
+		$postName = empty($_POST[$name]) ? '' : sanitize_text_field( wp_unslash( $_POST[ $name ] ) );
 
 		if ('all' == $from) {
 			if (!empty($getName)) {
@@ -57,12 +57,12 @@ class ReqWtbp {
 		switch ($from) {
 			case 'get':
 				if (isset($_GET[$name])) {
-					return sanitize_text_field($_GET[$name]);
+					return sanitize_text_field( wp_unslash( $_GET[ $name ] ) );
 				}
 				break;
 			case 'post':
 				if (isset($_POST[$name])) {
-					return sanitize_text_field($_POST[$name]);
+					return sanitize_text_field( wp_unslash( $_POST[ $name ] ) );
 				}
 				break;
 			case 'file':
@@ -73,17 +73,17 @@ class ReqWtbp {
 				break;
 			case 'session':
 				if (isset($_SESSION[$name])) {
-					return sanitize_text_field($_SESSION[$name]);
+					return sanitize_text_field( wp_unslash( $_SESSION[ $name ] ) );
 				}
 				break;
 			case 'server':
 				if (isset($_SERVER[$name])) {
-					return sanitize_text_field($_SERVER[$name]);
+					return sanitize_text_field( wp_unslash( $_SERVER[ $name ] ) );
 				}
 				break;
 			case 'cookie':
 				if (isset($_COOKIE[$name])) {
-					$value = sanitize_text_field($_COOKIE[$name]);
+					$value = sanitize_text_field( wp_unslash( $_COOKIE[ $name ] ) );
 					if (strpos($value, '_JSON:') === 0) {
 						$value = explode('_JSON:', $value);
 						$value = UtilsWtbp::jsonDecode(array_pop($value));
@@ -94,6 +94,7 @@ class ReqWtbp {
 		}
 		return $default;
 	}
+
 	public static function sanitizeData( $filtered, $value ) {
 		return is_array($value) ? self::sanitizeArray($value) : $filtered;
 	}
@@ -217,12 +218,21 @@ class ReqWtbp {
 		}
 		return null;
 	}
+
+	/**
+	 * getMethod.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @return string
+	 */
 	public static function getMethod() {
 		if (!self::$_requestMethod) {
-			self::$_requestMethod = strtoupper( self::getVar('method', 'all', isset($_SERVER['REQUEST_METHOD']) ? sanitize_text_field($_SERVER['REQUEST_METHOD']) : '') );
+			self::$_requestMethod = strtoupper( self::getVar('method', 'all', isset($_SERVER['REQUEST_METHOD']) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : '') );
 		}
 		return self::$_requestMethod;
 	}
+
 	public static function getAdminPage() {
 		$pagePath = self::getVar('page');
 		if (!empty($pagePath) && strpos($pagePath, '/') !== false) {
@@ -231,9 +241,18 @@ class ReqWtbp {
 		}
 		return false;
 	}
+
+	/**
+	 * getRequestUri.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @return string
+	 */
 	public static function getRequestUri() {
-		return isset($_SERVER['REQUEST_URI']) ? sanitize_text_field($_SERVER['REQUEST_URI']) : '';
+		return isset($_SERVER['REQUEST_URI']) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 	}
+
 	public static function getMode() {
 		$mod = '';
 		$mod = self::getVar('mod');

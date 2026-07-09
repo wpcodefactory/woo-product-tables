@@ -97,24 +97,32 @@ class UtilsWtbp {
 			copy( $source, $destination );
 		}
 	}
+
+	/**
+	 * getIP.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @return string
+	 */
 	public static function getIP() {
 		$res = '';
 		if (!isset($_SERVER['HTTP_CLIENT_IP']) || empty($_SERVER['HTTP_CLIENT_IP'])) {
 			if (!isset($_SERVER['HTTP_X_REAL_IP']) || empty($_SERVER['HTTP_X_REAL_IP'])) {
 				if (!isset($_SERVER['HTTP_X_SUCURI_CLIENTIP']) || empty($_SERVER['HTTP_X_SUCURI_CLIENTIP'])) {
 					if (!isset($_SERVER['HTTP_X_FORWARDED_FOR']) || empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-						$res = empty($_SERVER['REMOTE_ADDR']) ? '' : sanitize_text_field($_SERVER['REMOTE_ADDR']);
+						$res = empty($_SERVER['REMOTE_ADDR']) ? '' : sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
 					} else {
-						$res = sanitize_text_field($_SERVER['HTTP_X_FORWARDED_FOR']);
+						$res = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
 					}
 				} else {
-					$res = sanitize_text_field($_SERVER['HTTP_X_SUCURI_CLIENTIP']);
+					$res = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_SUCURI_CLIENTIP'] ) );
 				}
 			} else {
-				$res = sanitize_text_field($_SERVER['HTTP_X_REAL_IP']);
+				$res = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REAL_IP'] ) );
 			}
 		} else {
-			$res = sanitize_text_field($_SERVER['HTTP_CLIENT_IP']);
+			$res = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) );
 		}
 
 		return $res;
@@ -353,13 +361,16 @@ class UtilsWtbp {
 
 		return $result;
 	}
+
 	/**
 	 * Get current host location
+	 *
+	 * @version 2.3.0
 	 *
 	 * @return string host string
 	 */
 	public static function getHost() {
-		return empty($_SERVER['HTTP_HOST']) ? '' : sanitize_text_field($_SERVER['HTTP_HOST']);
+		return empty($_SERVER['HTTP_HOST']) ? '' : sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) );
 	}
 	/**
 	 * Check if device is mobile
@@ -557,8 +568,16 @@ class UtilsWtbp {
 		$uploadsDir = self::getUploadsDir();
 		return str_replace($uploadsDir, $uploadsPath, $path);
 	}
+
+	/**
+	 * getUserBrowserString.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @return string|false
+	 */
 	public static function getUserBrowserString() {
-		return isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : false;
+		return isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : false;
 	}
 	public static function getBrowser() {
 		$u_agent = self::getUserBrowserString();
@@ -642,9 +661,17 @@ class UtilsWtbp {
 	public static function getLangCode() {
 		return get_locale();
 	}
+
+	/**
+	 * getBrowserLangCode.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @return string
+	 */
 	public static function getBrowserLangCode() {
 		return isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && !empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])
-			? strtolower(substr(sanitize_text_field($_SERVER['HTTP_ACCEPT_LANGUAGE']), 0, 2))
+			? strtolower(substr(sanitize_text_field( wp_unslash( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ), 0, 2))
 			: self::getLangCode2Letter();
 	}
 	public static function getTimeRange() {
