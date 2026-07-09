@@ -1,4 +1,7 @@
 <?php
+
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Portions of this class were borrowed from
  * https://github.com/segmentio/analytwtbp-php/blob/master/lib/Analytwtbp/Consumer/Socket.php.

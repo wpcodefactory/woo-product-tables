@@ -1,3 +1,12 @@
+<?php
+/**
+ * Product Table by WBW - Wootablepress Variables Popup
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+?>
 <div id="wtbpVariablesModal" class="wtbpModal" style="display: none;">
 	<div class="wtbpModalContent wtbpModalContentForVariations">
 		<span class="wtbpCloseModal">×</span>
@@ -16,7 +25,7 @@
 			// translators:
 			$cartText = sprintf('%s ', $variationToCart);
 			?>
-			<div class="wtbpModalVariationBtns" data-add-to-cart-text="<?php esc_attr_e($cartText); ?>"></div>
+			<div class="wtbpModalVariationBtns" data-add-to-cart-text="<?php echo esc_attr($cartText); ?>"></div>
 		</div>
 	</div>
 </div>

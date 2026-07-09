@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Field class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class FieldWtbp {
 	public $name = '';
 	public $html = '';

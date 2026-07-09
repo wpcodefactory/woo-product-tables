@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Dispatcher class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class DispatcherWtbp {
 	protected static $_pref = 'wtbp_';
 

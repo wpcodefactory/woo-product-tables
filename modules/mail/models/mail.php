@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - MailModel class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class MailModelWtbp extends ModelWtbp {
 	public function testEmail( $email ) {
 		$email = trim($email);

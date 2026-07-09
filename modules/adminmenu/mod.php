@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Adminmenu class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class AdminmenuWtbp extends ModuleWtbp {
 	protected $_mainSlug = 'wtbp-table-press';
 	private $_mainCap = 'manage_options';

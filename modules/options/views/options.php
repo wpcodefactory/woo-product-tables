@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - OptionsView class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class OptionsViewWtbp extends ViewWtbp {
 	private $_news = array();
 	public function getNewFeatures() {
@@ -68,12 +76,18 @@ class OptionsViewWtbp extends ViewWtbp {
 		FrameWtbp::_()->addScript('wtbp.admin.mainoptions', $this->getModule()->getModPath() . 'js/admin.mainoptions.js');
 		return parent::getContent('optionsAdminMain');
 	}
+
+	/**
+	 * serverSettings.
+	 *
+	 * @version 2.3.0
+	 */
 	public function serverSettings() {
 		global $wpdb;
 		$this->assign('systemInfo', array(
 			'Operating System' => array('value' => PHP_OS),
 			'PHP Version' => array('value' => PHP_VERSION),
-			'Server Software' => array('value' => ( empty($_SERVER['SERVER_SOFTWARE']) ? '' : sanitize_text_field($_SERVER['SERVER_SOFTWARE']) )),
+			'Server Software' => array('value' => ( empty($_SERVER['SERVER_SOFTWARE']) ? '' : sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) )),
 			'MySQL' => array('value' =>  $wpdb->db_version()),
 			'PHP Allow URL Fopen' => array('value' => ini_get('allow_url_fopen') ? 'Yes' : 'No'),
 			'PHP Memory Limit' => array('value' => ini_get('memory_limit')),

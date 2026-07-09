@@ -1,3 +1,14 @@
+<?php
+/**
+ * Product Table for WooCommerce by WBW - Admin Footer
+ *
+ * @version 2.3.0
+ *
+ * @author woobewoo
+ */
+
+defined( 'ABSPATH' ) || exit;
+?>
 <div class="wtbpAdminFooterShell woobewoo-hidden">
 	<div class="wtbpAdminFooterCell">
 		<?php echo esc_html(WTBP_WP_PLUGIN_NAME); ?>

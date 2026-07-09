@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - ColumnsModel class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class ColumnsModelWtbp extends ModelWtbp {
 	/**
 	 * Columns values list

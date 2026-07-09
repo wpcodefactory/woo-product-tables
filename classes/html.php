@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Html class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class HtmlWtbp {
 	public static $categoriesOptions = array();
 	public static $productsOptions = array();

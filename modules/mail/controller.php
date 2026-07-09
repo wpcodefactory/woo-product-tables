@@ -1,10 +1,18 @@
 <?php
+/**
+ * Product Table by WBW - MailController class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class MailControllerWtbp extends ControllerWtbp {
 	public function testEmail() {
 		$res = new ResponseWtbp();
 		$email = ReqWtbp::getVar('test_email', 'post');
 		if ($this->getModel()->testEmail($email)) {
-			$res->addMessage(esc_html__('Now check your email inbox / spam folders for test mail.'));
+			$res->addMessage(esc_html__('Now check your email inbox / spam folders for test mail.', 'woo-product-tables'));
 		} else {
 			$res->pushError ($this->getModel()->getErrors());
 		}

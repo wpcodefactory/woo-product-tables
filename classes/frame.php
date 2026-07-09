@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Frame class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class FrameWtbp {
 	private $_modules = array();
 	private $_tables = array();
@@ -109,6 +117,12 @@ class FrameWtbp {
 			}
 		}
 	}
+
+	/**
+	 * Init.
+	 *
+	 * @version 2.3.0
+	 */
 	public function init() {
 		ReqWtbp::init();
 		$this->_extractTables();
@@ -126,16 +140,9 @@ class FrameWtbp {
 
 		add_action($addAssetsAction, array($this, 'addScripts'));
 		add_action($addAssetsAction, array($this, 'addStyles'));
-		global $langOK;
 		register_activation_hook(  WTBP_DIR . DS . WTBP_MAIN_FILE, array('UtilsWtbp', 'activatePlugin')  ); //See classes/install.php file
 		register_uninstall_hook(WTBP_DIR . DS . WTBP_MAIN_FILE, array('UtilsWtbp', 'deletePlugin'));
 		register_deactivation_hook(WTBP_DIR . DS . WTBP_MAIN_FILE, array( 'UtilsWtbp', 'deactivatePlugin' ) );
-
-		add_action('init', array($this, 'connectLang'));
-	}
-	public function connectLang() {
-		global $langOK;
-		$langOK = load_plugin_textdomain('woo-product-tables', false, WTBP_PLUG_NAME . '/languages/');		
 	}
 	/**
 	 * Check permissions for action in controller by $code and made corresponding action
@@ -151,8 +158,11 @@ class FrameWtbp {
 			exit(esc_html_e('You have no permissions to view this page', 'woo-product-tables'));
 		}
 	}
+
 	/**
 	 * Check permissions for action in controller by $code
+	 *
+	 * @version 2.3.0
 	 *
 	 * @param string $code Code of controller that need to be checked
 	 * @param string $action Action that need to be checked
@@ -214,7 +224,7 @@ class FrameWtbp {
 				if (!empty($noncedMethods)) {
 					$noncedMethods = array_map('strtolower', $noncedMethods);
 					if (in_array($action, $noncedMethods)) {
-						$nonce = isset($_REQUEST['_wpnonce']) ? sanitize_text_field($_REQUEST['_wpnonce']) : reqWtpb::getVar('_wpnonce');
+						$nonce = isset($_REQUEST['_wpnonce']) ? sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ) : reqWtpb::getVar('_wpnonce');
 						if (!wp_verify_nonce( $nonce, $action )) {
 							$res = false;
 						}

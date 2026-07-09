@@ -3,6 +3,8 @@
  * Product Table by WBW - ModInstallerWtbp Class
  *
  * @author  woobewoo
+ *
+ * @version 2.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -48,11 +50,11 @@ class ModInstallerWtbp {
 					return true;
 				} else {
 					/* translators: %s: module name */
-					ErrorsWtbp::push(esc_html(sprintf(__('Move files for %s failed'), $module['code'])), ErrorsWtbp::MOD_INSTALL);
+					ErrorsWtbp::push(esc_html(sprintf(__('Move files for %s failed', 'woo-product-tables'), $module['code'])), ErrorsWtbp::MOD_INSTALL);
 				}
 			} else {
 				/* translators: %s: module name */
-				ErrorsWtbp::push(esc_html(sprintf(__('%s is not plugin module'), $module['code'])), ErrorsWtbp::MOD_INSTALL);
+				ErrorsWtbp::push(esc_html(sprintf(__('%s is not plugin module', 'woo-product-tables'), $module['code'])), ErrorsWtbp::MOD_INSTALL);
 			}
 		}
 		return false;
@@ -91,17 +93,20 @@ class ModInstallerWtbp {
 	/**
 	 * Move files to plugin modules directory.
 	 *
+	 * @version 2.3.0
+	 *
 	 * @param string $code code for module
 	 * @param string $path path from what module will be moved
 	 * @return bool is success - true, else - false
 	 */
 	public static function moveFiles( $code, $path ) {
 		if (!is_dir(WTBP_MODULES_DIR . $code)) {
-			if (mkdir(WTBP_MODULES_DIR . $code)) {
+			if (wp_mkdir_p(WTBP_MODULES_DIR . $code)) {
 				UtilsWtbp::copyDirectories($path, WTBP_MODULES_DIR . $code);
 				return true;
 			} else {
-				ErrorsWtbp::push(esc_html__('Cannot create module directory. Try to set permission to ' . WTBP_MODULES_DIR . ' directory 755 or 777', 'woo-product-tables'), ErrorsWtbp::MOD_INSTALL);
+				/* translators: %s: modules directory path */
+				ErrorsWtbp::push( esc_html( sprintf( __( 'Cannot create module directory. Try to set permission to %s directory 755 or 777', 'woo-product-tables' ), WTBP_MODULES_DIR ) ), ErrorsWtbp::MOD_INSTALL );
 			}
 		} else {
 			return true;
@@ -177,7 +182,7 @@ class ModInstallerWtbp {
 					} else { // if not - install it
 						if (!self::install($modDataArr, $locations['plugDir'])) {
 							/* translators: %s: module name */
-							ErrorsWtbp::push(esc_html(sprintf(__('Install %s failed'), $modDataArr['code'])), ErrorsWtbp::MOD_INSTALL);
+							ErrorsWtbp::push(esc_html(sprintf(__('Install %s failed', 'woo-product-tables'), $modDataArr['code'])), ErrorsWtbp::MOD_INSTALL);
 						}
 					}
 				}

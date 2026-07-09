@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Templates Module.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class TemplatesWtbp extends ModuleWtbp {
 	protected $_styles = array();
 	private $_cdnUrl = '';
@@ -100,18 +108,23 @@ class TemplatesWtbp extends ModuleWtbp {
 	public function loadSlimscroll() {
 		FrameWtbp::_()->addScript('wtbp.jquery.slimscroll', WTBP_JS_PATH . 'slimscroll.min.js');
 	}
+	/**
+	 * loadCodemirror.
+	 *
+	 * Uses WordPress core's bundled CodeMirror (via wp_enqueue_code_editor())
+	 * instead of shipping a duplicate copy of the library with the plugin.
+	 *
+	 * @version 2.3.0
+	 */
 	public function loadCodemirror() {
-		$modPath = FrameWtbp::_()->getModule('templates')->getModPath();
-		FrameWtbp::_()->addStyle('wtbpCodemirror', $modPath . 'lib/codemirror/codemirror.css');
-		FrameWtbp::_()->addStyle('wtbp-codemirror-addon-hint', $modPath . 'lib/codemirror/addon/hint/show-hint.css');
-		FrameWtbp::_()->addScript('wtbpCodemirror', $modPath . 'lib/codemirror/codemirror.js');
-		FrameWtbp::_()->addScript('wtbp-codemirror-addon-show-hint', $modPath . 'lib/codemirror/addon/hint/show-hint.js');
-		FrameWtbp::_()->addScript('wtbp-codemirror-addon-xml-hint', $modPath . 'lib/codemirror/addon/hint/xml-hint.js');
-		FrameWtbp::_()->addScript('wtbp-codemirror-addon-html-hint', $modPath . 'lib/codemirror/addon/hint/html-hint.js');
-		FrameWtbp::_()->addScript('wtbp-codemirror-mode-xml', $modPath . 'lib/codemirror/mode/xml/xml.js');
-		FrameWtbp::_()->addScript('wtbp-codemirror-mode-javascript', $modPath . 'lib/codemirror/mode/javascript/javascript.js');
-		FrameWtbp::_()->addScript('wtbp-codemirror-mode-css', $modPath . 'lib/codemirror/mode/css/css.js');
-		FrameWtbp::_()->addScript('wtbp-codemirror-mode-htmlmixed', $modPath . 'lib/codemirror/mode/htmlmixed/htmlmixed.js');
+		$cssSettings = wp_enqueue_code_editor( array( 'type' => 'text/css' ) );
+		if ( false !== $cssSettings ) {
+			FrameWtbp::_()->addJSVar( 'wtbp.admin.tables.js', 'wtbpCssEditorSettings', $cssSettings );
+		}
+		$jsSettings = wp_enqueue_code_editor( array( 'type' => 'text/javascript' ) );
+		if ( false !== $jsSettings ) {
+			FrameWtbp::_()->addJSVar( 'wtbp.admin.tables.js', 'wtbpJsEditorSettings', $jsSettings );
+		}
 	}
 	public function loadCoreCss() {
 		$this->_styles = array(

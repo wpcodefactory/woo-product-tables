@@ -1,3 +1,14 @@
+<?php
+/**
+ * Product Table for WooCommerce by WBW - Options Admin Page
+ *
+ * @version 2.3.0
+ *
+ * @author woobewoo
+ */
+
+defined( 'ABSPATH' ) || exit;
+?>
 <style type="text/css">
 .woobewoo-main {
 	display:none;

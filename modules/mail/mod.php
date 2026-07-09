@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Mail class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class MailWtbp extends ModuleWtbp {
 	public function init() {
 		parent::init();

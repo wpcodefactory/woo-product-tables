@@ -1,4 +1,11 @@
 <?php
+/**
+ * Product Table by WBW - WootablepressView Class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 class WootablepressViewWtbp extends ViewWtbp {
 	public $orderColumns     = array();
@@ -33,6 +40,13 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return parent::getContent( 'wootablepressAdmin' );
 	}
 
+	/**
+	 * getEditTabContent.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @param int $idIn
+	 */
 	public function getEditTabContent( $idIn ) {
 		$isWooCommercePluginActivated = $this->getModule()->isWooCommercePluginActivated();
 		if ( ! $isWooCommercePluginActivated ) {
@@ -41,12 +55,13 @@ class WootablepressViewWtbp extends ViewWtbp {
 
 		FrameWtbp::_()->getModule( 'templates' )->loadBootstrap();
 		FrameWtbp::_()->getModule( 'templates' )->loadJqueryUi();
-		FrameWtbp::_()->getModule( 'templates' )->loadCodemirror();
 		FrameWtbp::_()->getModule( 'templates' )->loadSlimscroll();
 
 		$this->loadAssets();
 
+		// Registered before loadCodemirror() so its localized editor settings attach to an already-registered handle.
 		FrameWtbp::_()->addScript( 'wtbp.admin.tables.js', $this->getModule()->getModPath() . 'js/tables.admin.js' );
+		FrameWtbp::_()->getModule( 'templates' )->loadCodemirror();
 		FrameWtbp::_()->addStyle( 'wtbp.admin.tables.css', $this->getModule()->getModPath() . 'css/admin.tables.css' );
 		FrameWtbp::_()->addStyle( 'wtbp.frontend.tables.css', $this->getModule()->getModPath() . 'css/frontend.tables.css' );
 		FrameWtbp::_()->addScript( 'adminCreateTableWtbp', $this->getModule()->getModPath() . 'js/create-table.js' );
@@ -76,6 +91,11 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return parent::getContent( 'wootablepressEditAdmin' );
 	}
 
+	/**
+	 * renderHtml.
+	 *
+	 * @version 2.3.0
+	 */
 	public function renderHtml( $params ) {
 		$isWooCommercePluginActivated = $this->getModule()->isWooCommercePluginActivated();
 		if ( ! $isWooCommercePluginActivated ) {
@@ -126,13 +146,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 
 		foreach ( $phrases as $phrase => $str) {
 			$value = empty($tableSettings['settings'][ $phrase ]) ? '' : $tableSettings['settings'][ $phrase ];
-			$tableSettings['settings'][ $phrase ] = empty($value) ? $str : __( $value, 'woo-product-tables' );
-		}
-		$translates = array('caption_text', 'description_text');
-		foreach ($translates as $option) {
-			if (!empty($tableSettings['settings'][$option])) {
-				$tableSettings['settings'][$option] = __( $tableSettings['settings'][$option], 'woo-product-tables' );
-			}
+			$tableSettings['settings'][ $phrase ] = empty($value) ? $str : $value;
 		}
 		$pageType = '';
 		$pageTypeId = '';
@@ -150,7 +164,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 			$pageTypeId = $pageObj->term_id;
 		}
 
-		$viewId = $id . '_' . mt_rand( 0, 999999 );
+		$viewId = $id . '_' . wp_rand( 0, 999999 );
 		$this->assign( 'tableId', $id );
 		$this->assign( 'viewId', $viewId );
 		$this->assign( 'html', $html );
@@ -219,6 +233,11 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $html;
 	}
 
+	/**
+	 * Get search products filters.
+	 *
+	 * @version 2.3.0
+	 */
 	public function getSearchProductsFilters( $args, $params ) {
 		$filterAuthor    = isset( $params['filter_author'] ) ? $params['filter_author'] : 0;
 		$filterCategory  = isset( $params['filter_category'] ) ? $params['filter_category'] : 0;
@@ -231,6 +250,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 		}
 
 		if ( ! empty( $filterCategory ) ) {
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Standard WP_Query tax_query filter, not a raw query; no non-JOIN alternative exists for this taxonomy filter, consistent with WC_Product_Query usage.
 			$args['tax_query'][] = array(
 				'taxonomy'         => 'product_cat',
 				'field'            => 'id',
@@ -240,6 +260,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 		}
 
 		if ( ! empty( $filterTag ) ) {
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Standard WP_Query tax_query filter, not a raw query; no non-JOIN alternative exists for this taxonomy filter, consistent with WC_Product_Query usage.
 			$args['tax_query'][] = array(
 				'taxonomy'         => 'product_tag',
 				'field'            => 'id',
@@ -252,6 +273,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 			if ( empty( wc_get_attribute( $filterAttribute )->slug ) ) {
 				$term                = get_term( $filterAttribute );
 				$taxonomy            = $term->taxonomy;
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Standard WP_Query tax_query filter, not a raw query; no non-JOIN alternative exists for this taxonomy filter, consistent with WC_Product_Query usage.
 				$args['tax_query'][] = array(
 					'taxonomy' => $taxonomy,
 					'field'    => 'id',
@@ -261,6 +283,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 			} else {
 				$term                = get_term( $filterAttribute );
 				$taxonomy            = $term->taxonomy;
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Standard WP_Query tax_query filter, not a raw query; no non-JOIN alternative exists for this taxonomy filter, consistent with WC_Product_Query usage.
 				$args['tax_query'][] = array(
 					'taxonomy' => wc_get_attribute( $filterAttribute )->slug,
 					'operator' => 'EXISTS',
@@ -270,10 +293,16 @@ class WootablepressViewWtbp extends ViewWtbp {
 
 		if ( ! empty( $params['search']['value'] ) ) {
 			if ( FrameWtbp::_()->isPro() ) {
-				global $wpdb;
-				$sku     = '%' . $wpdb->esc_like( $params['search']['value'] ) . '%';
-				$postIds = $wpdb->get_col( $wpdb->prepare( "SELECT p.ID FROM $wpdb->posts as p INNER JOIN $wpdb->postmeta as pm ON p.ID = pm.post_id
-						   WHERE p.post_title LIKE %s OR p.post_content LIKE %s OR p.post_excerpt LIKE %s OR (pm.meta_key = '_sku' AND pm.meta_value LIKE %s)", $sku, $sku, $sku, $sku ) );
+				$cacheKey = 'wtbp_search_' . md5( $params['search']['value'] );
+				$postIds  = wp_cache_get( $cacheKey, 'woo-product-tables', false, $found );
+				if ( ! $found ) {
+					global $wpdb;
+					$sku     = '%' . $wpdb->esc_like( $params['search']['value'] ) . '%';
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- No WP_Query equivalent for an OR search across post title/content/excerpt and SKU postmeta; results are cached above via wp_cache.
+					$postIds = $wpdb->get_col( $wpdb->prepare( "SELECT p.ID FROM $wpdb->posts as p INNER JOIN $wpdb->postmeta as pm ON p.ID = pm.post_id
+							   WHERE p.post_title LIKE %s OR p.post_content LIKE %s OR p.post_excerpt LIKE %s OR (pm.meta_key = '_sku' AND pm.meta_value LIKE %s)", $sku, $sku, $sku, $sku ) );
+					wp_cache_set( $cacheKey, $postIds, 'woo-product-tables', 5 * MINUTE_IN_SECONDS );
+				}
 
 				if ( ! empty( $postIds ) ) {
 					$args['post__in'] = $postIds;
@@ -293,9 +322,9 @@ class WootablepressViewWtbp extends ViewWtbp {
 				$parents    = new WP_Query( array(
 					'posts_per_page'   => - 1,
 					'post_type'        => 'product',
-					'suppress_filters' => true,
 					'post_status'      => array( 'publish' ),
 					'fields'           => 'ids',
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Standard WP_Query tax_query filter, not a raw query; no non-JOIN alternative exists for this taxonomy filter, consistent with WC_Product_Query usage.
 					'tax_query'        => array(
 						array(
 							'taxonomy'         => 'product_cat',
@@ -307,8 +336,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 				) );
 				$existsPost = $parents->have_posts();
 				if ( ! empty( $existsPost ) ) {
-					$list                     = implode( ',', $parents->posts );
-					$args['suppress_filters'] = false;
+					$list = implode( ',', $parents->posts );
 					add_filter( 'posts_where', function ( $where, $query ) use ( $filterCategory, $list ) {
 						remove_filter( current_filter(), __FUNCTION__ );
 						global $wpdb;
@@ -325,19 +353,24 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $args;
 	}
 
+	/**
+	 * Get search products.
+	 *
+	 * @version 2.3.0
+	 */
 	public function getSearchProducts( $params ) {
 		$dataArr       = array();
 		$args          = array(
 			'posts_per_page'   => 10,
 			'post_type'        => 'product',
 			'order'            => 'DESC',
-			'suppress_filters' => true,
 			'post_status'      => array( 'publish' ),
 			'offset'           => ! empty( $params['start'] ) ? $params['start'] : '0'
 		);
 		$filterInTable = isset( $params['filter_in_table'] ) ? $params['filter_in_table'] : '';
 		$ids           = isset( $params['productids'] ) ? explode( ',', $params['productids'] ) : array();
 		if ( count( $ids ) > 0 && ! empty( $filterInTable ) ) {
+			// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in -- Excluding specific product IDs is a core feature of the table's filtering UI; no index-friendly alternative to post__not_in exists for this use case.
 			$args[ 'no' == $filterInTable ? 'post__not_in' : 'post__in' ] = $ids;
 		}
 		$args = $this->getSearchProductsFilters( $args, $params );
@@ -350,16 +383,19 @@ class WootablepressViewWtbp extends ViewWtbp {
 					break;
 				//6 - sku
 				case 6:
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by SKU requires meta_key/meta_value; no indexed-column alternative exists, consistent with WooCommerce core sorting.
 					$args['meta_key'] = '_sku';
 					$args['orderby']  = 'meta_value';
 					break;
 				//7 - stock column
 				case 7:
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by stock status requires meta_key/meta_value; no indexed-column alternative exists, consistent with WooCommerce core sorting.
 					$args['meta_key'] = '_stock_status';
 					$args['orderby']  = 'meta_value';
 					break;
 				//8 - price column
 				case 8:
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by price requires meta_key/meta_value_num; no indexed-column alternative exists, consistent with WooCommerce core sorting.
 					$args['meta_key'] = '_price';
 					$args['orderby']  = 'meta_value_num';
 					break;
@@ -728,17 +764,22 @@ class WootablepressViewWtbp extends ViewWtbp {
 			$jscript = $dataArr['jscript'];
 			unset($dataArr['jscript']);
 		}
-		
+
 		$html = $this->generateTableHtml( $dataArr, $frontend, $settings, false );
 
 		$result = array( 'html' => $html, 'total' => $params['total'], 'filtered' => $params['filtered'], 'jscript' => $jscript );
 		if ( isset( $params['idsExist'] ) ) {
 			$result['ids'] = UtilsWtbp::controlNumericValues($params['idsExist'], 'id');
 		}
-		
+
 		return $result;
 	}
 
+	/**
+	 * Calc product ids.
+	 *
+	 * @version 2.3.0
+	 */
 	public function calcProductIds( $params, $getList = false ) {
 		$productIdsExits = ! empty( $params['productIdExist'] ) ? $params['productIdExist'] : array();
 		if ( is_string( $productIdsExits ) ) {
@@ -762,6 +803,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 
 			if ( $isAll ) {
 				if ( count( $productIdExcluded ) > 0 ) {
+					// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in -- Excluding specific product IDs is a core feature of the table's filtering UI; no index-friendly alternative to post__not_in exists for this use case.
 					$args['post__not_in'] = $productIdExcluded;
 				}
 			} else {
@@ -796,6 +838,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 					'ignore_sticky_posts' => true,
 					'post_status'         => array( 'publish' ),
 					'posts_per_page'      => - 1,
+					// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in -- Excluding specific product IDs is a core feature of the table's filtering UI; no index-friendly alternative to post__not_in exists for this use case.
 					'post__not_in'        => $productIds['not'],
 					'fields'              => 'ids',
 				);
@@ -948,8 +991,16 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $link;
 	}
 
+	/**
+	 * getProductContent.
+	 *
+	 * @version 2.3.0
+	 */
 	public function getProductContent( $productIds, $tableSettings, $preview = true, &$page = array() ) {
-		set_time_limit( 300 );
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_set_time_limit -- Best-effort attempt to avoid timeouts on large tables; many hosts disable this function, so it must be guarded and its absence tolerated.
+		if ( function_exists( 'set_time_limit' ) && false === strpos( (string) ini_get( 'disable_functions' ), 'set_time_limit' ) ) {
+			set_time_limit( 300 );
+		}
 		$frontend = ! is_admin() || $preview;
 		$orders   = $this->orderColumns;
 		$settings = isset( $tableSettings['settings'] ) ? $tableSettings['settings'] : array();
@@ -981,6 +1032,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 			'ignore_sticky_posts' => true,
 			'post_status'         => $postStatuses,
 			'posts_per_page'      => - 1,
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Standard WP_Query tax_query filter, not a raw query; no non-JOIN alternative exists for this taxonomy filter, consistent with WC_Product_Query usage.
 			'tax_query'           => array()
 		);
 
@@ -992,6 +1044,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 		} elseif ( is_array( $productIds['in'] ) ) {
 			$args['post__in'] = $productIds['in'];
 		} elseif ( is_array( $productIds['not'] ) ) {
+			// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in -- Excluding specific product IDs is a core feature of the table's filtering UI; no index-friendly alternative to post__not_in exists for this use case.
 			$args['post__not_in'] = $productIds['not'];
 			$args['post_type']    = 'product';
 			$args['post_status']  = 'publish';
@@ -1016,16 +1069,19 @@ class WootablepressViewWtbp extends ViewWtbp {
 						$args['order']   = $desc;
 						break;
 					case 'price':
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by price requires meta_key/meta_value_num; no indexed-column alternative exists, consistent with WooCommerce core sorting.
 						$args['meta_key'] = '_price';
 						$args['orderby']  = 'meta_value_num';
 						$args['order']    = $desc;
 						break;
 					case 'popularity':
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by sales count requires meta_key/meta_value_num; no indexed-column alternative exists, consistent with WooCommerce core sorting.
 						$args['meta_key'] = 'total_sales';
 						$args['orderby']  = 'meta_value_num';
 						$args['order']    = $desc;
 						break;
 					case 'rating':
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by average rating requires meta_key/meta_value_num; no indexed-column alternative exists, consistent with WooCommerce core sorting.
 						$args['meta_key'] = '_wc_average_rating';
 						$args['orderby']  = array(
 							'meta_value_num' => $desc,
@@ -1097,7 +1153,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 
 		$dataExist = new WP_Query( $args );
 		DispatcherWtbp::doAction( 'removeSSPQueryFilters' );
-				
+
 		$postExist = $dataExist->posts;
 		$imgSize   = ! empty( $settings['thumbnail_size'] ) ? $settings['thumbnail_size'] : 'thumbnail';
 
@@ -1114,7 +1170,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 		$hideQuantityInput = ! empty( $settings['hide_quantity_input'] ) ? $settings['hide_quantity_input'] : false;
 
 		$stockNames                 = wc_get_product_stock_status_options();
-		$replacingTheTextOutOfStock = esc_html__( $this->getTableSetting( $settings, 'replacing_the_text_out_of_stock', false ) );
+		$replacingTheTextOutOfStock = esc_html( $this->getTableSetting( $settings, 'replacing_the_text_out_of_stock', false ) );
 		if ( $replacingTheTextOutOfStock ) {
 			$stockNames['outofstock'] = $replacingTheTextOutOfStock;
 		}
@@ -1208,7 +1264,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 						$showText = true;
 					}
 					$isFilterStock    = $frontend && $isPro && $this->getTableSetting( $settings, 'filter_stock', false );
-					
+
 					break;
 				case 'description':
 					$stripDescription        = isset( $column['cut_description_text'] ) ? $column['cut_description_text'] : true;
@@ -1228,7 +1284,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 					$hideVariationAttr                 = $this->getTableSetting( $column, 'add_to_cart_hide_variation_attribute', false );
 					$buttonForVariation                = $isPro && $this->getTableSetting( $column, 'add_to_cart_variation_buttons', false );
 					$isPopupForVariation               = $isPro && ! $buttonForVariation && $this->getTableSetting( $column, 'add_to_cart_popup', false );
-					$popupForVariationBtnText          = $isPopupForVariation ? $this->getTableSetting( $column, 'add_to_cart_popup_btn_text', __( 'Select options', 'woocommerce' ) ) : __( 'Select options', 'woocommerce' );
+					$popupForVariationBtnText          = $isPopupForVariation ? $this->getTableSetting( $column, 'add_to_cart_popup_btn_text', __( 'Select options', 'woo-product-tables' ) ) : __( 'Select options', 'woo-product-tables' );
 					$popupForVariationShortDescription = $this->getTableSetting( $column, 'add_to_cart_popup_short_description', '0' );
 					$naturalOrder                      = $this->getTableSetting( $column, 'natural_order', false );
 					$customOrder                       = $this->getTableSetting( $column, 'custom_order', false );
@@ -1408,7 +1464,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 						$data['thumbnail'] = $value;
 						break;
 					case 'product_title':
-						$postTitleFullNotag = strip_tags( $postTitleFull );
+						$postTitleFullNotag = wp_strip_all_tags( $postTitleFull );
 						$postTitle          = ! $isStripTitle ? $postTitleFullNotag
 							: $this->truncateWordwrap( $postTitleFullNotag, $stripTitleSize, '...' );
 
@@ -1461,7 +1517,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 							} elseif ( 'image' == $showAs ) {
 								$featured = '<img class="wtbpFeaturedImage" src="' . esc_url( $this->getTableSetting( $column, 'featured_image_path', WTBP_IMG_PATH . 'default.png' ) ) . '">';
 							} else {
-								$featured = esc_html__( 'Featured', 'woocommerce' );
+								$featured = esc_html__( 'Featured', 'woo-product-tables' );
 							}
 						}
 						$data['featured'] = $featured;
@@ -1561,7 +1617,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 							$popupContent = '<div class="wtbpModalContentFull">' . $postContent . '</div>';
 						}
 						if ( $stripDescription ) {
-							$postContent = strip_tags( $this->truncateWordwrap( $postContent, $stripDescriptionSize, '...' ) );
+							$postContent = wp_strip_all_tags( $this->truncateWordwrap( $postContent, $stripDescriptionSize, '...' ) );
 						}
 						if ( $displayDescriptionPopup && ( $frontend || $preview ) ) {
 							$postContent = '<div class="wtbpOpenModal">' . $postContent . $popupContent . '</div>';
@@ -1578,7 +1634,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 							$popupContent = '<div class="wtbpModalContentFull">' . $postShortDescr . '</div>';
 						}
 						if ( $stripDescriptionShort ) {
-							$postShortDescr = strip_tags( $this->truncateWordwrap( $postShortDescr, $stripSizeShort, '...' ) );
+							$postShortDescr = wp_strip_all_tags( $this->truncateWordwrap( $postShortDescr, $stripSizeShort, '...' ) );
 						}
 						if ( $displayShortDescriptionPopup && ( $frontend || $preview ) ) {
 							$postShortDescr = '<div class="wtbpOpenModal">' . $postShortDescr . $popupContent . '</div>';
@@ -1597,7 +1653,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 						$average = $_product->get_average_rating();
 						if ( $average ) {
 							/* translators: %s: average rating */
-							$reviews .= '<div class="star-rating" title="' . esc_attr( sprintf( __( 'Rated %s out of 5', 'woocommerce' ), $average ) ) . '"><span class="star-rating-width" data-width="' . esc_attr( ( $average / 5 ) * 100 ) . '%"><strong itemprop="ratingValue" class="rating">' . $average . '</strong> ' . esc_html__( 'out of 5', 'woocommerce' ) . '</span></div>';
+							$reviews .= '<div class="star-rating" title="' . esc_attr( sprintf( __( 'Rated %s out of 5', 'woo-product-tables' ), $average ) ) . '"><span class="star-rating-width" data-width="' . esc_attr( ( $average / 5 ) * 100 ) . '%"><strong itemprop="ratingValue" class="rating">' . $average . '</strong> ' . esc_html__( 'out of 5', 'woo-product-tables' ) . '</span></div>';
 						}
 						$data['reviews'] = $reviews;
 						break;
@@ -1959,7 +2015,13 @@ class WootablepressViewWtbp extends ViewWtbp {
 												natsort( $terms );
 											} else if ( 1 === $customOrder ) {
 												if (!isset($termsCustomOrders[$taxonomy])) {
-													$termsCustomOrder = get_terms($taxonomy, array('orderby' => 'menu_order', 'fields' => 'slugs'));
+													$termsCustomOrder = get_terms(
+														array(
+															'taxonomy' => $taxonomy,
+															'orderby'  => 'menu_order',
+															'fields'   => 'slugs',
+														)
+													);
 													$termsCustomOrders[$taxonomy] = is_array($termsCustomOrder) ? $termsCustomOrder : array();
 												}
 												if (!empty($termsCustomOrders[$taxonomy])) {
@@ -2088,7 +2150,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 											'" data-cart-text="' . $_product->add_to_cart_text() .
 											'" data-default-cart-text="' . esc_attr( $popupForVariationBtnText ) .
 											'">' .
-											
+
 											$quantityHtml .
 											do_shortcode( '[add_to_cart id="' . $id . '" class="" style="" show_price="false" sku ="' . $sku . '"]' ) .
 											'</div>' .
@@ -2194,14 +2256,19 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $dataArr;
 	}
 
+	/**
+	 * replaceAddToCartText.
+	 *
+	 * @version 2.3.0
+	 */
 	public function replaceAddToCartText( $text ) {
-		$modifyText = __( $text, 'woo-product-tables' );
-
-		return $modifyText;
+		return $text;
 	}
 
 	/**
 	 * Replace button text for variable product.
+	 *
+	 * @version 2.3.0
 	 *
 	 * @param string $text
 	 *
@@ -2210,8 +2277,8 @@ class WootablepressViewWtbp extends ViewWtbp {
 	public function replaceButtonTextVariableProduct( $text ) {
 		if ( $this->loopButtonTitle ) {
 			$modifyText = $this->loopButtonTitle;
-		} elseif ( __( 'Select options', 'woocommerce' ) === $text ) {
-			$modifyText = __( 'Add to cart', 'woocommerce' );
+		} elseif ( __( 'Select options', 'woo-product-tables' ) === $text ) {
+			$modifyText = __( 'Add to cart', 'woo-product-tables' );
 		} else {
 			$modifyText = $text;
 		}
@@ -2295,6 +2362,11 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $sortArray;
 	}
 
+	/**
+	 * generateTableHtml.
+	 *
+	 * @version 2.3.0
+	 */
 	public function generateTableHtml( $listPost, $frontend, $settings, $withHeader = true ) {
 		$dateAndTimeFormat = $this->getDateTimeFormat( $settings );
 		$columns           = $this->sortProductColumns();
@@ -2340,7 +2412,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 				$isColumnDisableSorting = $this->getTableSetting( $column, 'disable_sorting', false );
 
 				$noSort       = in_array( $key, $noSortColumns ) || $isColumnDisableSorting ? ' class="no-sort"' : '';
-				$tableHeader .= '<th data-key="' . esc_attr( $key ) . '"' . $noSort . '>' . ( 'check_multy' == $key ? '<input type="checkbox" class="wtbpAddMultyAll" data-position="' . esc_attr( $multyAddPosition ) . '">' : esc_html__( $this->getColumnNiceName( $key ), 'woo-product-tables' ) ) . '</th>';
+				$tableHeader .= '<th data-key="' . esc_attr( $key ) . '"' . $noSort . '>' . ( 'check_multy' == $key ? '<input type="checkbox" class="wtbpAddMultyAll" data-position="' . esc_attr( $multyAddPosition ) . '">' : esc_html( $this->getColumnNiceName( $key ) ) ) . '</th>';
 			}
 			$tableHeader .= '</tr>';
 		}
@@ -2445,12 +2517,18 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $dateAndTimeFormat;
 	}
 
+	/**
+	 * getTaxonomyHierarchyHtml.
+	 *
+	 * @version 2.3.0
+	 */
 	public function getTaxonomyHierarchyHtml( $parent = 0, $pre = '', $tax = 'product_cat' ) {
 		$args    = array(
+			'taxonomy'   => $tax,
 			'hide_empty' => true,
-			'parent'     => $parent
+			'parent'     => $parent,
 		);
-		$terms   = get_terms( $tax, $args );
+		$terms   = get_terms( $args );
 		$options = '';
 		foreach ( $terms as $term ) {
 			if ( ! empty( $term->term_id ) ) {
@@ -2462,12 +2540,18 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $options;
 	}
 
+	/**
+	 * Get products with variations HTML.
+	 *
+	 * @version 2.3.0
+	 */
 	public function getProductsWithVariationsHtml() {
 		$args     = array(
 			'post_type'           => 'product',
 			'posts_per_page'      => - 1,
 			'fields'              => array( 'ID', 'post_title' ),
 			'ignore_sticky_posts' => true,
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Standard WP_Query tax_query filter, not a raw query; no non-JOIN alternative exists for this taxonomy filter, consistent with WC_Product_Query usage.
 			'tax_query'           => array(
 				array(
 					'taxonomy' => 'product_type',
@@ -2496,11 +2580,19 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $options;
 	}
 
+	/**
+	 * getChildrenAttributesHierarchy.
+	 *
+	 * @version 2.3.0
+	 */
 	public function getChildrenAttributesHierarchy( $parent = 0, $slugname = '', $pre = '' ) {
-		$terms   = get_terms( $slugname, array(
-			'hide_empty' => true,
-			'parent'     => 0
-		) );
+		$terms   = get_terms(
+			array(
+				'taxonomy'   => $slugname,
+				'hide_empty' => true,
+				'parent'     => 0,
+			)
+		);
 		$options = '';
 		foreach ( $terms as $term ) {
 			if ( ! empty( $term->term_id ) ) {
@@ -2646,7 +2738,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 
 		return $favorites;
 	}
-	
+
 	public function addOrderByCategories( $args ) {
 		global $wpdb;
 		$args['fields'] .= ', (select min(wtps_cat_te.name)' .

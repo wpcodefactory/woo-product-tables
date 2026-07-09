@@ -211,7 +211,7 @@ class WootablepressControllerWtbp extends ControllerWtbp {
 		$user_id = get_current_user_id();
 
 		if ( 0 === $user_id ) {
-			$res->pushError( esc_html__( 'user is not logged in' ) );
+			$res->pushError( esc_html__( 'user is not logged in', 'woo-product-tables' ) );
 		} else {
 			$params       = ReqWtbp::get( 'post' );
 			$where        = "`user_id` = {$user_id} AND `from_order` IS NOT NULL";

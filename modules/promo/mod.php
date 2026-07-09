@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Promo class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class PromoWtbp extends ModuleWtbp {
 	private $_mainLink = '';
 	private $_minDataInStatToSend = 20;	// At least 20 points in table shuld be present before send stats
@@ -523,13 +531,19 @@ class PromoWtbp extends ModuleWtbp {
 	public function showFeaturedPluginsPage() {
 		return $this->getView()->showFeaturedPluginsPage();
 	}
+
+	/**
+	 * checkPluginDeactivation.
+	 *
+	 * @version 2.3.0
+	 */
 	public function checkPluginDeactivation() {
 		if (function_exists('get_current_screen')) {
 			$screen = get_current_screen();
 			if ($screen && isset($screen->base) && 'plugins' == $screen->base) {
 				FrameWtbp::_()->getModule('templates')->loadCoreJs();
 				FrameWtbp::_()->getModule('templates')->loadCoreCss();
-				wp_enqueue_style('jquery-ui-wtpb', '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css', array(), '1.0');
+				FrameWtbp::_()->getModule('templates')->loadJqueryUi();
 				FrameWtbp::_()->addScript('jquery-ui-dialog');
 				FrameWtbp::_()->addScript(WTBP_CODE . '.admin.plugins', $this->getModPath() . 'js/admin.plugins.js');
 				FrameWtbp::_()->addJSVar(WTBP_CODE . '.admin.plugins', 'wtbpPluginsData', array(

@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Lang class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class LangWtbp {
 	private static $_codeStorage = array();
 	private static $_data = array();

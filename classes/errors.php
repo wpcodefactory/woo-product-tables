@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Errors class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class ErrorsWtbp {
 	const FATAL = 'fatal';
 	const MOD_INSTALL = 'mod_install';

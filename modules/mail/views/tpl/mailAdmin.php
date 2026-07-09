@@ -1,6 +1,17 @@
+<?php
+/**
+ * Product Table for WooCommerce by WBW - Mail Admin
+ *
+ * @version 2.3.0
+ *
+ * @author woobewoo
+ */
+
+defined( 'ABSPATH' ) || exit;
+?>
 <form id="wtbpMailTestForm">
 	<label>
-		<?php esc_html_e('Send test email to'); ?>
+		<?php esc_html_e('Send test email to', 'woo-product-tables'); ?>
 		<?php HtmlWtbp::text('test_email', array('value' => $this->testEmail)); ?>
 	</label>
 	<?php HtmlWtbp::hidden('mod', array('value' => 'mail')); ?>

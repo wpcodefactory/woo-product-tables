@@ -1,5 +1,19 @@
 <?php
+/**
+ * Product Table by WBW - PromoController class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class PromoControllerWtbp extends ControllerWtbp {
+
+	/**
+	 * welcomePageSaveInfo.
+	 *
+	 * @version 2.3.0
+	 */
 	public function welcomePageSaveInfo() {
 		$res = new ResponseWtbp();
 		InstallerWtbp::setUsed();
@@ -10,17 +24,23 @@ class PromoControllerWtbp extends ControllerWtbp {
 		}
 		$originalPage = ReqWtbp::getVar('original_page');
 		$http = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
-		if (strpos($originalPage, $http . ( empty($_SERVER['HTTP_HOST']) ? '' : sanitize_text_field($_SERVER['HTTP_HOST']) )) !== 0) {
+		if (strpos($originalPage, $http . ( empty($_SERVER['HTTP_HOST']) ? '' : sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) )) !== 0) {
 			$originalPage = '';
 		}
 		redirectWtbp($originalPage);
 	}
+
+	/**
+	 * sendContact.
+	 *
+	 * @version 2.3.0
+	 */
 	public function sendContact() {
 		$res = new ResponseWtbp();
 		$time = time();
 		$prevSendTime = (int) get_option(WTBP_CODE . '_last__time_contact_send');
 		if ($prevSendTime && ( $time - $prevSendTime ) < 5 * 60) {	// Only one message per five minutes
-			$res->pushError(esc_html__('Please don\'t send contact requests so often - wait for response for your previous requests.'));
+			$res->pushError(esc_html__('Please don\'t send contact requests so often - wait for response for your previous requests.', 'woo-product-tables'));
 			$res->ajaxExec();
 		}
 		$data = ReqWtbp::get('post');
@@ -55,7 +75,7 @@ class PromoControllerWtbp extends ControllerWtbp {
 			}
 		}
 		if (!$res->error()) {
-			$msg = 'Message from: ' . esc_html(get_bloginfo('name')) . ', Host: ' . esc_html(( empty($_SERVER['HTTP_HOST']) ? '' : sanitize_text_field($_SERVER['HTTP_HOST']) )) . '<br />';
+			$msg = 'Message from: ' . esc_html(get_bloginfo('name')) . ', Host: ' . esc_html(( empty($_SERVER['HTTP_HOST']) ? '' : sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) )) . '<br />';
 			$msg .= 'Plugin: ' . WTBP_WP_PLUGIN_NAME . '<br />';
 			foreach ($fields as $fName => $fData) {
 				if (in_array($fName, array('name', 'email', 'subject'))) {
@@ -71,7 +91,7 @@ class PromoControllerWtbp extends ControllerWtbp {
 			} else {
 				$res->pushError( FrameWtbp::_()->getModule('mail')->getMailErrors() );
 			}
-			
+
 		}
 		$res->ajaxExec();
 	}
@@ -149,7 +169,7 @@ class PromoControllerWtbp extends ControllerWtbp {
 	public function getPermissions() {
 		return array(
 			WTBP_USERLEVELS => array(
-				WTBP_ADMIN => array('welcomePageSaveInfo', 'sendContact', 'addNoticeAction', 
+				WTBP_ADMIN => array('welcomePageSaveInfo', 'sendContact', 'addNoticeAction',
 					'addStep', 'closeTour', 'addTourFinish', 'saveDeactivateData', 'enbStatsOpt')
 			),
 		);

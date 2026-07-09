@@ -1,10 +1,20 @@
 <?php
+/**
+ * Product Table by WBW - Installer class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class InstallerWtbp {
 	public static $update_to_version_method = '';
 	private static $_firstTimeActivated = false;
 
 	/**
 	 * Install init
+	 *
+	 * @version 2.3.0
 	 */
 	public static function init() {
 		global $wpdb;
@@ -29,6 +39,7 @@ class InstallerWtbp {
 			  PRIMARY KEY (`id`),
 			  UNIQUE INDEX `code` (`code`)
 			) DEFAULT CHARSET=utf8;"));
+			DbWtbp::flushCache();
 			DbWtbp::query("INSERT INTO `@__modules` (id, code, active, type_id, label) VALUES
 				(NULL, 'adminmenu',1,1,'Admin Menu'),
 				(NULL, 'options',1,1,'Options'),
@@ -49,6 +60,7 @@ class InstallerWtbp {
 			  `label` varchar(32) NOT NULL,
 			  PRIMARY KEY (`id`)
 			) AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;'));
+			DbWtbp::flushCache();
 			DbWtbp::query("INSERT INTO `@__modules_type` VALUES
 				(1,'system'),
 				(6,'addons');");
@@ -64,6 +76,7 @@ class InstallerWtbp {
 				`setting_data` MEDIUMTEXT NOT NULL,
 				PRIMARY KEY (`id`)
 			) DEFAULT CHARSET=utf8;'));
+			DbWtbp::flushCache();
 		}
 		if (version_compare($current_version, '1.1.2') != 1) {
 			DbWtbp::query('ALTER TABLE `@__tables` MODIFY setting_data MEDIUMTEXT;');
@@ -81,6 +94,7 @@ class InstallerWtbp {
 				`is_default` smallint(3) NOT NULL DEFAULT 0,
 				PRIMARY KEY (`id`)
 			) DEFAULT CHARSET=utf8;'));
+			DbWtbp::flushCache();
 			DbWtbp::query("INSERT INTO `@__columns` (id, columns_name, columns_nice_name, columns_order, is_default) VALUES
 				(NULL, 'id', 'ID', 0, 0),
 				(NULL, 'product_title', 'Name', 2, 1),
@@ -118,6 +132,7 @@ class InstallerWtbp {
 			  UNIQUE INDEX `code` (`code`),
 			  PRIMARY KEY (`id`)
 			) DEFAULT CHARSET=utf8"));
+			DbWtbp::flushCache();
 			DbWtbp::query("INSERT INTO `@__usage_stat` (code, visits) VALUES ('installed', 1)");
 		}
 
@@ -131,6 +146,7 @@ class InstallerWtbp {
     			`from_order` tinyint(3) DEFAULT NULL,
     			KEY `user_id` (`user_id`)
 			) DEFAULT CHARSET=utf8' ) );
+			DbWtbp::flushCache();
 		}
 
 		InstallerDbUpdaterWtbp::runUpdate();
@@ -148,14 +164,19 @@ class InstallerWtbp {
 	public static function isUsed() {
 		return (int) get_option(WTBP_DB_PREF . 'plug_was_used');
 	}
+	/**
+	 * Drop the plugin's custom DB tables and options.
+	 *
+	 * @version 2.3.0
+	 */
 	public static function delete() {
 		self::_checkSendStat('delete');
 		global $wpdb;
 		$wpPrefix = $wpdb->prefix;
-		$wpdb->query('DROP TABLE IF EXISTS `' . $wpdb->prefix . esc_sql(WTBP_DB_PREF) . 'modules`');
-		$wpdb->query('DROP TABLE IF EXISTS `' . $wpdb->prefix . esc_sql(WTBP_DB_PREF) . 'modules_type`');
-		$wpdb->query('DROP TABLE IF EXISTS `' . $wpdb->prefix . esc_sql(WTBP_DB_PREF) . 'usage_stat`');
-		$wpdb->query('DROP TABLE IF EXISTS `' . $wpdb->prefix . esc_sql(WTBP_DB_PREF) . 'columns`');
+		DbWtbp::query('DROP TABLE IF EXISTS `@__modules`');
+		DbWtbp::query('DROP TABLE IF EXISTS `@__modules_type`');
+		DbWtbp::query('DROP TABLE IF EXISTS `@__usage_stat`');
+		DbWtbp::query('DROP TABLE IF EXISTS `@__columns`');
 
 		delete_option($wpPrefix . WTBP_DB_PREF . 'db_version');
 		delete_option($wpPrefix . WTBP_DB_PREF . 'db_installed');

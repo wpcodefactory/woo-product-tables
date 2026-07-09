@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Admin_Nav class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class Admin_NavWtbp extends ModuleWtbp {
 	public function getBreadcrumbsList() {
 		$res = array(

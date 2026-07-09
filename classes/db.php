@@ -1,8 +1,53 @@
 <?php
 /**
+ * Product Table by WBW - Db class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
  * Shell - class to work with $wpdb global object
  */
 class DbWtbp {
+
+	/**
+	 * Object cache group used to cache results of get().
+	 *
+	 * @version 2.3.0
+	 * @since   2.3.0
+	 */
+	private static $_cacheGroup = 'woo-product-tables';
+
+	/**
+	 * Get (or seed) the cache incrementor used to invalidate all cached
+	 * get() results at once whenever query() performs a write.
+	 *
+	 * @version 2.3.0
+	 * @since   2.3.0
+	 *
+	 * @return string current incrementor value
+	 */
+	private static function _getCacheIncrementor() {
+		$incrementor = wp_cache_get('wtbp_db_cache_incrementor', self::$_cacheGroup, false, $found);
+		if ( ! $found ) {
+			$incrementor = microtime();
+			wp_cache_set( 'wtbp_db_cache_incrementor', $incrementor, self::$_cacheGroup );
+		}
+		return $incrementor;
+	}
+
+	/**
+	 * Invalidate all cached get() results.
+	 *
+	 * @version 2.3.0
+	 * @since   2.3.0
+	 */
+	public static function flushCache() {
+		wp_cache_delete('wtbp_db_cache_incrementor', self::$_cacheGroup);
+	}
+
 	/**
 	 * Execute query and return results
 	 *
@@ -10,6 +55,8 @@ class DbWtbp {
 	 * @param string $get what must be returned - one value (one), one row (row), one col (col) or all results (all - by default)
 	 * @param const $outputType type of returned data
 	 * @return mixed data from DB
+	 *
+	 * @version 2.3.0
 	 */
 	public static $query = '';
 	public static function get( $query, $get = 'all', $outputType = ARRAY_A ) {
@@ -19,32 +66,47 @@ class DbWtbp {
 		$query = self::prepareQuery($query);
 		self::$query = $query;
 		$wpdb->wtbp_prepared_query = $query;
+		$cacheKey = 'wtbp_' . md5(self::_getCacheIncrementor() . $query . $get . $outputType);
+		$cached = wp_cache_get($cacheKey, self::$_cacheGroup, false, $found);
+		if ($found) {
+			return $cached;
+		}
 		switch ($get) {
 			case 'one':
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom plugin table, no WP core API available; results are cached above via wp_cache.
 				$res = $wpdb->get_var($wpdb->wtbp_prepared_query);
 				break;
 			case 'row':
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom plugin table, no WP core API available; results are cached above via wp_cache.
 				$res = $wpdb->get_row($wpdb->wtbp_prepared_query, $outputType);
 				break;
 			case 'col':
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom plugin table, no WP core API available; results are cached above via wp_cache.
 				$res = $wpdb->get_col($wpdb->wtbp_prepared_query);
 				break;
 			case 'all':
 			default:
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom plugin table, no WP core API available; results are cached above via wp_cache.
 				$res = $wpdb->get_results($wpdb->wtbp_prepared_query, $outputType);
 				break;
 		}
+		wp_cache_set($cacheKey, $res, self::$_cacheGroup);
 		return $res;
 	}
 	/**
 	 * Execute one query
 	 *
-	 * @return query results
+	 * @version 2.3.0
 	 */
 	public static function query( $query ) {
 		global $wpdb;
 		$wpdb->wtbp_prepared_query = self::prepareQuery($query);
-		return ( $wpdb->query($wpdb->wtbp_prepared_query) === false ? false : true );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Write/DDL query, not cacheable; invalidates the read cache in get() below.
+		$res = $wpdb->query($wpdb->wtbp_prepared_query);
+		if (false !== $res) {
+			self::flushCache();
+		}
+		return ! ( false === $res );
 	}
 	/**
 	 * Get last insert ID
@@ -76,7 +138,7 @@ class DbWtbp {
 	public static function prepareQuery( $query ) {
 		global $wpdb;
 		return str_replace(
-				array('#__', '^__', '@__'), 
+				array('#__', '^__', '@__'),
 				array($wpdb->prefix, WTBP_DB_PREF, $wpdb->prefix . WTBP_DB_PREF),
 				$query);
 	}
@@ -85,7 +147,7 @@ class DbWtbp {
 		return $wpdb->last_error;
 	}
 	public static function lastID() {
-		global $wpdb;        
+		global $wpdb;
 		return $wpdb->insert_id;
 	}
 	public static function timeToDate( $timestamp = 0 ) {

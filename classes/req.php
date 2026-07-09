@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Req class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class ReqWtbp {
 	protected static $_requestData;
 	protected static $_requestMethod;
@@ -13,8 +21,11 @@ class ReqWtbp {
 			session_start();
 		}
 	}
+
 	/**
 	 * Get Value
+	 *
+	 * @version 2.3.0
 	 *
 	 * @param string $name key in variables array
 	 * @param string $from from where get result = "all", "input", "get"
@@ -23,17 +34,17 @@ class ReqWtbp {
 	*/
 	public static function getVar( $name, $from = 'all', $default = null ) {
 		if (self::$_requestWithNonce) {
-			$nonce = empty($_REQUEST['_wpnonce']) ? '' : sanitize_text_field($_REQUEST['_wpnonce']);
+			$nonce = empty($_REQUEST['_wpnonce']) ? '' : sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) );
 			if (!wp_verify_nonce($nonce, 'my-nonce')) {
 				echo esc_html__('Security check', 'woo-product-tables');
-				exit(); 
+				exit();
 			}
 		}
 
 		$from = strtolower($from);
-		
-		$getName = empty($_GET[$name]) ? '' : sanitize_text_field($_GET[$name]);
-		$postName = empty($_POST[$name]) ? '' : sanitize_text_field($_POST[$name]);
+
+		$getName = empty($_GET[$name]) ? '' : sanitize_text_field( wp_unslash( $_GET[ $name ] ) );
+		$postName = empty($_POST[$name]) ? '' : sanitize_text_field( wp_unslash( $_POST[ $name ] ) );
 
 		if ('all' == $from) {
 			if (!empty($getName)) {
@@ -42,16 +53,16 @@ class ReqWtbp {
 				$from = 'post';
 			}
 		}
-		
+
 		switch ($from) {
 			case 'get':
 				if (isset($_GET[$name])) {
-					return sanitize_text_field($_GET[$name]);
+					return sanitize_text_field( wp_unslash( $_GET[ $name ] ) );
 				}
 				break;
 			case 'post':
 				if (isset($_POST[$name])) {
-					return sanitize_text_field($_POST[$name]);
+					return sanitize_text_field( wp_unslash( $_POST[ $name ] ) );
 				}
 				break;
 			case 'file':
@@ -62,17 +73,17 @@ class ReqWtbp {
 				break;
 			case 'session':
 				if (isset($_SESSION[$name])) {
-					return sanitize_text_field($_SESSION[$name]);
+					return sanitize_text_field( wp_unslash( $_SESSION[ $name ] ) );
 				}
 				break;
 			case 'server':
 				if (isset($_SERVER[$name])) {
-					return sanitize_text_field($_SERVER[$name]);
+					return sanitize_text_field( wp_unslash( $_SERVER[ $name ] ) );
 				}
 				break;
 			case 'cookie':
 				if (isset($_COOKIE[$name])) {
-					$value = sanitize_text_field($_COOKIE[$name]);
+					$value = sanitize_text_field( wp_unslash( $_COOKIE[ $name ] ) );
 					if (strpos($value, '_JSON:') === 0) {
 						$value = explode('_JSON:', $value);
 						$value = UtilsWtbp::jsonDecode(array_pop($value));
@@ -83,13 +94,24 @@ class ReqWtbp {
 		}
 		return $default;
 	}
+
 	public static function sanitizeData( $filtered, $value ) {
 		return is_array($value) ? self::sanitizeArray($value) : $filtered;
 	}
+
+	/**
+	 * sanitizeArray.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @param array $arr
+	 *
+	 * @return array
+	 */
 	public static function sanitizeArray( $arr ) {
 		$newArr = array();
 		foreach ($arr as $k => $v) {
-			$newArr[$k] = is_array($v) ? self::sanitizeArray($v) : _sanitize_text_fields($v, false);
+			$newArr[ $k ] = is_array( $v ) ? self::sanitizeArray( $v ) : sanitize_text_field( $v );
 		}
 		return $newArr;
 	}
@@ -121,12 +143,22 @@ class ReqWtbp {
 				break;
 		}
 	}
+
+	/**
+	 * clearVar.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @param string $name key in variables array
+	 * @param string $in where to clear from = "input", "get", "post", "session", "cookie"
+	 * @param array $params additional params (e.g. cookie path)
+	 */
 	public static function clearVar( $name, $in = 'input', $params = array() ) {
 		if (self::$_requestWithNonce) {
-			$nonce = empty($_REQUEST['_wpnonce']) ? '' : sanitize_text_field($_REQUEST['_wpnonce']);
+			$nonce = empty($_REQUEST['_wpnonce']) ? '' : sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) );
 			if (!wp_verify_nonce($nonce, 'my-nonce')) {
 				esc_html__('Security check', 'woo-product-tables');
-				exit(); 
+				exit();
 			}
 		}
 		$in = strtolower($in);
@@ -152,12 +184,21 @@ class ReqWtbp {
 				break;
 		}
 	}
+
+	/**
+	 * get.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @param string $what which superglobal to return = "get", "post", "session", "files"
+	 * @return array|null
+	 */
 	public static function get( $what ) {
 		if (self::$_requestWithNonce) {
-			$nonce = empty($_REQUEST['_wpnonce']) ? '' : sanitize_text_field($_REQUEST['_wpnonce']);
+			$nonce = empty($_REQUEST['_wpnonce']) ? '' : sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) );
 			if (!wp_verify_nonce($nonce, 'my-nonce')) {
 				esc_html__('Security check', 'woo-product-tables');
-				exit(); 
+				exit();
 			}
 		}
 		$what = strtolower($what);
@@ -177,12 +218,21 @@ class ReqWtbp {
 		}
 		return null;
 	}
+
+	/**
+	 * getMethod.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @return string
+	 */
 	public static function getMethod() {
 		if (!self::$_requestMethod) {
-			self::$_requestMethod = strtoupper( self::getVar('method', 'all', isset($_SERVER['REQUEST_METHOD']) ? sanitize_text_field($_SERVER['REQUEST_METHOD']) : '') );
+			self::$_requestMethod = strtoupper( self::getVar('method', 'all', isset($_SERVER['REQUEST_METHOD']) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : '') );
 		}
 		return self::$_requestMethod;
 	}
+
 	public static function getAdminPage() {
 		$pagePath = self::getVar('page');
 		if (!empty($pagePath) && strpos($pagePath, '/') !== false) {
@@ -191,9 +241,18 @@ class ReqWtbp {
 		}
 		return false;
 	}
+
+	/**
+	 * getRequestUri.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @return string
+	 */
 	public static function getRequestUri() {
-		return isset($_SERVER['REQUEST_URI']) ? sanitize_text_field($_SERVER['REQUEST_URI']) : '';
+		return isset($_SERVER['REQUEST_URI']) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 	}
+
 	public static function getMode() {
 		$mod = '';
 		$mod = self::getVar('mod');

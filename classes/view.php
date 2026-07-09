@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - View class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 #[\AllowDynamicProperties]
 abstract class ViewWtbp extends BaseObjectWtbp {
 	/* 

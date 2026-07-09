@@ -1,4 +1,14 @@
-<?php 
+<?php
+/**
+ * Product Table for WooCommerce by WBW - Additional Main Admin Show On Options
+ *
+ * @version 2.3.0
+ *
+ * @author woobewoo
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 $str = __('Show when user tries to exit from your site.', 'woo-product-tables') . '<a target="_blank" href="https://woobewoo.com/">' . __('Check example', 'woo-product-tables') . '.</a>'; 
 ?>
 
@@ -12,5 +22,5 @@ $str = __('Show when user tries to exit from your site.', 'woo-product-tables') 
 			?>
 		<?php esc_html_e('On Exit from Site', 'woo-product-tables'); ?>
 	</a>
-	<a target="_blank" href="<?php echo esc_url($this->promoLink); ?>"><?php esc_html_e('Available in PRO'); ?></a>
+	<a target="_blank" href="<?php echo esc_url($this->promoLink); ?>"><?php esc_html_e('Available in PRO', 'woo-product-tables'); ?></a>
 </label>

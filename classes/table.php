@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Table class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 abstract class TableWtbp {
 	/**
 	 * ID column name
@@ -44,10 +52,15 @@ abstract class TableWtbp {
 	protected $_limitFrom = '';
 	protected $_limitTo = '';
 	
+	/**
+	 * Get instance.
+	 *
+	 * @version 2.3.0
+	 */
 	public static function getInstance( $table = '' ) {
 		static $instances = array();
 		if (!$table) {
-			throw new Exception('Unknown table [' . $table . ']');
+			throw new Exception( 'Unknown table [' . esc_html( $table ) . ']' );
 		}
 		if (!isset($instances[$table])) {
 			$class = 'table' . strFirstUpWtbp($table) . strFirstUpWtbp(WTBP_CODE);

@@ -7,6 +7,8 @@
  * @author woobewoo
  */
 
+defined( 'ABSPATH' ) || exit;
+
 $isPro = true;
 if ( ! $isPro ) {
 	$wtbpDisabled = 'wtbpDisabled';

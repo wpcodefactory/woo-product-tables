@@ -1,4 +1,14 @@
 <?php
+/**
+ * Product Table for WooCommerce by WBW - Admin Nav Breadcrumbs
+ *
+ * @version 2.3.0
+ *
+ * @author woobewoo
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 	$countBreadcrumbs = count($this->breadcrumbsList);
 ?>
 <nav id="woobewoo-breadcrumbs" class="woobewoo-breadcrumbs <?php DispatcherWtbp::doAction('adminBreadcrumbsClassAdd'); ?>">

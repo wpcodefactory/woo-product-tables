@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - Utils class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class UtilsWtbp {
 	public static function jsonEncode( $arr ) {
 		return ( is_array($arr) || is_object($arr) ) ? jsonEncodeUTFnormalWtbp($arr) : jsonEncodeUTFnormalWtbp(array());
@@ -18,11 +26,32 @@ class UtilsWtbp {
 	public static function serialize( $data ) {
 		return serialize($data);
 	}
+
+	/**
+	 * Get initialized WP_Filesystem instance.
+	 *
+	 * @version 2.3.0
+	 * @since   2.3.0
+	 *
+	 * @return WP_Filesystem_Base|false filesystem instance, else - false
+	 */
+	public static function getFilesystem() {
+		global $wp_filesystem;
+		if ( empty( $wp_filesystem ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+		}
+		return $wp_filesystem;
+	}
+
+	/**
+	 * Create directory.
+	 *
+	 * @version 2.3.0
+	 */
 	public static function createDir( $path, $params = array('chmod' => null, 'httpProtect' => false) ) {
-		if (@mkdir($path)) {
-			if (!is_null($params['chmod'])) {
-				@chmod($path, $params['chmod']);
-			}
+		$wp_filesystem = self::getFilesystem();
+		if ( $wp_filesystem && $wp_filesystem->mkdir( $path, $params['chmod'] ) ) {
 			if (!empty($params['httpProtect'])) {
 				self::httpProtectDir($path);
 			}
@@ -43,18 +72,20 @@ class UtilsWtbp {
 	/**
 	 * Copy all files from one directory ($source) to another ($destination)
 	 *
+	 * @version 2.3.0
+	 *
 	 * @param string $source path to source directory
 	 * @params string $destination path to destination directory
 	 */
 	public static function copyDirectories( $source, $destination ) {
 		if (is_dir($source)) {
-			@mkdir($destination);
+			wp_mkdir_p($destination);
 			$directory = dir($source);
 			while ( false !== ( $readdirectory = $directory->read() ) ) {
 				if ( ( '.' == $readdirectory ) || ( '..' == $readdirectory ) ) {
 					continue;
 				}
-				$PathDir = $source . '/' . $readdirectory; 
+				$PathDir = $source . '/' . $readdirectory;
 				if (is_dir($PathDir)) {
 					self::copyDirectories( $PathDir, $destination . '/' . $readdirectory );
 					continue;
@@ -66,29 +97,37 @@ class UtilsWtbp {
 			copy( $source, $destination );
 		}
 	}
+
+	/**
+	 * getIP.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @return string
+	 */
 	public static function getIP() {
 		$res = '';
 		if (!isset($_SERVER['HTTP_CLIENT_IP']) || empty($_SERVER['HTTP_CLIENT_IP'])) {
 			if (!isset($_SERVER['HTTP_X_REAL_IP']) || empty($_SERVER['HTTP_X_REAL_IP'])) {
 				if (!isset($_SERVER['HTTP_X_SUCURI_CLIENTIP']) || empty($_SERVER['HTTP_X_SUCURI_CLIENTIP'])) {
 					if (!isset($_SERVER['HTTP_X_FORWARDED_FOR']) || empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-						$res = empty($_SERVER['REMOTE_ADDR']) ? '' : sanitize_text_field($_SERVER['REMOTE_ADDR']);
+						$res = empty($_SERVER['REMOTE_ADDR']) ? '' : sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
 					} else {
-						$res = sanitize_text_field($_SERVER['HTTP_X_FORWARDED_FOR']);
+						$res = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
 					}
 				} else {
-					$res = sanitize_text_field($_SERVER['HTTP_X_SUCURI_CLIENTIP']);
+					$res = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_SUCURI_CLIENTIP'] ) );
 				}
 			} else {
-				$res = sanitize_text_field($_SERVER['HTTP_X_REAL_IP']);
+				$res = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REAL_IP'] ) );
 			}
 		} else {
-			$res = sanitize_text_field($_SERVER['HTTP_CLIENT_IP']);
+			$res = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) );
 		}
-		
+
 		return $res;
 	}
-	
+
 	/**
 	 * Parse xml file into simpleXML object
 	 *
@@ -104,7 +143,7 @@ class UtilsWtbp {
 	/**
 	 * Check if the element exists in array
 	 *
-	 * @param array $param 
+	 * @param array $param
 	 */
 	public static function xmlAttrToStr( $param, $element ) {
 		if (isset($param[$element])) {
@@ -121,9 +160,22 @@ class UtilsWtbp {
 		}
 		return $arr;
 	}
+
+	/**
+	 * Delete file.
+	 *
+	 * @version 2.3.0
+	 */
 	public static function deleteFile( $str ) {
-		return @unlink($str);
+		$wp_filesystem = self::getFilesystem();
+		return $wp_filesystem ? $wp_filesystem->delete($str) : false;
 	}
+
+	/**
+	 * Delete directory.
+	 *
+	 * @version 2.3.0
+	 */
 	public static function deleteDir( $str ) {
 		if (is_file($str)) {
 			return self::deleteFile($str);
@@ -132,7 +184,8 @@ class UtilsWtbp {
 			foreach ($scan as $index => $path) {
 				self::deleteDir($path);
 			}
-			return @rmdir($str);
+			$wp_filesystem = self::getFilesystem();
+			return $wp_filesystem ? $wp_filesystem->rmdir($str) : false;
 		}
 	}
 	/**
@@ -214,7 +267,7 @@ class UtilsWtbp {
 	 * @param int $to - how many years in future
 	 * @param $formatKey - format for keys in array, @see strftime
 	 * @param $formatVal - format for values in array, @see strftime
-	 * @return array - years 
+	 * @return array - years
 	 */
 	public static function getYearsArray( $from, $to, $formatKey = '%Y', $formatVal = '%Y' ) {
 		$today = getdate();
@@ -290,6 +343,12 @@ class UtilsWtbp {
 	public static function getFileExt( $path ) {
 		return strtolower( pathinfo($path, PATHINFO_EXTENSION) );
 	}
+
+	/**
+	 * getRandStr.
+	 *
+	 * @version 2.3.0
+	 */
 	public static function getRandStr( $length = 10, $allowedChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890', $params = array() ) {
 		$result = '';
 		$allowedCharsLen = strlen($allowedChars);
@@ -297,18 +356,21 @@ class UtilsWtbp {
 			$allowedChars = strtolower($allowedChars);
 		}
 		while (strlen($result) < $length) {
-			$result .= substr($allowedChars, rand(0, $allowedCharsLen), 1);
+			$result .= substr($allowedChars, wp_rand(0, $allowedCharsLen), 1);
 		}
 
 		return $result;
 	}
+
 	/**
 	 * Get current host location
+	 *
+	 * @version 2.3.0
 	 *
 	 * @return string host string
 	 */
 	public static function getHost() {
-		return empty($_SERVER['HTTP_HOST']) ? '' : sanitize_text_field($_SERVER['HTTP_HOST']);
+		return empty($_SERVER['HTTP_HOST']) ? '' : sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) );
 	}
 	/**
 	 * Check if device is mobile
@@ -345,21 +407,40 @@ class UtilsWtbp {
 	}
 
 	/**
+	 * Get IDs of all blogs in the network, regardless of status.
+	 *
+	 * @version 2.3.0
+	 * @since   2.3.0
+	 *
+	 * @return int[] blog IDs
+	 */
+	private static function _getAllBlogIds() {
+		return get_sites( array(
+			'fields'   => 'ids',
+			'number'   => 0,
+			'archived' => null,
+			'spam'     => null,
+			'deleted'  => null,
+		) );
+	}
+
+	/**
 	 * Activate all CSP Plugins
-	 * 
+	 *
 	 * @param bool $isNetworkWide Check if site activated for network
 	 *
 	 * @return NULL Check if it's site or multisite and activate.
+	 *
+	 * @version 2.3.0
 	 */
 	public static function activatePlugin( $isNetworkWide ) {
-		global $wpdb;
 		if (WTBP_TEST_MODE) {
 			add_action('activated_plugin', array(FrameWtbp::_(), 'savePluginActivationErrors'));
 		}
 
 		if (function_exists('is_multisite') && is_multisite()) {
 			if ($isNetworkWide) {
-				$blog_id = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
+				$blog_id = self::_getAllBlogIds();
 				foreach ($blog_id as $id) {
 					if (switch_to_blog($id)) {
 						InstallerWtbp::init();
@@ -376,47 +457,59 @@ class UtilsWtbp {
 
 	/**
 	 * Delete All CSP Plugins
-	 * 
+	 *
 	 * @return NULL Check if it's site or multisite and decativate it.
+	 *
+	 * @version 2.3.0
 	 */
 	public static function deletePlugin() {
-		global $wpdb;
 		if (function_exists('is_multisite') && is_multisite()) {
-			$blog_id = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
+			$blog_id = self::_getAllBlogIds();
 			foreach ($blog_id as $id) {
 				if (switch_to_blog($id)) {
 					InstallerWtbp::delete();
 					restore_current_blog();
-				} 
+				}
 			}
 			return;
 		} else {
 			InstallerWtbp::delete();
 		}
 	}
+	/**
+	 * Deactivate all CSP Plugins
+	 *
+	 * @version 2.3.0
+	 */
 	public static function deactivatePlugin() {
-		global $wpdb;
 		if (function_exists('is_multisite') && is_multisite()) {
-			$blog_id = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
+			$blog_id = self::_getAllBlogIds();
 			foreach ($blog_id as $id) {
 				if (switch_to_blog($id)) {
 					InstallerWtbp::deactivate();
 					restore_current_blog();
-				} 
+				}
 			}
 			return;
 		} else {
 			InstallerWtbp::deactivate();
 		}
 	}
+
+	/**
+	 * Check if file is writable.
+	 *
+	 * @version 2.3.0
+	 */
 	public static function isWritable( $filename ) {
-		return is_writable($filename);
+		$wp_filesystem = self::getFilesystem();
+		return $wp_filesystem ? $wp_filesystem->is_writable($filename) : false;
 	}
-	
+
 	public static function isReadable( $filename ) {
 		return is_readable($filename);
 	}
-	
+
 	public static function fileExists( $filename ) {
 		return file_exists($filename);
 	}
@@ -499,8 +592,16 @@ class UtilsWtbp {
 		$uploadsDir = self::getUploadsDir();
 		return str_replace($uploadsDir, $uploadsPath, $path);
 	}
+
+	/**
+	 * getUserBrowserString.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @return string|false
+	 */
 	public static function getUserBrowserString() {
-		return isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : false;
+		return isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : false;
 	}
 	public static function getBrowser() {
 		$u_agent = self::getUserBrowserString();
@@ -508,7 +609,7 @@ class UtilsWtbp {
 		$platform = 'Unknown';
 		$version = '';
 		$pattern = '';
-		
+
 		if ($u_agent) {
 			//First get the platform?
 			if (preg_match('/linux/i', $u_agent)) {
@@ -573,7 +674,7 @@ class UtilsWtbp {
 	}
 	public static function getBrowsersList() {
 		return array(
-			'Unknown', 'Internet Explorer', 'Mozilla Firefox', 'Google Chrome', 'Apple Safari', 
+			'Unknown', 'Internet Explorer', 'Mozilla Firefox', 'Google Chrome', 'Apple Safari',
 			'Opera', 'Netscape',
 		);
 	}
@@ -584,9 +685,17 @@ class UtilsWtbp {
 	public static function getLangCode() {
 		return get_locale();
 	}
+
+	/**
+	 * getBrowserLangCode.
+	 *
+	 * @version 2.3.0
+	 *
+	 * @return string
+	 */
 	public static function getBrowserLangCode() {
 		return isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && !empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])
-			? strtolower(substr(sanitize_text_field($_SERVER['HTTP_ACCEPT_LANGUAGE']), 0, 2))
+			? strtolower(substr(sanitize_text_field( wp_unslash( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ), 0, 2))
 			: self::getLangCode2Letter();
 	}
 	public static function getTimeRange() {
@@ -638,10 +747,16 @@ class UtilsWtbp {
 		// Simple for now
 		return ReqWtbp::getVar('HTTP_REFERER', 'server');
 	}
+
+	/**
+	 * Get host from referal url.
+	 *
+	 * @version 2.3.0
+	 */
 	public static function getReferalHost() {
 		$refUrl = self::getReferalUrl();
 		if (!empty($refUrl)) {
-			$refer = parse_url( $refUrl );
+			$refer = wp_parse_url( $refUrl );
 			if ($refer && isset($refer['host']) && !empty($refer['host'])) {
 				return $refer['host'];
 			}

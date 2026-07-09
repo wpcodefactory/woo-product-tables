@@ -1,3 +1,14 @@
+<?php
+/**
+ * Product Table for WooCommerce by WBW - Options Settings Tab Content
+ *
+ * @version 2.3.0
+ *
+ * @author woobewoo
+ */
+
+defined( 'ABSPATH' ) || exit;
+?>
 <section class="woobewoo-bar">
 	<ul class="woobewoo-bar-controls">
 		<li title="<?php echo esc_attr(__('Save all options', 'woo-product-tables')); ?>">

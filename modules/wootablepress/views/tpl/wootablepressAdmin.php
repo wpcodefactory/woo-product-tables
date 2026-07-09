@@ -1,3 +1,14 @@
+<?php
+/**
+ * Product Table for WooCommerce by WBW - Wootablepress Admin
+ *
+ * @version 2.3.0
+ *
+ * @author woobewoo
+ */
+
+defined( 'ABSPATH' ) || exit;
+?>
 <section>
 	<div class="woobewoo-item woobewoo-panel">
 		<div id="containerWrapper">

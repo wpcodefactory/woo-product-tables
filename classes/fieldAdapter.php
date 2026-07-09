@@ -4,7 +4,12 @@
  * return ONLY htmlParams property
  *
  * @see field
+ *
+ * @version 2.3.0
  */
+
+defined( 'ABSPATH' ) || exit;
+
 class FieldAdapterWtbp {
 	const DB = 'DbWtbp';
 	const HTML = 'HtmlWtbp';
@@ -81,7 +86,7 @@ class FieldAdapterWtbp {
 				$field->value['categories'] = array();
 			}
 			foreach ($categories as $c) {
-				$cOptions[] = array('id' => $c->term_taxonomy_id, 
+				$cOptions[] = array('id' => $c->term_taxonomy_id,
 					'text' => $c->cat_name,
 					'checked' => in_array($c->term_taxonomy_id, $field->value['categories']));
 			}
@@ -91,7 +96,7 @@ class FieldAdapterWtbp {
 				$field->value['brands'] = array();
 			}
 			foreach ($brands as $b) {
-				$bOptions[] = array('id' => $b->term_taxonomy_id, 
+				$bOptions[] = array('id' => $b->term_taxonomy_id,
 					'text' => $b->cat_name,
 					'checked' => in_array($b->term_taxonomy_id, $field->value['brands']));
 			}
@@ -166,10 +171,10 @@ class FieldAdapterWtbp {
 		return $options[ $notSelected ];
 	}
 	/**
-	 * Function to get extra field options 
-	 * 
+	 * Function to get extra field options
+	 *
 	 * @param object $field
-	 * @return string 
+	 * @return string
 	 */
 	public static function getExtraFieldOptions( $field_id ) {
 		$output = '';
@@ -184,16 +189,19 @@ class FieldAdapterWtbp {
 		}
 		return $output;
 	}
+
 	/**
 	 * Function to get field params
-	 * 
-	 * @param object $params 
+	 *
+	 * @version 2.3.0
+	 *
+	 * @param object $params
 	 */
 	public static function getFieldAttributes( $params ) {
 		$output = '';
 		if (!empty($params->attr)) {
 			foreach ($params->attr as $key => $value) {
-				$output .= esc_html__($key) . ':<br />';
+				$output .= esc_html($key) . ':<br />';
 				$output .= HtmlWtbp::text('params[attr][' . $key . ']', array('value' => $value)) . '<br />';
 			}
 		} else {
@@ -206,8 +214,8 @@ class FieldAdapterWtbp {
 	}
 	/**
 	 * Generating the list of categories for product extra fields
-	 * 
-	 * @param object $field 
+	 *
+	 * @param object $field
 	 */
 	public static function productFieldCategories( $field ) {
 		if (!empty($field->htmlParams['OptionsWtbp'])) {
@@ -241,11 +249,11 @@ class FieldAdapterWtbp {
 			self::$states = FrameWtbp::_()->getTable('states')
 				->leftJoin( FrameWtbp::_()->getTable('countries'), 'country_id' )
 				->getAll('toe_states.id,
-					toe_states.name, 
-					toe_states.code, 
-					toe_states.country_id, 
+					toe_states.name,
+					toe_states.code,
+					toe_states.country_id,
 					toe_cry.name AS c_name,
-					toe_cry.iso_code_2 AS c_iso_code_2, 
+					toe_cry.iso_code_2 AS c_iso_code_2,
 					toe_cry.iso_code_3 AS c_iso_code_3');
 		}
 		return self::$states;
@@ -267,8 +275,8 @@ class FieldAdapterWtbp {
 			'Chewy', 'Chicle', 'Chivo', 'Coda', 'Coda Caption', 'Codystar', 'Comfortaa', 'Coming Soon', 'Concert One',
 			'Condiment', 'Content', 'Contrail One', 'Convergence', 'Cookie', 'Copse', 'Corben', 'Cousine', 'Coustard',
 			'Covered By Your Grace', 'Crafty Girls', 'Creepster', 'Crete Round', 'Crimson Text', 'Crushed', 'Cuprum', 'Cutive',
-			'Damion', 'Dancing Script', 'Dangrek', 'Dawning of a New Day', 'Days One', 'Delius', 'Delius Swash Caps', 
-			'Delius Unicase', 'Della Respira', 'Devonshire', 'Didact Gothic', 'Diplomata', 'Diplomata SC', 'Doppio One', 
+			'Damion', 'Dancing Script', 'Dangrek', 'Dawning of a New Day', 'Days One', 'Delius', 'Delius Swash Caps',
+			'Delius Unicase', 'Della Respira', 'Devonshire', 'Didact Gothic', 'Diplomata', 'Diplomata SC', 'Doppio One',
 			'Dorsa', 'Dosis', 'Dr Sugiyama', 'Droid Sans', 'Droid Sans Mono', 'Droid Serif', 'Duru Sans', 'Dynalight',
 			'EB Garamond', 'Eater', 'Economica', 'Electrolize', 'Emblema One', 'Emilys Candy', 'Engagement', 'Enriqueta',
 			'Erica One', 'Esteban', 'Euphoria Script', 'Ewert', 'Exo', 'Expletus Sans', 'Fanwood Text', 'Fascinate', 'Fascinate Inline',

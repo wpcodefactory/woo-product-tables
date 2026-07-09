@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Table by WBW - WootablepressModel class.
+ *
+ * @version 2.3.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
 class WootablepressModelWtbp extends ModelWtbp {
 	public function __construct() {
 		$this->_setTbl('tables');
