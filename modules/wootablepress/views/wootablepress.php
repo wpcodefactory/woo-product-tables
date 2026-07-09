@@ -975,7 +975,10 @@ class WootablepressViewWtbp extends ViewWtbp {
 	 * @version 2.3.0
 	 */
 	public function getProductContent( $productIds, $tableSettings, $preview = true, &$page = array() ) {
-		set_time_limit( 300 );
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_set_time_limit -- Best-effort attempt to avoid timeouts on large tables; many hosts disable this function, so it must be guarded and its absence tolerated.
+		if ( function_exists( 'set_time_limit' ) && false === strpos( (string) ini_get( 'disable_functions' ), 'set_time_limit' ) ) {
+			set_time_limit( 300 );
+		}
 		$frontend = ! is_admin() || $preview;
 		$orders   = $this->orderColumns;
 		$settings = isset( $tableSettings['settings'] ) ? $tableSettings['settings'] : array();
