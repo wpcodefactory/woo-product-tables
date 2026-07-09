@@ -1,6 +1,6 @@
 <?php
 /**
- * Product Table by WBW - Wootablepress View.
+ * Product Table by WBW - WootablepressView Class.
  *
  * @version 2.3.0
  */
@@ -233,6 +233,11 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $html;
 	}
 
+	/**
+	 * Get search products filters.
+	 *
+	 * @version 2.3.0
+	 */
 	public function getSearchProductsFilters( $args, $params ) {
 		$filterAuthor    = isset( $params['filter_author'] ) ? $params['filter_author'] : 0;
 		$filterCategory  = isset( $params['filter_category'] ) ? $params['filter_category'] : 0;
@@ -307,7 +312,6 @@ class WootablepressViewWtbp extends ViewWtbp {
 				$parents    = new WP_Query( array(
 					'posts_per_page'   => - 1,
 					'post_type'        => 'product',
-					'suppress_filters' => true,
 					'post_status'      => array( 'publish' ),
 					'fields'           => 'ids',
 					'tax_query'        => array(
@@ -321,8 +325,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 				) );
 				$existsPost = $parents->have_posts();
 				if ( ! empty( $existsPost ) ) {
-					$list                     = implode( ',', $parents->posts );
-					$args['suppress_filters'] = false;
+					$list = implode( ',', $parents->posts );
 					add_filter( 'posts_where', function ( $where, $query ) use ( $filterCategory, $list ) {
 						remove_filter( current_filter(), __FUNCTION__ );
 						global $wpdb;
@@ -339,13 +342,17 @@ class WootablepressViewWtbp extends ViewWtbp {
 		return $args;
 	}
 
+	/**
+	 * Get search products.
+	 *
+	 * @version 2.3.0
+	 */
 	public function getSearchProducts( $params ) {
 		$dataArr       = array();
 		$args          = array(
 			'posts_per_page'   => 10,
 			'post_type'        => 'product',
 			'order'            => 'DESC',
-			'suppress_filters' => true,
 			'post_status'      => array( 'publish' ),
 			'offset'           => ! empty( $params['start'] ) ? $params['start'] : '0'
 		);
@@ -742,14 +749,14 @@ class WootablepressViewWtbp extends ViewWtbp {
 			$jscript = $dataArr['jscript'];
 			unset($dataArr['jscript']);
 		}
-		
+
 		$html = $this->generateTableHtml( $dataArr, $frontend, $settings, false );
 
 		$result = array( 'html' => $html, 'total' => $params['total'], 'filtered' => $params['filtered'], 'jscript' => $jscript );
 		if ( isset( $params['idsExist'] ) ) {
 			$result['ids'] = UtilsWtbp::controlNumericValues($params['idsExist'], 'id');
 		}
-		
+
 		return $result;
 	}
 
@@ -1116,7 +1123,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 
 		$dataExist = new WP_Query( $args );
 		DispatcherWtbp::doAction( 'removeSSPQueryFilters' );
-				
+
 		$postExist = $dataExist->posts;
 		$imgSize   = ! empty( $settings['thumbnail_size'] ) ? $settings['thumbnail_size'] : 'thumbnail';
 
@@ -1227,7 +1234,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 						$showText = true;
 					}
 					$isFilterStock    = $frontend && $isPro && $this->getTableSetting( $settings, 'filter_stock', false );
-					
+
 					break;
 				case 'description':
 					$stripDescription        = isset( $column['cut_description_text'] ) ? $column['cut_description_text'] : true;
@@ -2107,7 +2114,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 											'" data-cart-text="' . $_product->add_to_cart_text() .
 											'" data-default-cart-text="' . esc_attr( $popupForVariationBtnText ) .
 											'">' .
-											
+
 											$quantityHtml .
 											do_shortcode( '[add_to_cart id="' . $id . '" class="" style="" show_price="false" sku ="' . $sku . '"]' ) .
 											'</div>' .
@@ -2675,7 +2682,7 @@ class WootablepressViewWtbp extends ViewWtbp {
 
 		return $favorites;
 	}
-	
+
 	public function addOrderByCategories( $args ) {
 		global $wpdb;
 		$args['fields'] .= ', (select min(wtps_cat_te.name)' .
