@@ -382,16 +382,19 @@ class WootablepressViewWtbp extends ViewWtbp {
 					break;
 				//6 - sku
 				case 6:
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by SKU requires meta_key/meta_value; no indexed-column alternative exists, consistent with WooCommerce core sorting.
 					$args['meta_key'] = '_sku';
 					$args['orderby']  = 'meta_value';
 					break;
 				//7 - stock column
 				case 7:
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by stock status requires meta_key/meta_value; no indexed-column alternative exists, consistent with WooCommerce core sorting.
 					$args['meta_key'] = '_stock_status';
 					$args['orderby']  = 'meta_value';
 					break;
 				//8 - price column
 				case 8:
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by price requires meta_key/meta_value_num; no indexed-column alternative exists, consistent with WooCommerce core sorting.
 					$args['meta_key'] = '_price';
 					$args['orderby']  = 'meta_value_num';
 					break;
@@ -1057,16 +1060,19 @@ class WootablepressViewWtbp extends ViewWtbp {
 						$args['order']   = $desc;
 						break;
 					case 'price':
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by price requires meta_key/meta_value_num; no indexed-column alternative exists, consistent with WooCommerce core sorting.
 						$args['meta_key'] = '_price';
 						$args['orderby']  = 'meta_value_num';
 						$args['order']    = $desc;
 						break;
 					case 'popularity':
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by sales count requires meta_key/meta_value_num; no indexed-column alternative exists, consistent with WooCommerce core sorting.
 						$args['meta_key'] = 'total_sales';
 						$args['orderby']  = 'meta_value_num';
 						$args['order']    = $desc;
 						break;
 					case 'rating':
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by average rating requires meta_key/meta_value_num; no indexed-column alternative exists, consistent with WooCommerce core sorting.
 						$args['meta_key'] = '_wc_average_rating';
 						$args['orderby']  = array(
 							'meta_value_num' => $desc,
