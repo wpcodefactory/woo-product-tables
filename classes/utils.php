@@ -407,21 +407,40 @@ class UtilsWtbp {
 	}
 
 	/**
+	 * Get IDs of all blogs in the network, regardless of status.
+	 *
+	 * @version 2.3.0
+	 * @since   2.3.0
+	 *
+	 * @return int[] blog IDs
+	 */
+	private static function _getAllBlogIds() {
+		return get_sites( array(
+			'fields'   => 'ids',
+			'number'   => 0,
+			'archived' => null,
+			'spam'     => null,
+			'deleted'  => null,
+		) );
+	}
+
+	/**
 	 * Activate all CSP Plugins
 	 *
 	 * @param bool $isNetworkWide Check if site activated for network
 	 *
 	 * @return NULL Check if it's site or multisite and activate.
+	 *
+	 * @version 2.3.0
 	 */
 	public static function activatePlugin( $isNetworkWide ) {
-		global $wpdb;
 		if (WTBP_TEST_MODE) {
 			add_action('activated_plugin', array(FrameWtbp::_(), 'savePluginActivationErrors'));
 		}
 
 		if (function_exists('is_multisite') && is_multisite()) {
 			if ($isNetworkWide) {
-				$blog_id = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
+				$blog_id = self::_getAllBlogIds();
 				foreach ($blog_id as $id) {
 					if (switch_to_blog($id)) {
 						InstallerWtbp::init();
@@ -440,11 +459,12 @@ class UtilsWtbp {
 	 * Delete All CSP Plugins
 	 *
 	 * @return NULL Check if it's site or multisite and decativate it.
+	 *
+	 * @version 2.3.0
 	 */
 	public static function deletePlugin() {
-		global $wpdb;
 		if (function_exists('is_multisite') && is_multisite()) {
-			$blog_id = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
+			$blog_id = self::_getAllBlogIds();
 			foreach ($blog_id as $id) {
 				if (switch_to_blog($id)) {
 					InstallerWtbp::delete();
@@ -456,10 +476,14 @@ class UtilsWtbp {
 			InstallerWtbp::delete();
 		}
 	}
+	/**
+	 * Deactivate all CSP Plugins
+	 *
+	 * @version 2.3.0
+	 */
 	public static function deactivatePlugin() {
-		global $wpdb;
 		if (function_exists('is_multisite') && is_multisite()) {
-			$blog_id = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
+			$blog_id = self::_getAllBlogIds();
 			foreach ($blog_id as $id) {
 				if (switch_to_blog($id)) {
 					InstallerWtbp::deactivate();

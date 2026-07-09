@@ -289,10 +289,16 @@ class WootablepressViewWtbp extends ViewWtbp {
 
 		if ( ! empty( $params['search']['value'] ) ) {
 			if ( FrameWtbp::_()->isPro() ) {
-				global $wpdb;
-				$sku     = '%' . $wpdb->esc_like( $params['search']['value'] ) . '%';
-				$postIds = $wpdb->get_col( $wpdb->prepare( "SELECT p.ID FROM $wpdb->posts as p INNER JOIN $wpdb->postmeta as pm ON p.ID = pm.post_id
-						   WHERE p.post_title LIKE %s OR p.post_content LIKE %s OR p.post_excerpt LIKE %s OR (pm.meta_key = '_sku' AND pm.meta_value LIKE %s)", $sku, $sku, $sku, $sku ) );
+				$cacheKey = 'wtbp_search_' . md5( $params['search']['value'] );
+				$postIds  = wp_cache_get( $cacheKey, 'woo-product-tables', false, $found );
+				if ( ! $found ) {
+					global $wpdb;
+					$sku     = '%' . $wpdb->esc_like( $params['search']['value'] ) . '%';
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- No WP_Query equivalent for an OR search across post title/content/excerpt and SKU postmeta; results are cached above via wp_cache.
+					$postIds = $wpdb->get_col( $wpdb->prepare( "SELECT p.ID FROM $wpdb->posts as p INNER JOIN $wpdb->postmeta as pm ON p.ID = pm.post_id
+							   WHERE p.post_title LIKE %s OR p.post_content LIKE %s OR p.post_excerpt LIKE %s OR (pm.meta_key = '_sku' AND pm.meta_value LIKE %s)", $sku, $sku, $sku, $sku ) );
+					wp_cache_set( $cacheKey, $postIds, 'woo-product-tables', 5 * MINUTE_IN_SECONDS );
+				}
 
 				if ( ! empty( $postIds ) ) {
 					$args['post__in'] = $postIds;
