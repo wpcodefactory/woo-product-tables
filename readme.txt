@@ -211,6 +211,7 @@ Please report security bugs found in the source code of the plugin through the [
 == Changelog ==
 
 = 2.3.0 - 18/09/2026 =
+* Fix - Fixed a potential XSS vulnerability in the `alreadyInCart` parameter.
 * Tested up to: 7.1.
 * WC tested up to: 11.1.
 

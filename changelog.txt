@@ -1,6 +1,7 @@
 *** Product Table for WooCommerce by WBW ***
 
 2026-09-18 - version 2.3.0
+* Fix - Fixed a potential XSS vulnerability in the `alreadyInCart` parameter.
 * Tested up to: 7.1.
 * WC tested up to: 11.1.
 

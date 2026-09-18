@@ -2,7 +2,7 @@
 /**
  * Product Table by WBW - WootablepressControllerWtbp Class
  *
- * @version 2.2.9
+ * @version 2.3.0
  *
  * @author  woobewoo
  */
@@ -169,6 +169,11 @@ class WootablepressControllerWtbp extends ControllerWtbp {
 		return $res->ajaxExec();
 	}
 
+	/**
+	 * multyProductAddToCart.
+	 *
+	 * @version 2.3.0
+	 */
 	public function multyProductAddToCart() {
 		$res              = new ResponseWtbp();
 		$params           = ReqWtbp::get( 'post' );
@@ -194,7 +199,7 @@ class WootablepressControllerWtbp extends ControllerWtbp {
 		}
 
 		if ( ! empty( $params['alreadyInCart'] ) ) {
-			$productQuantity = $params['alreadyInCart'];
+			$productQuantity = absint( $params['alreadyInCart'] );
 		}
 
 		if ( $productQuantity ) {
