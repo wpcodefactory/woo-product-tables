@@ -1,5 +1,9 @@
 *** Product Table for WooCommerce by WBW ***
 
+2026-09-18 - version 2.3.0
+* Tested up to: 7.1.
+* WC tested up to: 11.1.
+
 2026-04-14 - version 2.2.9
 * Fix - Patch broken access control vulnerability.
 * WC tested up to: 10.7.
